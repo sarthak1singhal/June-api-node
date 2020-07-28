@@ -1,8 +1,8 @@
 {
-    "host"     : "localhost",
-    "user"     : "root",
-    "password" : "",
-    "database" : "june",
+    "host"     : "us-cdbr-iron-east-02.cleardb.net",
+    "user"     : "b7e2437887xxxa",
+    "password" : "0200xxx6",
+    "database" : "heroku_7643ec736354xxx",
     
     "secret": 
     "thisissecretlol",
