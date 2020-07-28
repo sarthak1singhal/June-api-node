@@ -1,0 +1,11 @@
+{
+    "host"     : "localhost",
+    "user"     : "root",
+    "password" : "",
+    "database" : "june",
+    
+    "secret": 
+    "thisissecretlol",
+
+    "youtube_api_key":"AIzaSyD7ei4RP1xcKo4mfgO9BVa-IRf7SZiJfvY"
+}
