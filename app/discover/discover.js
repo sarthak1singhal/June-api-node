@@ -318,6 +318,25 @@ arr_out = []
 
     }
     
+
+
+
+
+,
+    search : async function (req,res){
+      type = req.query.type;
+      keyword = req.query.keyword;
+    
+    
+      if(!keyword) keyword = ""
+      if(type && keyword.trim()!="")
+      {
+        if(type == "video")
+        {
+          
+        }
+      }
+    }
  
  
 

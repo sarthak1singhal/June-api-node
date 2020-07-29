@@ -27,16 +27,16 @@ module.exports = {
 
 
 
-           const [query,f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC",[video_id])
+           const [_query,f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC",[video_id])
 
-           for(i in  query)
+           for(i in  _query)
            {
-            [rd,f1] =await acon.execute("select * from users where fb_id= ?",[query[i].fb_id]);
+            [rd,f1] =await acon.execute("select * from users where fb_id= ?",[_query[i].fb_id]);
               
             array_out.push( 
                  {
-                 "video_id" : query[i]['video_id'],
-                 "fb_id" : query[i]['fb_id'],
+                 "video_id" : _query[i]['video_id'],
+                 "fb_id" : _query[i]['fb_id'],
                  "user_info" :{
                                  "first_name" :rd[0].first_name,
                                  "last_name" :rd[0].last_name,
@@ -45,8 +45,8 @@ module.exports = {
                                  "verified" :rd[0].verified,
                  },
                  
-                 "comments": query[i]['comments'],
-                 "created" : query[i]['created']
+                 "comments": _query[i]['comments'],
+                 "created" : _query[i]['created']
                 })
            }
 
