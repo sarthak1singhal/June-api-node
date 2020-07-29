@@ -4,6 +4,7 @@ const https = require('request')
  
  var path = require('path');
  const amysql = require('mysql2/promise');
+const { type } = require('jquery');
  readJson = require("r-json");
 const config = readJson(`config.json`);
  
@@ -326,15 +327,164 @@ arr_out = []
     search : async function (req,res){
       type = req.query.type;
       keyword = req.query.keyword;
-    
+      const acon = await amysql.createConnection({
+        host     : config.host,
+        user     : config.user,
+        password : config.password,
+        database : config.database
+      });
+
+      
     
       if(!keyword) keyword = ""
       if(type && keyword.trim()!="")
       {
-        if(type == "video")
-        {
+        try{
+            
+          if(type == "video")
+          {
+            [row,f] = acon.execute("select * from videos where description like '%"+ keyword+"%' order by rand() limit 15");
+            array_out = [];
+          for(i in row)
+          {
+              
+              [rd,f]= acon.execute("select * from users where fb_id=? ",[row[i].fb_id]);
+                
+                [rd12,f]= acon.execute("select * from sound where id= ?",[row[i].sound_id]);
+                
+                countLikes_count =  acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? ",[row[i].id]);
+                  
+                countcomment_count =  acon.execute("SELECT count(*) as count from video_comment where video_id= ?",[row[i].id]);
+                   
+                  liked_count = "0"
+                  fb_id = req.query.fb_id
+                  if(fb_id)
+                  liked_count =  acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ? ",[row[i].id, fb_id]);
+                 
+                 array_out.push({
+                "id" : row[i]['id'],
+                "fb_id" : row[i]['fb_id'],
+                "user_info" :{
+                            "first_name" :rd[0].first_name,
+                                "last_name" :rd[0].last_name,
+                                "profile_pic" :rd[0].profile_pic,
+                                "username" :rd[0].username,
+                                "verified" :rd[0].verified,
+                },
+                  "count" :{
+                            "like_count" : countLikes_count['count'],
+                                "video_comment_count" : countcomment_count['count'],
+                                "view" : row[i]['view'],
+                  },
+                  "liked" :liked_count['count'],			
+                    "video"  : row[i]['video'],
+                "thum"  : row[i]['thum'],
+                "gif"  : row[i]['gif'],
+                "description"  : row[i]['description'],
+                "sound" :{
+                            "id" :rd12[0].id,
+                            "audio_path":{
+                                        "mp3" :rd12[0].id + ".mp3",
+                                        "acc" :rd12[0].id+".aac"
+                            },
+                                "sound_name" :rd12[0].sound_name,
+                                "description" :rd12[0].description,
+                                "thum" :rd12[0].thum,
+                                "section" :rd12[0].section,
+                                "created" :rd12[0].created,
+                                    },
+                "created" : row[i]['created']}
+              );
+            
+          }
           
+          res.send({code:"200" , msg:array_out})
         }
+        else if(type == "users")
+        {
+          [row,f]=acon.execute("select * from users where first_name like '%"+$keyword+"%' or last_name like '%"+$keyword+"%' or username like '%"+$keyword+"%'  limit 15 ");
+    	    array_out =[];
+    		for(i in row)
+    		{
+    		     [query1,f]=acon.execute("select * from videos where fb_id= ? ",row[i].fb_id);
+	             videoCount=query1.length;
+            
+    		   	 array_out.push({
+    					"fb_id" : row[i]['fb_id'],
+    					"username" : row[i]['username'],
+    					"verified" : row[i]['verified'],
+    					"first_name" : row[i]['first_name'],
+    					"last_name" : row[i]['last_name'],
+    					"gender" : row[i]['gender'],
+    					"profile_pic" : row[i]['profile_pic'],
+    					"block" : row[i]['block'],
+    					"version" : row[i]['version'],
+    					"device" : row[i]['device'],
+    					"signup_type" : row[i]['signup_type'],
+    					"created" : row[i]['created'],
+    					"videos" : videoCount}
+    				);
+    			
+        }
+        
+        res.send({code : 200, msg: array_out})
+        }
+        else if(type == "sound")
+        {
+          [row1,f]=acon.execute("select * from sound where sound_name like '%"+$keyword+"%' or description like '%"+$keyword+"%'  limit 15");
+          array_out1 = []
+        for(i in row1)
+        {
+             [qrry,f]=acon.execute("select * from fav_sound WHERE fb_id=? and sound_id =?",[fb_id, row1[i].id]);
+            
+             CountFav = qrry.length; 
+             if(CountFav=="" )
+             {
+                 CountFav="0";
+             }
+             
+             array_out1.push(
+             {      "id" :row1[i]['id'],
+                   
+                   "audio_path" :{
+                               "mp3" :row1[i]['id'] + ".mp3",
+                               "acc" :row1[i]['id'] + ".aac"
+                   },
+                   "sound_name" :row1[i]['sound_name'],
+                   "description" :row1[i]['description'],
+                   "section" :row1[i]['section'],
+                   "thum" :row1[i]['thum'],
+                   "created" :row1[i]['created'],
+                   "fav" : CountFav
+             }    );
+         }
+
+         res.send({code:"200", msg:array_out1})
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }catch(e)
+        {
+          console.log(e)
+        }
+       
       }
     }
  

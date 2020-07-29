@@ -23,7 +23,8 @@ var showVideoComments = require('./functions/showVideoComments')
 var sounds = require('./functions/sounds')
 var profile = require('./profile/profile')
 
-var edit_profile = require('./profile/edit_profile')
+var edit_profile = require('./profile/edit_profile');
+const { language } = require('googleapis/build/src/apis/language');
 //var postComment = require('./functions/postComment')
 //var postComment = require('./functions/postComment')
 
@@ -115,14 +116,40 @@ module.exports = function(app, passport) {
 			{
 				profile.get_followings(req,res);
 			}
-
-
-
-			
-			else if(p=="my_FavSound")
+			else if(p=="SearchByHashTag")
 			{
-				sounds.my_FavSound(req,res);
+				discover.SearchByHashTag(req,res);
 			}
+			else if(p=="DeleteSound")
+			{
+				DeleteSound(req,res);
+			}
+			
+			else if(p=="DeleteVideo")
+			{
+				DeleteVideo(req,res);
+			}
+			else if(p=="DeleteVideo")
+			{
+				DeleteVideo(req,res);
+			}
+			else if(p=="post_language")
+			{
+				post_language(req,res);
+			}
+			else if(p=="editSoundSection")
+			{
+				editSoundSection(req,res);
+			}
+			else if(p=="getNotifications")
+			{
+				getNotifications(req,res);
+			}
+			else if(p=="search")
+			{
+				search(req,res);
+			}
+			
 			
 		}
 
@@ -338,3 +365,142 @@ res.send(
 	 }
 
 }
+
+
+
+function DeleteSound(req,res){
+
+	id = req.query.id
+
+
+	//delete the sound file
+	if(!id)
+	{
+		id = ""
+		res.send({code:201, msg:"ERROR"})
+
+		return;
+	}
+
+	if(id.trim()!="")
+	{
+
+		con.query("delete from sound where id = ?",[id],function(e,r){})
+
+
+		con.query("delete from fav_sound where sound_id = ?",[id],function(e,r){})
+
+		con.query("update videos set sound_id = ? where sound_id = ?",['0',id],function(e,r){
+			if(e) console.log(e)
+
+			else{
+
+				res.send({code:200, msg:{response:"video unlike"}})
+
+
+			}
+		})
+
+
+	}else{
+		res.send({code:201, msg:"ERROR"})
+	}
+	
+
+}
+
+
+
+function DeleteVideo(req,res){
+
+
+	id = req.query.id
+
+	if(!id)
+	{
+		id = ""
+		res.send({code:201, msg:"ERROR"})
+
+		return;
+	}
+
+	if(id.trim()!="")
+	{
+
+		//delete gif and video files
+
+		con.query("select * from videos where id = ?", [id], function(e,r)
+		{
+
+
+
+
+
+
+
+
+
+			res.send({code:200, msg:{response:"video unlike"}})
+
+
+			con.query("delete from videos where id = ?",[id],function(ee,rr){})
+
+
+			con.query("delete from video_like_dislike where video_id = ?",[id],function(ee,rr){})
+
+			con.query("delete from video_comment where video_id = ?",[id],function(ee,rr){})
+
+
+		})
+
+	}else{
+		res.send({code:201, msg:"ERROR"})
+	}
+
+
+}
+
+
+
+function post_language(req,res){
+
+	fb_id  = req.query.fb_id;
+	_language = req.query.language
+
+	if(fb_id && _language)
+	{
+
+		con.query("update users set content_language = ? where fb_id = ?",[_language.toLowerCase(),fb_id],function(e,r){
+
+
+		})
+	}
+
+
+
+}
+
+
+
+function editSoundSection()
+{
+	id = req.query.id;
+
+	if(!id) id = ""
+	section = req.query.section_name;
+
+	if(!section) section = "";
+
+	if(id.trim()!="" && section.trim() !="")
+	{
+		con.query("update sound_section set section_name = ? where id = ?",[section,id],function(e,r){
+
+			res.send({code:200,msg:"updated"})
+
+		})
+	}
+}
+
+
+
+
