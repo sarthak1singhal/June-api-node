@@ -6,8 +6,7 @@ const https = require('request')
  
 var con = require('../../params.js')
 
-var func = require('./functions')
-
+ 
 module.exports = {
      
     edit_profile : function(req,res){ 
