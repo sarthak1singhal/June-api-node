@@ -1,4 +1,4 @@
-var mysql = require('mysql');
+var mysql = require('mysql2');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 

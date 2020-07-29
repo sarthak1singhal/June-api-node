@@ -6,17 +6,20 @@ const https = require('request')
  var con = require('../../params.js');
 const { language } = require('googleapis/build/src/apis/language');
 const { map } = require('jquery');
+//var async = require("async");
+const amysql = require('mysql2/promise');
+readJson = require("r-json");
+const config = readJson(`config.json`);
 
- 
-module.exports = {
+
+ module.exports = {
     
     
 
   showAllVideos : function(req, res){
 
  
-        console.log(req.query);
-        fb_id = req.query.fb_id;
+         fb_id = req.query.fb_id;
         action = req.query.action;
         token = req.query.token;
         _language = req.query.language;
@@ -67,7 +70,7 @@ module.exports = {
 
 
 
-function showVideos(fb_id,action,token,language,video_id,res)
+async function  showVideos(fb_id,action,token,language,video_id,res)
 {
   if(video_id)
   {
@@ -91,8 +94,7 @@ function showVideos(fb_id,action,token,language,video_id,res)
                 i=0
 
                 if(e2) console.log(e2)
-                console.log(r[0],"SS" + i)
-
+ 
                 con.query("SELECT SUM(action) as count, SUM(dislike) as dislike, SUM(report) as report from video_like_dislike where video_id= ?",[r[i].id],function(e3,r3){
                   if(e3) console.log(e3,"90");
 
@@ -182,15 +184,145 @@ function showVideos(fb_id,action,token,language,video_id,res)
     })
   }else{
 
-    q = "Select * from videos where section = ?"
+    if(language == "hindi" || language == "english") language = "";
 
-  
+    v = ["hindi", "english"]
+    q = "Select * from videos where section = ? and (language = ? or language = ?) order by rand() limit 4";
+    if(language != ""){
+      q = "Select * from videos where section = ? and (language = ? or language = ? or language = ?)  order by rand() limit 4"
+      v = ["hindi", "enlish", language]
+    }
+
+    try{
+      const acon = await amysql.createConnection({
+        host     : config.host,
+        user     : config.user,
+        password : config.password,
+        database : config.database
+      });
+      
+      hmap = {};
+      arr = [];
+      const [rows, fields]  =  await acon.execute("select * from discover_section order by value limit 20");
+      for(i in rows)
+      {
 
 
-    
-  }
+        v.unshift(rows[i].id)
+        
+        const [row_posts, fields]  =  await acon.execute(q,v);
+
+        for(j in row_posts)
+        {
+          [query1,f]= await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+            
+          [query112,f1]= await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
+           
+             
+          [countcomment,f] =await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+           
+          
+          [liked,f] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?",[row_posts[j].id,row_posts[j].fb_id]);
+           
+          score = 60 + row_posts[j]['like'] - 1.5*row_posts[j]['unlike']  - 2*row_posts[j]['report'] ;
+
+          if( row_posts[j]>1000)
+          {
+            score =  row_posts[j]['like'] - 12*  row_posts[j]['report'] - 7* row_posts[j]['unlike']; 
+          }
+          else if( row_posts[j]['view']>10000)
+          {
+            score = row_posts[j]['like'] - 120* row_posts[j]['report'] - 70* row_posts[j]['unlike'] ;
+          }
+           if(score>0)
+          {
+            smap = {};
+            if(query112.length ==0)
+            {
+
+              smap = {
+                "id" : null,
+                "audio_path" :{
+                            "mp3" :null,//complete sound path here
+                            "acc" :null
+                },
+                    "sound_name" :null,
+                    "description" : null,
+                    "thum" :null,
+                    "section": null,
+                    "created" : null,
+                        
+                  }
+
+            }else{
+              smap = {
+                "id" : query112[0].id,
+                "audio_path" :{
+                            "mp3" : query112[0].id+".mp3",//complete sound path here
+                            "acc" :query112[0].id+".aac"
+                },
+                    "sound_name" :query112[0].sound_name,
+                    "description" : query112[0].description,
+                    "thum" :query112[0].thum,
+                    "section": query112[0].section,
+                    "created" : query112[0].created,
+                        
+                  }
+            }
 
 
 
+
+
+            arr.push({
+            "id" :  row_posts[j]['id'],
+            "fb_id" :  row_posts[j]['fb_id'],
+            "user_info":{
+                    "first_name" : query1[0].first_name,
+                    "last_name" :query1[0].last_name,
+                    "profile_pic" : query1[0].profile_pic,
+                    "username" : query1[0].username,
+                    "verified" : query1[0].verified,
+            },
+            "count" :
+                  {  "like_count": row_posts[j]['like'],
+                    "video_comment_count": countcomment['count']
+                  },
+            "liked": liked['count'],			
+            "video" : row_posts[j]['video'],
+            "thum" :row_posts[j]['thum'],
+            "gif" :row_posts[j]['gif'],
+            "description": row_posts[j]['description'],
+            "sound" :smap,
+            "created" : row_posts[j]['created']}
+          );
+
+
+ 
+          }
+
+           
+        }
+
+
+
+
+
+
+        v.shift();
+
+
+        
+
+      }
+
+      res.send({code:"200", msg: arr})
+
+    }catch(e)
+    {
+      console.log(e)
+    }
+
+}
 
 }

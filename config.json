@@ -1,11 +1,12 @@
 {
-    "host"     : "us-cdbr-iron-east-02.cleardb.net",
-    "user"     : "b7e2437887xxxa",
-    "password" : "0200xxx6",
-    "database" : "heroku_7643ec736354xxx",
+    "host"     : "localhost",
+    "user"     : "root",
+    "password" : "",
+    "database" : "june",
     
     "secret": 
     "thisissecretlol",
 
+    "fcmKey":"AAAAqJ6S9VU:APA91bG9QGuGE8X6noolf2xoKtQYtqoXE0LNVO_MaGCZ62na4FwQ5ZqdxyteQVNtM4vqE7OrBGRtGJzT9csdAn5PlrQbkbZrEnetpjnWwXs-jB7mqBOYjpSD7-_mfogUsViL70tXgS9V",
     "youtube_api_key":"AIzaSyD7ei4RP1xcKo4mfgO9BVa-IRf7SZiJfvY"
 }

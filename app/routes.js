@@ -14,12 +14,23 @@ const { version } = require('os');
 
 var showAllVideos = require('./home/showAllVideos.js');
 
- 
+var showMyAllVideos = require('./profile/showMyAllVideos.js')
+var discover = require('./discover/discover')
+var likeDislikeVideo = require('./functions/likeDislikeVideo')
+
+var postComment = require('./functions/postComment')
+var showVideoComments = require('./functions/showVideoComments')
+var sounds = require('./functions/sounds')
+var profile = require('./profile/profile')
+
+var edit_profile = require('./profile/edit_profile')
+//var postComment = require('./functions/postComment')
+//var postComment = require('./functions/postComment')
+
+
 
 module.exports = function(app, passport) {
 
-	
- 
 	app.get('/index', (req, res) =>{
 		
 
@@ -42,7 +53,77 @@ module.exports = function(app, passport) {
 			if(p == "showAllVideos")
 			{
 				showAllVideos.showAllVideos(req,res);
+			}else
+			if(p =="showMyAllVideos")
+			{
+				showMyAllVideos.showMyAllVideos(req,res);
+			}else
+			if(p =="discover")
+			{
+				discover.discover(req,res);
+			}else
+			if(p=="likeDislikeVideo")
+			{
+				likeDislikeVideo.likeDislikeVideo(req,res);
 			}
+			else
+			if(p=="postComment")
+			{
+				postComment.postComment(req,res);
+			}else
+			if(p=="showVideoComments")
+			{
+				showVideoComments.showVideoComments(req,res);
+			}
+			else if(p=="updateVideoView")
+			{
+				updateVideoView(req,res);
+				
+			}else if(p=="allSounds")
+			{
+				sounds.allSounds(req,res);
+
+			}else if(p=="fav_sound")
+			{
+				sounds.fav_sound(req,res);
+
+			}else if(p=="my_liked_video")
+			{
+				profile.my_liked_video(req,res);
+			}
+			else if(p=="my_FavSound")
+			{
+				sounds.my_FavSound(req,res);
+			}
+			else if(p=="edit_profile")
+			{
+				edit_profile.edit_profile(req,res);
+			}
+			else if(p=="follow_users")
+			{
+				edit_profile.follow_users(req,res);
+			}		
+			else if(p=="get_user_data")
+			{
+				profile.get_user_data(req,res);
+			}	
+			else if(p=="get_followers")
+			{
+				profile.get_followers(req,res);
+			}
+			else if(p=="get_followings")
+			{
+				profile.get_followings(req,res);
+			}
+
+
+
+			
+			else if(p=="my_FavSound")
+			{
+				sounds.my_FavSound(req,res);
+			}
+			
 		}
 
 
@@ -223,5 +304,37 @@ module.exports = function(app, passport) {
 
 	 }
 
+
+}
+
+
+
+function updateVideoView(req,res){
+
+	id = req.query.id;
+
+	if(id){
+		con.query("update videos set `view` = `view` + 1 where id = ?",[id],function(er,row){
+
+
+res.send(
+{
+	code:"200",
+			msg:{response :"success"}
+		})
+
+			
+		})
+
+	}
+	else{
+
+		res.send(
+{
+	code:201,
+			msg:{response :"Json Parem are missing"}
+		})
+
+	 }
 
 }
