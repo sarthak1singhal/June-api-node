@@ -8,7 +8,7 @@ const https = require('request')
 const { v4: uuidv4 } = require('uuid');
  
 var bcrypt = require('bcrypt-nodejs');
-var uploadVideo = require('./functions/uploadVideo.js');
+var uploadFunctions = require('./functions/uploadFunctions.js');
 var reportVideo = require('./functions/reportVideo.js');
 const { version } = require('os');
 
@@ -24,11 +24,9 @@ var sounds = require('./functions/sounds')
 var profile = require('./profile/profile')
 
 var edit_profile = require('./profile/edit_profile');
-const { language } = require('googleapis/build/src/apis/language');
-//var postComment = require('./functions/postComment')
-//var postComment = require('./functions/postComment')
-
-
+  
+readJson = require("r-json");
+const config = readJson(`config.json`);
 
 module.exports = function(app, passport) {
 
@@ -43,7 +41,12 @@ module.exports = function(app, passport) {
 			}else
 			if(p=="uploadVideo")
 			{
-				uploadVideo.uploadVideo(req)
+				if(config.isAWS)
+				uploadFunctions.uploadAWSVideo(req,res)
+				else	
+				uploadFunctions.uploadVideo(req,res)
+
+
 			}
 			if(p == "reportVideo"){
 				reportVideo.reportVideo(req,res);
@@ -147,7 +150,7 @@ module.exports = function(app, passport) {
 			}
 			else if(p=="search")
 			{
-				search(req,res);
+				discover.search(req,res);
 			}
 			
 			

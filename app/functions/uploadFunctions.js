@@ -11,8 +11,20 @@ module.exports = {
 
     uploadVideo : function(req){
 
-        console.log("SASTI");
+ 
+        console.log(req.query);
 
+        if(req.query.fb_id){
+            
+        }
+
+    },
+
+
+
+    uploadAWSVideo : function(req){
+
+ 
         console.log(req.query);
 
         if(req.query.fb_id){
