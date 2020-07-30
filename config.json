@@ -1,17 +1,16 @@
 {
-    "host"     : "localhost",
-    "user"     : "root",
-    "password" : "",
-    "database" : "june",
-    
-    "secret": 
-    "thisissecretlol",
+    "host": "june.crgvkmh9rb6x.ap-south-1.rds.amazonaws.com",
+    "user": "root",
+    "password": "",
+    "database": "june",
 
-    "isAWS" : true,
-    "awsAccessID" :"" ,
+    "secret": "thisissecretlol",
 
-    "awsSecretKey":"",
+    "isAWS": true,
+    "awsAccessID": "",
+
+    "awsSecretKey": "",
 
 
-    "fcmKey":"AAAAqJ6S9VU:APA91bG9QGuGE8X6noolf2xoKtQYtqoXE0LNVO_MaGCZ62na4FwQ5ZqdxyteQVNtM4vqE7OrBGRtGJzT9csdAn5PlrQbkbZrEnetpjnWwXs-jB7mqBOYjpSD7-_mfogUsViL70tXgS9V"
- }
+    "fcmKey": "AAAAqJ6S9VU:APA91bG9QGuGE8X6noolf2xoKtQYtqoXE0LNVO_MaGCZ62na4FwQ5ZqdxyteQVNtM4vqE7OrBGRtGJzT9csdAn5PlrQbkbZrEnetpjnWwXs-jB7mqBOYjpSD7-_mfogUsViL70tXgS9V"
+}

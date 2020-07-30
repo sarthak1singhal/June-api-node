@@ -2,13 +2,13 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var nodemailer = require('nodemailer');
- 
+
 const { v4: uuidv4 } = require('uuid');
- var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 var app = express();
 var fs = require('fs')
- const fileType = require('file-type')
- const readJson = require("r-json");
+const fileType = require('file-type')
+const readJson = require("r-json");
 var dateTime = require('node-datetime');
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -21,14 +21,14 @@ var socketFile = express()
     .listen(8000);
 const users = {}
 const userNames = {}
- var myId ;
+var myId;
 var myName;
 var con = require('./params.js')
-var session  = require('express-session');
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
- var morgan = require('morgan'); 
+var morgan = require('morgan');
 var passport = require('passport');
-var flash    = require('connect-flash');
+var flash = require('connect-flash');
 var MySQLStore = require('express-mysql-session')(session);
 
 require('./config/passport')(passport); // pass passport for configuration
@@ -36,7 +36,7 @@ require('./config/passport')(passport); // pass passport for configuration
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 var dateFormat = require('dateformat');
 var now = new Date();
@@ -51,48 +51,48 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
- 
 
 
-const siteTitle ="Applicatoin";
+
+const siteTitle = "Applicatoin";
 const baseURL = "http://localhost:3000/";
 var options = {
-  host: config.host,
-  port: 3306,
-  user: config.user,
-  password: config.password,
-  database: config.database
-  };
+    host: config.host,
+    port: 3306,
+    user: config.user,
+    password: config.password,
+    database: config.database
+};
 
 var sessionStore = new MySQLStore(options);
 
 app.use(session({
-  key: 'session_cookie_name',
-   store: sessionStore,
-	secret: config.secret,
-	resave: true,
-	saveUninitialized: true
- } )); // session secret
+    key: 'session_cookie_name',
+    store: sessionStore,
+    secret: config.secret,
+    resave: true,
+    saveUninitialized: true
+})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
- 
- 
- 
 
- 
- 
- 
 
- 
 
- 
- 
- 
 
-require('./app/routes.js')(app, passport); 
- 
- 
-  app.listen(3000,function(){
+
+
+
+
+
+
+
+
+
+
+require('./app/routes.js')(app, passport);
+
+
+app.listen(80, function() {
     console.log("Srrefsns jf jd fs");
 });
