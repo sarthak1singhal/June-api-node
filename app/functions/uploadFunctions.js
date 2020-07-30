@@ -4,6 +4,17 @@ const https = require('request')
  
  var path = require('path');
  
+const AWS = require('aws-sdk');
+const fs = require('fs');
+readJson = require("r-json");
+const config = readJson(`config.json`);
+
+AWS.config.update({
+    accessKeyId: config.awsAccessID,
+    secretAccessKey: config.awsSecretKey
+  });
+
+var s3 = new AWS.S3();
  
 module.exports = {
     
@@ -12,8 +23,7 @@ module.exports = {
     uploadVideo : function(req){
 
  
-        console.log(req.query);
-
+ 
         if(req.query.fb_id){
             
         }
@@ -22,7 +32,7 @@ module.exports = {
 
 
 
-    uploadAWSVideo : function(req){
+    uploadAWSVideo : function(req,res){
 
  
         console.log(req.query);
