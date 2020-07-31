@@ -1,5 +1,5 @@
 {
-    "host": "june.crgvkmh9rb6x.ap-south-1.rds.amazonaws.com",
+    "host": "localhost",
     "user": "root",
     "password": "Sarthak1singhal12",
     "database": "june",
