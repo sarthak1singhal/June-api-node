@@ -24,7 +24,7 @@ var sounds = require('./functions/sounds')
 var profile = require('./profile/profile')
 
 var edit_profile = require('./profile/edit_profile');
-
+var getNotifications = require('./notifications/getNotifications');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 
@@ -120,7 +120,7 @@ module.exports = function(app, passport) {
             } else if (p == "editSoundSection") {
                 editSoundSection(req, res);
             } else if (p == "getNotifications") {
-                getNotifications(req, res); //not done 
+                getNotifications.getNotifications(req, res); //not done 
             } else if (p == "search") {
                 discover.search(req, res);
             }
