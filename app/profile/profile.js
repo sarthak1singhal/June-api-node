@@ -95,7 +95,7 @@ module.exports = {
                 });
 
                 console.log(fb_id, "this is fbdi")
-                const [row, f] = await acon.execute("select * from `follow_users` where `followed_fb_id` = ? order by DESC", [fb_id])
+                const [row, f] = await acon.execute("select * from `follow_users` where `followed_fb_id` = ? order by id DESC", [fb_id])
 
                 array_out = [];
 
