@@ -20,15 +20,15 @@ module.exports = {
         if (!gender) gender = "";
         if (!last_name) last_name = ""
         if (!username) {
-            res.send({ code: "201", msg: { response: "Username is missing" } });
+            res.send({ code: "201", msg: [{ response: "Username is missing" }] });
             return
         }
         if (!first_name) {
-            res.send({ code: "201", msg: { response: "First name is missing" } })
+            res.send({ code: "201", msg: [{ response: "First name is missing" }] })
             return;
         }
         if (!last_name) {
-            res.send({ code: "201", msg: { response: "Problem in updating" } })
+            res.send({ code: "201", msg: [{ response: "Problem in updating" }] })
             return;
         }
 
@@ -142,7 +142,7 @@ module.exports = {
 
                     code: 201,
 
-                    msg: { response: "Json Parem are missing" }
+                    msg: [{ response: "Json Parem are missing" }]
 
                 })
         }
