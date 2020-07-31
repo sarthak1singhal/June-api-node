@@ -30,7 +30,7 @@ const config = readJson(`config.json`);
 
 module.exports = function(app, passport) {
 
-    app.get('/index', (req, res) => {
+    app.post('/index', (req, res) => {
 
 
         console.log("outside if 36")
