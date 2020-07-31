@@ -222,6 +222,8 @@ function signup(req, res) {
                     console.log(r, "THIS IS ROW")
                     if (r.block != "0") {
 
+                        lang = r.content_language
+                        if (!lang) lang = ""
                         res.send(
 
                             {
@@ -236,7 +238,8 @@ function signup(req, res) {
                                     "verified": r.verified,
                                     "bio": r.bio,
                                     "gender": r.gender,
-                                    "tokon": r.tokon
+                                    "tokon": r.tokon,
+                                    "language": lang
                                 }]
                             })
                     } else {
@@ -266,7 +269,6 @@ function signup(req, res) {
                             con.query("insert into device_tokon(fb_id,tokon,phone_id)values(?,?,?)", [fb_id, tokon, header_deviceid], function(er1, ro1) {
                                 if (er1) {
 
-                                    console.log("JHANT")
                                     console.log(er1)
 
                                 } else {
@@ -441,9 +443,14 @@ function post_language(req, res) {
 
         con.query("update users set content_language = ? where fb_id = ?", [_language.toLowerCase(), fb_id], function(e, r) {
 
+            console.log("LANGUAGE SAVEs")
 
         })
+    } else {
+        console.log("NOR SAVED LANGUAFA")
     }
+
+    res.end();
 
 
 
