@@ -16,9 +16,14 @@ module.exports = {
         username = req.query.username;
         gender = req.query.gender;
         bio = req.query.bio;
-        if (!bio) bio = "";
-        if (!gender) gender = "";
-        if (!last_name) last_name = ""
+        if (!bio) bio = " ";
+        if (!gender) gender = " ";
+        if (!last_name) last_name = " "
+
+        console.log(bio, 'bio')
+        console.log(gender, 'nder')
+
+        console.log(!bio, "isbio")
         if (!username) {
             res.send({ code: "201", msg: [{ response: "Username is missing" }] });
             return
@@ -142,7 +147,7 @@ module.exports = {
 
                     code: 201,
 
-                    msg: [{ response: "Json Parem are missing" }]
+                    msg: [{ response: "Fields are missing" }]
 
                 })
         }
