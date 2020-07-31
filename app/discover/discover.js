@@ -390,7 +390,7 @@ module.exports = {
                     [row, f] = await acon.execute("select * from users where first_name like '%" + keyword + "%' or last_name like '%" + keyword + "%' or username like '%" + keyword + "%'  limit 15 ");
                     array_out = [];
                     for (i in row) {
-                        [query1, f] = await acon.execute("select * from videos where fb_id= ? ", row[i].fb_id);
+                        [query1, f] = await acon.execute("select * from videos where fb_id= ?", [row[i].fb_id]);
                         videoCount = query1.length;
 
                         array_out.push({
