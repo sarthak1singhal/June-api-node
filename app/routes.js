@@ -219,26 +219,31 @@ function signup(req, res) {
                 if (r.length != 0) {
 
 
-                    console.log(r, "THIS IS ROW")
-                    if (r.block != "0") {
+                    console.log(r[0], "THIS IS ROW")
 
-                        lang = r.content_language
+                    console.log(r[0].block, "locn")
+
+                    console.log(r[0].first_name, "FIttjf name")
+                    if (r[0].block != "0") {
+
+                        lang = r[0].content_language
                         if (!lang) lang = ""
+
                         res.send(
 
                             {
                                 code: "200",
                                 msg: [{
-                                    "fb_id": r.fb_id,
+                                    "fb_id": r[0].fb_id,
                                     "action": "login",
-                                    "profile_pic": r.profile_pic,
-                                    "first_name": r.first_name,
-                                    "last_name": r.last_name,
-                                    "username": r.username,
-                                    "verified": r.verified,
-                                    "bio": r.bio,
-                                    "gender": r.gender,
-                                    "tokon": r.tokon,
+                                    "profile_pic": r[0].profile_pic,
+                                    "first_name": r[0].first_name,
+                                    "last_name": r[0].last_name,
+                                    "username": r[0].username,
+                                    "verified": r[0].verified,
+                                    "bio": r[0].bio,
+                                    "gender": r[0].gender,
+                                    "tokon": r[0].tokon,
                                     "language": lang
                                 }]
                             })
@@ -450,7 +455,7 @@ function post_language(req, res) {
         console.log("NOR SAVED LANGUAFA")
     }
 
-    res.end();
+    res.send({ code: 200 });
 
 
 
