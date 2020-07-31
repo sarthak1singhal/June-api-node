@@ -40,18 +40,18 @@ module.exports = {
                 const [query1, f] = await acon.execute("select * from users where fb_id=? ", [fb_id]);
                 if (query1.length != 0) {
 
-                    const [query99, f] = await acon.execute("select * from videos where fb_id= ? order by id DESC", [fb_id]);
+                    [query99, f1] = await acon.execute("select * from videos where fb_id= ? order by id DESC", [fb_id]);
                     console.log(query1)
                     array_out_video = []
                     for (i in query99) {
 
-                        [countLikes, l] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
+                        [countLikes, f2] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
 
-                        [query112, l] = await acon.execute("select * from sound where id=?", [query99[i].id]);
+                        [query112, f1] = await acon.execute("select * from sound where id=?", [query99[i].id]);
 
-                        [countcomment, l] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
+                        [countcomment, f2] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
 
-                        [liked, l] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
+                        [liked, f1] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
 
                         s = {};
                         if (query112.length == 0) {
@@ -104,7 +104,7 @@ module.exports = {
 
 
                     //count total heart
-                    [query123, k] = await acon.execute("select * from videos where fb_id=? ", [fb_id]);
+                    [query123, k2] = await acon.execute("select * from videos where fb_id=? ", [fb_id]);
 
                     array_out_count_heart = 0;
                     for (u in query123) {
@@ -113,19 +113,19 @@ module.exports = {
 
                     array_out_count_heart = array_out_count_heart + '0';
 
-                    [hear_count, l] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN( ? ) ", [array_out_count_heart]);
+                    [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN( ? ) ", [array_out_count_heart]);
 
                     //count total heart
 
                     //count total_fans
 
-                    [total_fans, l] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
+                    [total_fans, qq] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
 
                     //count total_fans
 
                     //count total_following
 
-                    const [total_following, l] = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ?", [fb_id]);
+                    [total_following, qq] = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ?", [fb_id]);
 
                     //count total_following
 
