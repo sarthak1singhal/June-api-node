@@ -107,11 +107,11 @@ module.exports = {
 
                     follow = ""
                     follow_button_status = ""
-                    if (follow_count['count'] == "0" || follow_count['count'] == 0) {
+                    if (follow_count[0]['count'] == "0" || follow_count[0]['count'] == 0) {
                         follow = "0";
                         follow_button_status = "Follow";
                     } else
-                    if (follow_count['count'] != "0" || follow_count['count'] != 0) {
+                    if (follow_count[0]['count'] != "0" || follow_count[0]['count'] != 0) {
                         follow = "1";
                         follow_button_status = "Unfollow";
                     }
@@ -208,7 +208,7 @@ module.exports = {
                 for (i in query1) {
 
 
-                    [rd1, l] = await acon.execute("select * from users where fb_id=? ", [query1[i].followed_fb_id]);
+                    const [rd1, l] = await acon.execute("select * from users where fb_id=? ", [query1[i].followed_fb_id]);
 
                     //   [rd,l1]=await acon.execute("select * from users where fb_id= ? ",[query1[i].fb_id]);
 
@@ -218,11 +218,11 @@ module.exports = {
                     follow_button_status = ""
                     follow = ""
 
-                    if (follow_count['count'] == "0" || follow_count['count'] == 0) {
+                    if (follow_count[0]['count'] == "0" || follow_count[0]['count'] == 0) {
                         follow = "0";
                         follow_button_status = "Follow";
                     } else
-                    if (follow_count['count'] != "0" || follow_count['count'] != 0) {
+                    if (follow_count[0]['count'] != "0" || follow_count[0]['count'] != 0) {
                         follow = "1";
                         follow_button_status = "Unfollow";
                     }
@@ -325,16 +325,16 @@ module.exports = {
 
                         if (rd12.length == 0) {
                             smap = {
-                                "id": null,
+                                "id": "null",
                                 "audio_path": {
-                                    "mp3": null,
-                                    "acc": null
+                                    "mp3": "null",
+                                    "acc": "null"
                                 },
-                                "sound_name": null,
-                                "description": null,
-                                "thum": null,
-                                "section": null,
-                                "created": null,
+                                "sound_name": "null",
+                                "description": "null",
+                                "thum": "null",
+                                "section": "null",
+                                "created": "null",
 
                             }
                         } else {
@@ -359,7 +359,7 @@ module.exports = {
                             "thum": rdd[0].thum,
                             "gif": rdd[0].gif,
                             "description": rdd[0].description,
-                            "liked": liked_count['count'],
+                            "liked": liked_count[0]['count'],
                             "user_info": {
                                 "first_name": rd11[0].first_name,
                                 "username": rd11[0].username,
@@ -368,8 +368,8 @@ module.exports = {
                                 "profile_pic": rd11[0].profile_pic,
                             },
                             "count": {
-                                "like_count": countLikes_count['count'],
-                                "video_comment_count": countcomment_count['count'],
+                                "like_count": countLikes_count[0]['count'],
+                                "video_comment_count": countcomment_count[0]['count'],
                                 "view": rdd[0].view,
                             },
                             "sound": smap,
