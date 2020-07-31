@@ -37,14 +37,16 @@ module.exports = function(app, passport) {
         if (req.query.p) {
             var p = req.query.p;
 
+            req.query = req.body;
 
 
             console.log(req.body, "this is body")
 
 
-            console.log(req.query, "this is query")
+            //            console.log(req.query, "this is query")
 
-            console.log("\n\n\n\nheader-start", req.headers, 'eaders')
+
+            console.log("header-start", req.headers, 'eaders')
 
 
 
@@ -118,7 +120,7 @@ module.exports = function(app, passport) {
             } else if (p == "editSoundSection") {
                 editSoundSection(req, res);
             } else if (p == "getNotifications") {
-                getNotifications(req, res);
+                getNotifications(req, res); //not done 
             } else if (p == "search") {
                 discover.search(req, res);
             }
