@@ -224,7 +224,7 @@ function signup(req, res) {
                     console.log(r[0].block, "locn")
 
                     console.log(r[0].first_name, "FIttjf name")
-                    if (r[0].block != "0") {
+                    if (r[0].block == "0") {
 
                         lang = r[0].content_language
                         if (!lang) lang = ""
