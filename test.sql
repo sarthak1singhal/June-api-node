@@ -293,7 +293,7 @@ CREATE TABLE `video_like_dislike` (
 
  
 CREATE TABLE `reportVideo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` INT AUTO_INCREMENT primary key NOT NULL,
   `video_id` varchar(50) NOT NULL,
   `fb_id` varchar(50) NOT NULL,
   `video_creater_id` varchar(50) NOT NULL,
