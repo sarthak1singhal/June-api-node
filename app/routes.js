@@ -218,7 +218,9 @@ function signup(req, res) {
                 }
                 if (r.length != 0) {
 
-                    if (r.block == "0") {
+
+                    console.log(r, "THIS IS ROW")
+                    if (r.block != "0") {
 
                         res.send(
 
@@ -241,7 +243,7 @@ function signup(req, res) {
 
                         res.send({
                             code: 201,
-                            msg: "error in login"
+                            msg: "Error in Login. Your account is blocked"
                         })
                     }
                 } else {
