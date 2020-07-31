@@ -380,6 +380,11 @@ module.exports = {
 
                     count_video_rows = array_out_video.length
 
+                    if (count_video_rows == 0)
+                        array_out_video.push(0);
+
+
+
 
 
 
