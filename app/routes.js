@@ -241,7 +241,7 @@ function signup(req, res) {
                     }
                 } else {
 
-                    con.query("insert into users(fb_id,username,first_name,last_name,profile_pic,version,device,signup_type,gender)values(?,?,?,?,?,?,?,?,?)", [fb_id, username, first_name, last_name, profile_pic, version1, device, signup_type, gender], function(error, row) {
+                    con.query("insert into users(fb_id,username,first_name,last_name,profile_pic,version,device,signup_type,gender,bio)values(?,?,?,?,?,?,?,?,?,?)", [fb_id, username, first_name, last_name, profile_pic, version1, device, signup_type, gender, ""], function(error, row) {
 
                         if (error) {
                             console.log(error)
@@ -299,7 +299,7 @@ function signup(req, res) {
 
         res.send({
             code: 201,
-            msg: { response: "Json Parem are missing" }
+            msg: { response: "Json Parem are missing signup" }
         })
 
     }
@@ -329,7 +329,7 @@ function updateVideoView(req, res) {
 
         res.send({
             code: 201,
-            msg: { response: "Json Parem are missing" }
+            msg: { response: "Json Parem are missing updateVideoVIew" }
         })
 
     }
@@ -371,7 +371,7 @@ function DeleteSound(req, res) {
 
 
     } else {
-        res.send({ code: 201, msg: "ERROR" })
+        res.send({ code: 201, msg: "ERROR delete sound" })
     }
 
 
@@ -419,7 +419,7 @@ function DeleteVideo(req, res) {
         })
 
     } else {
-        res.send({ code: 201, msg: "ERROR" })
+        res.send({ code: 201, msg: "ERROR del" })
     }
 
 
