@@ -202,7 +202,7 @@ function signup(req, res) {
 
             if (e) {
                 res.send({
-                    code: 200,
+                    code: "200",
                     msg: { response: "problem in signup" }
                 })
                 console.log(e)
@@ -211,7 +211,7 @@ function signup(req, res) {
 
                 if (er) {
                     res.send({
-                        code: 200,
+                        code: "200",
                         msg: { response: "problem in signup" }
                     })
                     console.log(er)
@@ -225,8 +225,8 @@ function signup(req, res) {
                         res.send(
 
                             {
-                                code: 200,
-                                msg: {
+                                code: "200",
+                                msg: [{
                                     "fb_id": r.fb_id,
                                     "action": "login",
                                     "profile_pic": r.profile_pic,
@@ -237,12 +237,12 @@ function signup(req, res) {
                                     "bio": r.bio,
                                     "gender": r.gender,
                                     "tokon": r.tokon
-                                }
+                                }]
                             })
                     } else {
 
                         res.send({
-                            code: 201,
+                            code: "201",
                             msg: "Error in Login. Your account is blocked"
                         })
                     }
@@ -254,7 +254,7 @@ function signup(req, res) {
                             console.log(error)
 
                             res.send({
-                                code: 200,
+                                code: "200",
                                 msg: { response: "problem in signup" }
                             })
                         } else {
@@ -271,8 +271,8 @@ function signup(req, res) {
 
                                 } else {
                                     res.send({
-                                        code: 200,
-                                        msg: {
+                                        code: "200",
+                                        msg: [{
                                             "fb_id": fb_id,
                                             "username": username,
                                             "action": "signup",
@@ -282,7 +282,7 @@ function signup(req, res) {
                                             "signup_type": signup_type,
                                             "gender": gender,
                                             "tokon": tokon
-                                        }
+                                        }]
                                     })
                                 }
 
@@ -303,7 +303,7 @@ function signup(req, res) {
     } else {
 
         res.send({
-            code: 201,
+            code: "201",
             msg: { response: "Json Parem are missing signup" }
         })
 
@@ -333,7 +333,7 @@ function updateVideoView(req, res) {
     } else {
 
         res.send({
-            code: 201,
+            code: "201",
             msg: { response: "Json Parem are missing updateVideoVIew" }
         })
 
@@ -351,7 +351,7 @@ function DeleteSound(req, res) {
     //delete the sound file
     if (!id) {
         id = ""
-        res.send({ code: 201, msg: "ERROR" })
+        res.send({ code: "201", msg: "ERROR" })
 
         return;
     }
@@ -368,7 +368,7 @@ function DeleteSound(req, res) {
 
             else {
 
-                res.send({ code: 200, msg: { response: "video unlike" } })
+                res.send({ code: "200", msg: { response: "video unlike" } })
 
 
             }
@@ -376,7 +376,7 @@ function DeleteSound(req, res) {
 
 
     } else {
-        res.send({ code: 201, msg: "ERROR delete sound" })
+        res.send({ code: "201", msg: "ERROR delete sound" })
     }
 
 
@@ -391,7 +391,7 @@ function DeleteVideo(req, res) {
 
     if (!id) {
         id = ""
-        res.send({ code: 201, msg: "ERROR" })
+        res.send({ code: "201", msg: "ERROR" })
 
         return;
     }
@@ -410,7 +410,7 @@ function DeleteVideo(req, res) {
 
 
 
-            res.send({ code: 200, msg: { response: "video unlike" } })
+            res.send({ code: "200", msg: { response: "video unlike" } })
 
 
             con.query("delete from videos where id = ?", [id], function(ee, rr) {})
@@ -424,7 +424,7 @@ function DeleteVideo(req, res) {
         })
 
     } else {
-        res.send({ code: 201, msg: "ERROR del" })
+        res.send({ code: "201", msg: "ERROR del" })
     }
 
 
@@ -462,7 +462,7 @@ function editSoundSection() {
     if (id.trim() != "" && section.trim() != "") {
         con.query("update sound_section set section_name = ? where id = ?", [section, id], function(e, r) {
 
-            res.send({ code: 200, msg: "updated" })
+            res.send({ code: "200", msg: "updated" })
 
         })
     }
