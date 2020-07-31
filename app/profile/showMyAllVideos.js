@@ -129,6 +129,10 @@ module.exports = {
 
                     //count total_following
 
+                    console.log(total_following, "total following bc")
+
+                    console.log(total_following["count"], "total following bc")
+                    console.log(total_fans, "total fans bc")
 
                     count_video_rows = array_out_video.length;
                     if (count_video_rows == 0) {

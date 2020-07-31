@@ -31,7 +31,7 @@ module.exports = {
 
 
 
-                [row, f] = acon.execute("select * from users where fb_id = ?", [fb_id])
+                const [row, f] = await acon.execute("select * from users where fb_id = ?", [fb_id])
 
                 array_out = [];
                 for (i in row) {
@@ -94,15 +94,15 @@ module.exports = {
                     database: config.database
                 });
 
-                [row, f] = acon.execute("select * from follow_users where followed_fb_id = ? order by desc", [fb_id])
+                const [row, f] = await acon.execute("select * from follow_users where followed_fb_id = ? order by DESC", [fb_id])
 
                 array_out = [];
 
                 for (i in row) {
-                    [rd1, f] = acon.execute("select * from users where fb_id = ?", [row[i].fb_id])
+                    const [rd1, f] = await acon.execute("select * from users where fb_id = ?", [row[i].fb_id])
 
 
-                    follow_count = acon.execute("SELECT count(*) as count from follow_users where followed_fb_id=? and fb_id=? ", [row[i].fb_id, fb_id])
+                    follow_count = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id=? and fb_id=? ", [row[i].fb_id, fb_id])
 
 
                     follow = ""
