@@ -4,7 +4,6 @@ const https = require('request')
 
 var path = require('path');
 const amysql = require('mysql2/promise');
-const { type } = require('jquery');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 
@@ -316,7 +315,7 @@ module.exports = {
 
     ,
     search: async function(req, res) {
-        type = req.query.type;
+        _type = req.query.type;
         keyword = req.query.keyword;
         const acon = await amysql.createConnection({
             host: config.host,
@@ -328,10 +327,10 @@ module.exports = {
 
 
         if (!keyword) keyword = ""
-        if (type && keyword.trim() != "") {
+        if (_type && keyword.trim() != "") {
             try {
 
-                if (type == "video") {
+                if (_type == "video") {
                     [row, f] = await acon.execute("select * from videos where description like '%" + keyword + "%' order by rand() limit 15");
                     array_out = [];
                     for (i in row) {
@@ -387,7 +386,7 @@ module.exports = {
                     }
 
                     res.send({ code: "200", msg: array_out })
-                } else if (type == "users") {
+                } else if (_type == "users") {
                     [row, f] = await acon.execute("select * from users where first_name like '%" + $keyword + "%' or last_name like '%" + $keyword + "%' or username like '%" + $keyword + "%'  limit 15 ");
                     array_out = [];
                     for (i in row) {
@@ -413,7 +412,7 @@ module.exports = {
                     }
 
                     res.send({ code: 200, msg: array_out })
-                } else if (type == "sound") {
+                } else if (_type == "sound") {
                     [row1, f] = await acon.execute("select * from sound where sound_name like '%" + $keyword + "%' or description like '%" + $keyword + "%'  limit 15");
                     array_out1 = []
                     for (i in row1) {
