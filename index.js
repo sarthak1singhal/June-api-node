@@ -12,13 +12,9 @@ const readJson = require("r-json");
 var dateTime = require('node-datetime');
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
-var siofu = require("socketio-file-upload");
 const config = readJson(`config.json`);
 
-const io = require('socket.io')(4000)
-var socketFile = express()
-    .use(siofu.router)
-    .listen(8000);
+
 const users = {}
 const userNames = {}
 var myId;
