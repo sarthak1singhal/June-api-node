@@ -191,6 +191,11 @@ function signup(req, res) {
     username = first_name + Math.floor(Math.random() * 10000000);
     //get a unique username here 
 
+    if (!gender) gender = "";
+    if (!last_name) last_name = "";
+    if (!profile_pic) profile_pic = "";
+    if (!device) device = "";
+    if (!version1) version1 = "0";
     if (fb_id && first_name && last_name) {
 
         con.query("select * from users where fb_id = ?", [fb_id], function(e, r) {
@@ -241,7 +246,7 @@ function signup(req, res) {
                     }
                 } else {
 
-                    con.query("insert into users(fb_id,username,first_name,last_name,profile_pic,version,device,signup_type,gender,bio)values(?,?,?,?,?,?,?,?,?,?)", [fb_id, username, first_name, last_name, profile_pic, version1, device, signup_type, gender, ""], function(error, row) {
+                    con.query("insert into users(fb_id,username,first_name,last_name,profile_pic,version,device,signup_type,gender,bio,content_language,app_language, tokon, bearer_token)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [fb_id, username, first_name, last_name, profile_pic, version1, device, signup_type, gender, "", "", "", "", ""], function(error, row) {
 
                         if (error) {
                             console.log(error)
@@ -250,8 +255,6 @@ function signup(req, res) {
                                 code: 200,
                                 msg: { response: "problem in signup" }
                             })
-
-
                         } else {
 
                             var date = new Date();
