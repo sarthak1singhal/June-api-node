@@ -387,7 +387,7 @@ module.exports = {
 
                     res.send({ code: "200", msg: array_out })
                 } else if (_type == "users") {
-                    [row, f] = await acon.execute("select * from users where first_name like '%" + $keyword + "%' or last_name like '%" + $keyword + "%' or username like '%" + $keyword + "%'  limit 15 ");
+                    [row, f] = await acon.execute("select * from users where first_name like '%" + keyword + "%' or last_name like '%" + keyword + "%' or username like '%" + keyword + "%'  limit 15 ");
                     array_out = [];
                     for (i in row) {
                         [query1, f] = await acon.execute("select * from videos where fb_id= ? ", row[i].fb_id);
@@ -413,7 +413,7 @@ module.exports = {
 
                     res.send({ code: 200, msg: array_out })
                 } else if (_type == "sound") {
-                    [row1, f] = await acon.execute("select * from sound where sound_name like '%" + $keyword + "%' or description like '%" + $keyword + "%'  limit 15");
+                    [row1, f] = await acon.execute("select * from sound where sound_name like '%" + keyword + "%' or description like '%" + keyword + "%'  limit 15");
                     array_out1 = []
                     for (i in row1) {
                         [qrry, f] = await acon.execute("select * from fav_sound WHERE fb_id=? and sound_id =?", [fb_id, row1[i].id]);
