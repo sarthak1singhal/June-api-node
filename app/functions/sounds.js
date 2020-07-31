@@ -11,12 +11,11 @@ module.exports = {
     my_FavSound: async function(req, res) {
 
         fb_id = req.query.fb_id;
-        sound_id = req.query.sound_id;
 
         try {
 
 
-            if (fb_id && sound_id) {
+            if (fb_id) {
                 fav = req.query.fav;
                 const acon = await amysql.createConnection({
                     host: config.host,
