@@ -220,24 +220,27 @@ function signup(req, res) {
 
 
                     console.log(r, "THIS IS ROW")
-                    if (r.block != "0") {
+                    if (r[0].block != "0") {
 
+                        lang = r[0].content_language
+                        if (!lang) lang = ""
                         res.send(
 
                             {
                                 code: "200",
-                                msg: {
-                                    "fb_id": r.fb_id,
+                                msg: [{
+                                    "fb_id": r[0].fb_id,
                                     "action": "login",
-                                    "profile_pic": r.profile_pic,
-                                    "first_name": r.first_name,
-                                    "last_name": r.last_name,
-                                    "username": r.username,
-                                    "verified": r.verified,
-                                    "bio": r.bio,
-                                    "gender": r.gender,
-                                    "tokon": r.tokon
-                                }
+                                    "profile_pic": r[0].profile_pic,
+                                    "first_name": r[0].first_name,
+                                    "last_name": r[0].last_name,
+                                    "username": r[0].username,
+                                    "verified": r[0].verified,
+                                    "bio": r[0].bio,
+                                    "gender": r[0].gender,
+                                    "tokon": r[0].tokon,
+                                    "language": lang
+                                }]
                             })
                     } else {
 
@@ -266,13 +269,12 @@ function signup(req, res) {
                             con.query("insert into device_tokon(fb_id,tokon,phone_id)values(?,?,?)", [fb_id, tokon, header_deviceid], function(er1, ro1) {
                                 if (er1) {
 
-                                    console.log("JHANT")
                                     console.log(er1)
 
                                 } else {
                                     res.send({
                                         code: "200",
-                                        msg: {
+                                        msg: [{
                                             "fb_id": fb_id,
                                             "username": username,
                                             "action": "signup",
@@ -282,7 +284,7 @@ function signup(req, res) {
                                             "signup_type": signup_type,
                                             "gender": gender,
                                             "tokon": tokon
-                                        }
+                                        }]
                                     })
                                 }
 
@@ -441,9 +443,14 @@ function post_language(req, res) {
 
         con.query("update users set content_language = ? where fb_id = ?", [_language.toLowerCase(), fb_id], function(e, r) {
 
+            console.log("LANGUAGE SAVEs")
 
         })
+    } else {
+        console.log("NOR SAVED LANGUAFA")
     }
+
+    res.send({ code: 200 });
 
 
 
