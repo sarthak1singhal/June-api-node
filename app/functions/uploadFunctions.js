@@ -1,6 +1,7 @@
 // app/routes.js
-var uuid = require('uuid');
+var shortid = require('shortid');
 const https = require('request')
+var shortid = require('shortid');
 
 var path = require('path');
 
@@ -34,23 +35,40 @@ module.exports = {
 
 
     uploadAWSVideo: function(req, res) {
-        var file = req.files.file;
 
-        console.log(req.files, "FOELS\n")
-        console.log(req.query);
+        console.log(req.body);
 
-        if (req.query.fb_id) {
+        fb_id = req.body.fb_id
+
+        description = req.body.description;
+        sound_id = req.body.sound_id;
+        thumb = req.body.picbase64['file_data']
+        video = req.body.videobase64['file_data']
+        gif = req.body.gifbase64['file_base']
+        category = req.body.category;
+        content_language = req.body.content_language;
+
+        if (!content_language) content_language = " "
+
+        if (!category) category = " "
+
+        if (fb_id && video && gif) {
+
+
+            filename = Date().getTime().toString(36) + shortid.generate();
 
             const params = {
                 Bucket: BUCKET_NAME,
-                Key: "myapp" + "/" + "fileName",
-                Body: readStream
+                Key: filename + ".mp4",
+                Body: video
             };
 
-
-
-
-
+            s3bucket.upload(params, function(error, data) {
+                if (error) throw error
+                console.log(`File uploaded successfully at ${data.Location}`)
+                console.log(data, "IS DATA")
+                console.log(req.body.category, "is categiry")
+            });
 
 
 

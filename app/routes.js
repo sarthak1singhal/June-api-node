@@ -33,17 +33,20 @@ module.exports = function(app, passport) {
     app.post('/index', (req, res) => {
 
 
-        console.log("outside if 36")
-        if (req.query.p) {
-            var p = req.query.p;
-
-            req.query = req.body;
-
-
             console.log(req.body, "this is body")
+            if (req.query.p) {
+                var p = req.query.p;
 
 
-            //            console.log(req.query, "this is query")
+                if (p != "uploadVideo") {
+                    req.query = req.body;
+
+                    req.body = {}
+                }
+            }
+
+
+
 
 
             console.log("header-start", req.headers, 'eaders')
