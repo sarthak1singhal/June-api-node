@@ -33,7 +33,7 @@ module.exports = function(app, passport) {
     app.post('/index', (req, res) => {
 
 
-        console.log(req.body, "this is body")
+        //console.log(req.body, "this is body")
         if (req.query.p) {
             var p = req.query.p;
 

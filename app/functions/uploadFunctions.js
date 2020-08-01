@@ -36,7 +36,6 @@ module.exports = {
 
     uploadAWSVideo: function(req, res) {
 
-        console.log(req.body);
 
         fb_id = req.body.fb_id
 
@@ -57,6 +56,7 @@ module.exports = {
 
             filename = Date().getTime().toString(36) + shortid.generate();
 
+            console.log(filename, "FILENAME")
             const params = {
                 Bucket: BUCKET_NAME,
                 Key: filename + ".mp4",
@@ -66,7 +66,7 @@ module.exports = {
             s3bucket.upload(params, function(error, data) {
                 if (error) throw error
                 console.log(`File uploaded successfully at ${data.Location}`)
-                console.log(data, "IS DATA")
+                    //console.log(data, "IS DATA")
                 console.log(req.body.category, "is categiry")
             });
 
