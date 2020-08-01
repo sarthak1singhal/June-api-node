@@ -45,27 +45,27 @@ module.exports = {
                     array_out_video = []
                     for (i in query99) {
 
-                        countLikes = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
+                        [countLikes, f1] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
 
-                        query112 = await acon.execute("select * from sound where id=?", [query99[i].id]);
+                        [query112, l] = await acon.execute("select * from sound where id=?", [query99[i].id]);
 
-                        countcomment = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
+                        [countcomment, l] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
 
-                        liked = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
+                        [liked, l] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
 
                         s = {};
                         if (query112.length == 0) {
                             s = {
-                                "id": null,
+                                "id": "null",
                                 "audio_path": {
-                                    "mp3": null, //complete sound path here
-                                    "acc": null
+                                    "mp3": "null", //complete sound path here
+                                    "acc": "null"
                                 },
-                                "sound_name": null,
-                                "description": null,
-                                "thum": null,
-                                "section": null,
-                                "created": null,
+                                "sound_name": "null",
+                                "description": "null",
+                                "thum": "null",
+                                "section": "null",
+                                "created": "null",
 
                             }
                         } else {
@@ -92,8 +92,8 @@ module.exports = {
                             "description": query99[i]['description'],
                             "liked": query99[i]['count'],
                             "count": {
-                                "like_count": countLikes['count'],
-                                "video_comment_count": countcomment['count'],
+                                "like_count": countLikes[0]['count'],
+                                "video_comment_count": countcomment[0]['count'],
                                 "view": query99[i]['view'],
                             },
                             "sound": s,
@@ -113,13 +113,13 @@ module.exports = {
 
                     array_out_count_heart = array_out_count_heart + '0';
 
-                    hear_count = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN( ? ) ", [array_out_count_heart]);
+                    [hear_count, l] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN( ? ) ", [array_out_count_heart]);
 
                     //count total heart
 
                     //count total_fans
 
-                    total_fans = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
+                    [total_fans, l] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
 
                     //count total_fans
 
@@ -137,16 +137,16 @@ module.exports = {
 
 
                     follow_count = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ? and followed_fb_id=?", [my_fb_id, fb_id]);
-
+                    follow_count = follow_count[0]
 
                     follow = "0"
                     follow_button_status = "Follow";
 
-                    if (follow_count['count'] == 0) {
+                    if (follow_count['count'] == 0 || follow_count['count'] == "0") {
                         follow = "0";
                         follow_button_status = "Follow";
                     } else
-                    if (follow_count['count'] != 0) {
+                    if (follow_count['count'] != 0 || follow_count['count'] != "0") {
                         follow = "1";
                         follow_button_status = "Unfollow";
                     }
@@ -173,9 +173,9 @@ module.exports = {
                                 "follow": follow,
                                 "follow_status_button": follow_button_status
                             },
-                            "total_heart": hear_count['count'],
-                            "total_fans": total_fans['count'],
-                            "total_following": total_following['count'],
+                            "total_heart": hear_count[0]['count'],
+                            "total_fans": total_fans[0]['count'],
+                            "total_following": total_following[0]['count'],
                             "user_videos": array_out_video
                         }
 
