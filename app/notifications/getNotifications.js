@@ -80,7 +80,7 @@ module.exports = {
 
                     code: 201,
 
-                    msg: { response: "Json Parem are missing" }
+                    msg: [{ response: "Json Parem are missing" }]
 
                 })
         }

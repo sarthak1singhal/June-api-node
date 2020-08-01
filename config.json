@@ -7,9 +7,9 @@
     "secret": "thisissecretlol",
 
     "isAWS": true,
-    "awsAccessID": "",
+    "awsAccessKey": "AKIAJ5VSP55QPRN5T5QQ",
 
-    "awsSecretKey": "",
+    "awsSecretKey": "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",
 
 
     "fcmKey": "AAAAqJ6S9VU:APA91bG9QGuGE8X6noolf2xoKtQYtqoXE0LNVO_MaGCZ62na4FwQ5ZqdxyteQVNtM4vqE7OrBGRtGJzT9csdAn5PlrQbkbZrEnetpjnWwXs-jB7mqBOYjpSD7-_mfogUsViL70tXgS9V"
