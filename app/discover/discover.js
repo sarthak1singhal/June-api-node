@@ -380,12 +380,16 @@ module.exports = {
                                 "section": rd12[0].section,
                                 "created": rd12[0].created,
                             },
-                            "created": row[i]['created']
+                            "created": row[i]['created'],
                         });
 
                     }
 
-                    res.send({ code: "200", msg: array_out })
+                    res.send({
+                        code: "200",
+                        msg: array_out,
+                        "type": _type
+                    })
                 } else if (_type == "users") {
                     [row, f] = await acon.execute("select * from users where first_name like '%" + keyword + "%' or last_name like '%" + keyword + "%' or username like '%" + keyword + "%'  limit 15 ");
                     array_out = [];
@@ -406,12 +410,12 @@ module.exports = {
                             "device": row[i]['device'],
                             "signup_type": row[i]['signup_type'],
                             "created": row[i]['created'],
-                            "videos": videoCount
+                            "videos": videoCount,
                         });
 
                     }
 
-                    res.send({ code: 200, msg: array_out })
+                    res.send({ code: 200, msg: array_out, "type": _type })
                 } else if (_type == "sound") {
                     [row1, f] = await acon.execute("select * from sound where sound_name like '%" + keyword + "%' or description like '%" + keyword + "%'  limit 15");
                     array_out1 = []
@@ -436,10 +440,11 @@ module.exports = {
                             "thum": row1[i]['thum'],
                             "created": row1[i]['created'],
                             "fav": CountFav
+
                         });
                     }
 
-                    res.send({ code: "200", msg: array_out1 })
+                    res.send({ code: "200", msg: array_out1, "type": _type })
                 }
 
 
