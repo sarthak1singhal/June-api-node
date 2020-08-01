@@ -57,7 +57,7 @@ module.exports = {
         if (fb_id && video && gif) {
 
 
-            filename = Date().getTime().toString(36) + shortid.generate();
+            filename = (new Date()).getTime().toString(36) + shortid.generate();
 
             console.log(filename, "FILENAME")
             const params = {
