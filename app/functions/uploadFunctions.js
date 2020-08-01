@@ -50,6 +50,8 @@ module.exports = {
         if (!content_language) content_language = " "
 
         if (!category) category = " "
+        if (!sound_id) sound_id = "0"
+        if (!description) description = " "
 
         console.log("line54")
 
@@ -108,8 +110,76 @@ module.exports = {
 
 
 
+            con.query("select * from discover_section where `section_name` = ?", [category.toLowerCase()], function(e, r) {
+
+                if (r.length == 0) {
+                    con.query("insert into discover_section (section_name, value) values (?,?)", [category.toLowerCase(), 0], function(e1, r1) {
+
+                        if (e1) console.log(e1)
+                        con.query("select * from discover_section where `section_name` = ?", [category.toLowerCase()], function(e2, r2) {
+
+                            cat_id = 0;
+                            if (r2.length != 0) {
+                                cat_id = r2[0].id
+
+                            }
+
+                            con.query("insert into videos(description,video,sound_id,section,fb_id,gif,thum,category,language)values(?,?,?,?,?,?,?,?,?)", [description, "vid/" + video_params.Key, sound_id,
+
+                                cat_id, fb_id, "gif/" + gif_params.Key, "img/" + img_params.Key, category, content_language
+                            ], function(ee, rr) {
 
 
+                                arr = [];
+                                arr.push({ response: "file uploaded " })
+                                res.send({
+                                    code: "200",
+                                    msg: arr
+
+                                })
+                            })
+
+
+
+                        })
+
+
+                    })
+                } else {
+
+                    cat_id = r[0].id;
+
+
+
+                    con.query("insert into videos(description,video,sound_id,section,fb_id,gif,thum,category,language)values(?,?,?,?,?,?,?,?,?)", [description, "vid/" + video_params.Key, sound_id,
+
+                        cat_id, fb_id, "gif/" + gif_params.Key, "img/" + img_params.Key, category, content_language
+                    ], function(ee, rr) {
+
+                        arr = [];
+                        arr.push({ response: "file uploaded " })
+                        res.send({
+                            code: "200",
+                            msg: arr
+
+                        })
+
+                    })
+
+
+                }
+            })
+
+
+        } else {
+
+            arr = [];
+            arr.push({ response: "file not uploaded " })
+            res.send({
+                code: "201",
+                msg: arr
+
+            })
         }
 
     }

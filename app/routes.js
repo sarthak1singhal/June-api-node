@@ -247,7 +247,7 @@ function signup(req, res) {
                                     "bio": r[0].bio,
                                     "gender": r[0].gender,
                                     "tokon": r[0].tokon,
-                                    "language": lang
+                                    "content_language": lang
                                 }]
                             })
                     } else {
