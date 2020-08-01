@@ -21,6 +21,7 @@ AWS.config.update({
 });
 
 const BUCKET_NAME = 'juneappbucket';
+var request = require('request')
 
 module.exports = function(app, passport) {
 
