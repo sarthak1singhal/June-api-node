@@ -14,10 +14,7 @@ const config = readJson(`config.json`);
 
 const BUCKET_NAME = 'juneappbucket';
 
-const s3bucket = new AWS.S3({
-    accessKeyId: config.awsAccessKey,
-    secretAccessKey: config.awsSecretKey
-});
+
 
 module.exports = {
 
@@ -36,7 +33,10 @@ module.exports = {
 
 
     uploadAWSVideo: function(req, res) {
-
+        const s3bucket = new AWS.S3({
+            accessKeyId: config.awsAccessKey,
+            secretAccessKey: config.awsSecretKey
+        });
 
         fb_id = req.body.fb_id
 
@@ -91,23 +91,17 @@ module.exports = {
 
             s3bucket.upload(video_params, function(error, data) {
                 if (error) throw error
-                console.log(`File uploaded successfully at ${data.Location}`)
-                console.log(data, "IS DATA")
-                console.log(req.body.category, "is categiry")
+
             });
 
             s3bucket.upload(gif_params, function(error, data) {
                 if (error) throw error
-                console.log(`File uploaded successfully at ${data.Location}`)
-                console.log(data, "IS DATA")
-                console.log(req.body.category, "is categiry")
+
             });
 
             s3bucket.upload(img_params, function(error, data) {
                 if (error) throw error
-                console.log(`File uploaded successfully at ${data.Location}`)
-                console.log(data, "IS DATA")
-                console.log(req.body.category, "is categiry")
+
             });
 
 
@@ -126,9 +120,9 @@ module.exports = {
 
                             }
 
-                            con.query("insert into videos(description,video,sound_id,section,fb_id,gif,thum,category,language)values(?,?,?,?,?,?,?,?,?)", [description, "vid/" + video_params.Key, sound_id,
+                            con.query("insert into videos(description,video,sound_id,section,fb_id,gif,thum,category,language)values(?,?,?,?,?,?,?,?,?)", [description, "vid?p=" + video_params.Key, sound_id,
 
-                                cat_id, fb_id, "gif/" + gif_params.Key, "img/" + img_params.Key, category, content_language
+                                cat_id, fb_id, "gif?p=" + gif_params.Key, "img?p=" + img_params.Key, category, content_language
                             ], function(ee, rr) {
 
 
@@ -153,9 +147,9 @@ module.exports = {
 
 
 
-                    con.query("insert into videos(description,video,sound_id,section,fb_id,gif,thum,category,language)values(?,?,?,?,?,?,?,?,?)", [description, "vid/" + video_params.Key, sound_id,
+                    con.query("insert into videos(description,video,sound_id,section,fb_id,gif,thum,category,language)values(?,?,?,?,?,?,?,?,?)", [description, "vid?p=" + video_params.Key, sound_id,
 
-                        cat_id, fb_id, "gif/" + gif_params.Key, "img/" + img_params.Key, category, content_language
+                        cat_id, fb_id, "gif?p=" + gif_params.Key, "img?p=" + img_params.Key, category, content_language
                     ], function(ee, rr) {
 
                         arr = [];
