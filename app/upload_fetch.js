@@ -21,7 +21,6 @@ AWS.config.update({
 });
 
 const BUCKET_NAME = 'juneappbucket';
-var request = require('request')
 
 module.exports = function(app, passport) {
 
@@ -103,6 +102,11 @@ module.exports = function(app, passport) {
 
         var p = req.query.p
 
+
+        if (p.includes("?")) {
+            var a = p.split("?")
+            p = a[0]
+        }
         console.log(p, "GET gif")
         res.attachment(p);
 

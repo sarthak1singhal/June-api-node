@@ -18,7 +18,8 @@ module.exports = {
 
         fb_id = req.body.fb_id;
 
-
+        if (!fb_id)
+            fb_id = " "
         if (fb_id) {
 
 
