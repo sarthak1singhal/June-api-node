@@ -90,7 +90,7 @@ module.exports = {
                                     },
                                     "sound_name": query112[0].sound_name,
                                     "description": query112[0].description,
-                                    "thum": query112[0].thum,
+                                    "thum": config.apiUrl + query112[0].thum,
                                     "section": query112[0].section,
                                     "created": query112[0].created,
 
@@ -121,9 +121,9 @@ module.exports = {
 
                                 },
                                 "liked": liked[0]['count'],
-                                "video": row_posts[j]['video'],
-                                "thum": row_posts[j]['thum'],
-                                "gif": row_posts[j]['gif'],
+                                "video": config.apiUrl + row_posts[j]['video'],
+                                "thum": config.apiUrl + row_posts[j]['thum'],
+                                "gif": config.apiUrl + row_posts[j]['gif'],
                                 "description": row_posts[j]['description'],
                                 "sound": smap,
                                 "created": row_posts[j]['created']
@@ -255,7 +255,7 @@ module.exports = {
                             },
                             "sound_name": rd12[0].sound_name,
                             "description": rd12[0].description,
-                            "thum": rd12[0].thum,
+                            "thum": config.apiUrl + rd12[0].thum,
                             "section": rd12[0].section,
                             "created": rd12[0].created,
 
@@ -281,9 +281,9 @@ module.exports = {
                                 "view": row[i]['view'],
                             },
                             "liked": liked_count[0]['count'],
-                            "video": row[i]['video'],
-                            "thum": row[i]['thum'],
-                            "gif": row[i]['gif'],
+                            "video": config.apiUrl + row[i]['video'],
+                            "thum": config.apiUrl + row[i]['thum'],
+                            "gif": config.apiUrl + row[i]['gif'],
                             "description": row[i]['description'],
                             "sound": smap,
                             "created": row[i]['created']
@@ -364,9 +364,9 @@ module.exports = {
                                 "view": row[i]['view'],
                             },
                             "liked": liked_count[0]['count'],
-                            "video": row[i]['video'],
-                            "thum": row[i]['thum'],
-                            "gif": row[i]['gif'],
+                            "video": config.apiUrl + row[i]['video'],
+                            "thum": config.apiUrl + row[i]['thum'],
+                            "gif": config.apiUrl + row[i]['gif'],
                             "description": row[i]['description'],
                             "sound": {
                                 "id": rd12[0].id,
@@ -376,7 +376,7 @@ module.exports = {
                                 },
                                 "sound_name": rd12[0].sound_name,
                                 "description": rd12[0].description,
-                                "thum": rd12[0].thum,
+                                "thum": config.apiUrl + rd12[0].thum,
                                 "section": rd12[0].section,
                                 "created": rd12[0].created,
                             },
@@ -437,7 +437,7 @@ module.exports = {
                             "sound_name": row1[i]['sound_name'],
                             "description": row1[i]['description'],
                             "section": row1[i]['section'],
-                            "thum": row1[i]['thum'],
+                            "thum": config.apiUrl + row1[i]['thum'],
                             "created": row1[i]['created'],
                             "fav": CountFav
 

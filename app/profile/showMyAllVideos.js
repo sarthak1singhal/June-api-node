@@ -73,12 +73,12 @@ module.exports = {
                                 "id": query112[0].id,
                                 "audio_path": {
 
-                                    "mp3": query112[0].id + ".mp3",
-                                    "acc": query112[0].id + ".aac"
+                                    "mp3": config.apiUrl + query112[0].id + ".mp3",
+                                    "acc": config.apiUrl + query112[0].id + ".aac"
                                 },
                                 "sound_name": query112[0].sound_name,
                                 "description": query112[0].description,
-                                "thum": query112[0].thum,
+                                "thum": config.apiUrl + query112[0].thum,
                                 "section": query112[0].section,
                                 "created": query112[0].created,
                             }
@@ -86,9 +86,9 @@ module.exports = {
 
                         array_out_video.push({
                             "id": query99[i]['id'],
-                            "video": query99[i]['video'],
-                            "thum": query99[i]['thum'],
-                            "gif": query99[i]['gif'] + "?time=" + Math.random(),
+                            "video": config.apiUrl + query99[i]['video'],
+                            "thum": config.apiUrl + query99[i]['thum'],
+                            "gif": config.apiUrl + query99[i]['gif'] + "?time=" + Math.random(),
                             "description": query99[i]['description'],
                             "liked": liked[0]['count'],
                             "count": {

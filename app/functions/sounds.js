@@ -43,7 +43,7 @@ module.exports = {
                         "sound_name": q1[0].sound_name,
                         "description": q1[0].description,
                         "section": q1[0].section,
-                        "thum": q1[0].thum,
+                        "thum": config.apiUrl + q1[0].thum,
                         "created": q1[0].created,
 
                     })
@@ -274,7 +274,7 @@ module.exports = {
                                 "sound_name": query1[j]['sound_name'],
                                 "description": query1[j]['description'],
                                 "section": query1[j]['section'],
-                                "thum": query1[j]['thum'],
+                                "thum": config.apiUrl + query1[j]['thum'],
                                 "created": query1[j]['created'],
                                 "fav": CountFav
                             });
@@ -333,7 +333,7 @@ module.exports = {
                                 "sound_name": query1[j]['sound_name'],
                                 "description": query1[j]['description'],
                                 "section": query1[j]['section'],
-                                "thum": query1[j]['thum'],
+                                "thum": config.apiUrl + query1[j]['thum'],
                                 "created": query1[j]['created'],
                                 "fav": CountFav
                             });
