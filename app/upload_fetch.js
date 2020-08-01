@@ -39,21 +39,14 @@ module.exports = function(app, passport) {
         var p = req.query.p
 
         console.log(p, "GET VIDEO")
-        s3.getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: p, Expires: 3600 }, function(error, url) {
-            if (error || !url) {
-                //error while creating the URL\
+        res.attachment(p);
 
-                console.log("SASAS")
-                res.status(500).end();
-            } else {
+        var options = {
+            Bucket: BUCKET_NAME,
+            Key: p
+        };
+        s3.getObject(options).createReadStream().pipe(res);
 
-                console.log(url)
-                    //make a request to the signed URL to get the file and pipe the res to the client
-                request({
-                    url: url
-                }).pipe(res);
-            }
-        });
 
 
     })
@@ -84,21 +77,15 @@ module.exports = function(app, passport) {
         var p = req.query.p
 
         console.log(p, "GET IMG")
-        s3.getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: p, Expires: 3600 }, function(error, url) {
-            if (error || !url) {
-                //error while creating the URL\
+        res.attachment(p);
 
-                console.log("SASAS")
-                res.status(500).end();
-            } else {
+        var options = {
+            Bucket: BUCKET_NAME,
+            Key: p
+        };
+        s3.getObject(options).createReadStream().pipe(res);
 
-                console.log(url)
-                    //make a request to the signed URL to get the file and pipe the res to the client
-                request({
-                    url: url
-                }).pipe(res);
-            }
-        });
+
 
 
     })
@@ -117,21 +104,14 @@ module.exports = function(app, passport) {
         var p = req.query.p
 
         console.log(p, "GET gif")
-        s3.getSignedUrl('getObject', { Bucket: BUCKET_NAME, Key: p, Expires: 3600 }, function(error, url) {
-            if (error || !url) {
-                //error while creating the URL\
+        res.attachment(p);
 
-                console.log("SASAS")
-                res.status(500).end();
-            } else {
+        var options = {
+            Bucket: BUCKET_NAME,
+            Key: p
+        };
+        s3.getObject(options).createReadStream().pipe(res);
 
-                console.log(url)
-                    //make a request to the signed URL to get the file and pipe the res to the client
-                request({
-                    url: url
-                }).pipe(res);
-            }
-        });
 
 
     })
