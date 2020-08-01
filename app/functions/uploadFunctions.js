@@ -43,7 +43,7 @@ module.exports = {
         sound_id = req.body.sound_id;
         thumb = req.body.picbase64['file_data']
         video = req.body.videobase64['file_data']
-        gif = req.body.gifbase64['file_base']
+        gif = req.body.gifbase64['file_data']
         category = req.body.category;
         content_language = req.body.content_language;
 
@@ -51,6 +51,9 @@ module.exports = {
 
         if (!category) category = " "
 
+        console.log("line54")
+
+        console.log(fb_id)
         if (fb_id && video && gif) {
 
 
@@ -66,7 +69,7 @@ module.exports = {
             s3bucket.upload(params, function(error, data) {
                 if (error) throw error
                 console.log(`File uploaded successfully at ${data.Location}`)
-                    //console.log(data, "IS DATA")
+                console.log(data, "IS DATA")
                 console.log(req.body.category, "is categiry")
             });
 
