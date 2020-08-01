@@ -2,6 +2,7 @@
 var shortid = require('shortid');
 const https = require('request')
 var shortid = require('shortid');
+var con = require('../../params.js')
 
 var path = require('path');
 
@@ -55,6 +56,7 @@ module.exports = {
 
         console.log("line54")
 
+        content_language = content_language.toLowerCase();
         console.log(fb_id)
         if (fb_id && video && gif) {
 
