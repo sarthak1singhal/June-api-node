@@ -267,13 +267,13 @@ async function showVideos(fb_id, action, token, language, video_id, res) {
                         arr.push({
                             "id": row_posts[j]['id'],
                             "fb_id": row_posts[j]['fb_id'],
-                            "user_info": {
+                            "user_info": [{
                                 "first_name": query1[0].first_name,
                                 "last_name": query1[0].last_name,
                                 "profile_pic": query1[0].profile_pic,
                                 "username": query1[0].username,
                                 "verified": query1[0].verified,
-                            },
+                            }],
                             "count": {
                                 "like_count": row_posts[j]['like'],
                                 "video_comment_count": countcomment[0]['count']

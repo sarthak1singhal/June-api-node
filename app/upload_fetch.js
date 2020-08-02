@@ -39,13 +39,11 @@ module.exports = function(app, passport) {
 
         var p = req.query.p
 
-        console.log(p, "GET VIDEO")
         res.attachment(p);
 
         var options = {
             Bucket: BUCKET_NAME,
             Key: p,
-            region: "ap-south-1"
 
         };
 
