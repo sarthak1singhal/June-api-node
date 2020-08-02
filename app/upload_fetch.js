@@ -30,7 +30,8 @@ module.exports = function(app, passport) {
 
         AWS.config.update({
             accessKeyId: config.awsAccessKey,
-            secretAccessKey: config.awsSecretKey
+            secretAccessKey: config.awsSecretKey,
+            region: "ap-south-1"
         });
 
         let s3 = new AWS.S3();
@@ -45,9 +46,14 @@ module.exports = function(app, passport) {
             Bucket: BUCKET_NAME,
             Key: p
         };
-        await s3.getObject(options).
-        createReadStream().pipe(res);
 
+        console.log(p, "name")
+        try {
+            await s3.getObject(options).
+            createReadStream().pipe(res);
+        } catch (e) {
+            console.log(e)
+        }
 
 
     })
