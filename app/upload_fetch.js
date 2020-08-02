@@ -44,7 +44,9 @@ module.exports = function(app, passport) {
 
         var options = {
             Bucket: BUCKET_NAME,
-            Key: p
+            Key: p,
+            region: "ap-south-1"
+
         };
 
         console.log(p, "name")
