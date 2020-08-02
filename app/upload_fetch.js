@@ -15,10 +15,7 @@ const { version } = require('os');
 
 readJson = require("r-json");
 const config = readJson(`config.json`);
-AWS.config.update({
-    accessKeyId: config.awsAccessKey,
-    secretAccessKey: config.awsSecretKey
-});
+
 
 const BUCKET_NAME = 'juneappbucket';
 
@@ -29,8 +26,12 @@ module.exports = function(app, passport) {
 
 
 
-    app.get('/vid', (req, res) => {
+    app.get('/vid', async(req, res) => {
 
+        AWS.config.update({
+            accessKeyId: config.awsAccessKey,
+            secretAccessKey: config.awsSecretKey
+        });
 
         let s3 = new AWS.S3();
 
@@ -44,7 +45,8 @@ module.exports = function(app, passport) {
             Bucket: BUCKET_NAME,
             Key: p
         };
-        s3.getObject(options).createReadStream().pipe(res);
+        await s3.getObject(options).
+        createReadStream().pipe(res);
 
 
 
@@ -67,8 +69,12 @@ module.exports = function(app, passport) {
 
 
 
-    app.get('/img', (req, res) => {
+    app.get('/img', async(req, res) => {
 
+        AWS.config.update({
+            accessKeyId: config.awsAccessKey,
+            secretAccessKey: config.awsSecretKey
+        });
 
         let s3 = new AWS.S3();
 
@@ -82,7 +88,7 @@ module.exports = function(app, passport) {
             Bucket: BUCKET_NAME,
             Key: p
         };
-        s3.getObject(options).createReadStream().pipe(res);
+        await s3.getObject(options).createReadStream().pipe(res);
 
 
 
@@ -94,7 +100,11 @@ module.exports = function(app, passport) {
 
 
 
-    app.get('/gif', (req, res) => {
+    app.get('/gif', async(req, res) => {
+        AWS.config.update({
+            accessKeyId: config.awsAccessKey,
+            secretAccessKey: config.awsSecretKey
+        });
 
 
         let s3 = new AWS.S3();
@@ -114,7 +124,7 @@ module.exports = function(app, passport) {
             Bucket: BUCKET_NAME,
             Key: p
         };
-        s3.getObject(options).createReadStream().pipe(res);
+        await s3.getObject(options).createReadStream().pipe(res);
 
 
 
