@@ -97,35 +97,39 @@ module.exports = function(app, passport) {
             } else if (p == "edit_profile") {
                 edit_profile.edit_profile(req, res);
             } else if (p == "follow_users") {
-                edit_profile.follow_users(req, res);
+                return edit_profile.follow_users(req, res);
             } else if (p == "get_user_data") {
-                profile.get_user_data(req, res);
+                return profile.get_user_data(req, res);
             } else if (p == "get_followers") {
-                profile.get_followers(req, res);
+                return profile.get_followers(req, res);
             } else if (p == "get_following") {
-                profile.get_followings(req, res);
+                return profile.get_followings(req, res);
             } else if (p == "searchByHashTag") {
-                discover.SearchByHashTag(req, res);
+                return  discover.SearchByHashTag(req, res);
             } else if (p == "DeleteSound") {
-                DeleteSound(req, res);
+                return  DeleteSound(req, res);
             } else if (p == "DeleteVideo") {
-                DeleteVideo(req, res);
+                return  DeleteVideo(req, res);
             } else if (p == "DeleteVideo") {
-                DeleteVideo(req, res);
+                return  DeleteVideo(req, res);
             } else if (p == "post_language") {
-                post_language(req, res);
+                return  post_language(req, res);
             } else if (p == "editSoundSection") {
-                editSoundSection(req, res);
+                return  editSoundSection(req, res);
             } else if (p == "getNotifications") {
-                getNotifications.getNotifications(req, res); //not done 
+                return   getNotifications.getNotifications(req, res); //not done 
             } else if (p == "search") {
-                discover.search(req, res);
+                return   discover.search(req, res);
             
             }
+            else{
+                return res.send({
+                    isError: true,
+                    message: "method unavailable"
+                })
+            }
 
-            console.log(p)
-
-
+            
 
         }
 
