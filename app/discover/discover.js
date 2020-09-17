@@ -206,9 +206,9 @@ module.exports = {
                 });
 
 
+                array_out = [];
 
-                [q, w] = await acon.execute("update users set token = ? where fb_id = ?", [token, fb_id]);
-
+ 
                 [row, ww] = await acon.execute("select * from videos where description like '%" + tag + "%' order by rand()");
 
 
@@ -325,6 +325,7 @@ module.exports = {
             database: config.database
         });
 
+ 
 
 
         if (!keyword) keyword = ""
@@ -349,6 +350,39 @@ module.exports = {
                         if (fb_id)
                             liked_count = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ? ", [row[i].id, fb_id]);
 
+
+                            s = {};
+                            if (rd12.length == 0) {
+                                s = {
+                                    "id": "",
+                                    "audio_path": {
+                                        "mp3": "", //complete sound path here
+                                        "acc": ""
+                                    },
+                                    "sound_name": "",
+                                    "description": "",
+                                    "thum": "",
+                                    "section": "",
+                                    "created": "",
+    
+                                }
+                            } else {
+                                s = {
+                                    "id": rd12[0].id,
+                                    "audio_path": {
+    
+                                        "mp3": config.apiUrl + rd12[0].id + ".mp3",
+                                        "acc": config.apiUrl + rd12[0].id + ".aac"
+                                    },
+                                    "sound_name": rd12[0].sound_name,
+                                    "description": rd12[0].description,
+                                    "thum": config.apiUrl + rd12[0].thum,
+                                    "section": rd12[0].section,
+                                    "created": rd12[0].created,
+                                }
+                            }
+                        
+                            
                         array_out.push({
                             "id": row[i]['id'],
                             "fb_id": row[i]['fb_id'],
@@ -369,18 +403,7 @@ module.exports = {
                             "thum": config.apiUrl + row[i]['thum'],
                             "gif": config.apiUrl + row[i]['gif'],
                             "description": row[i]['description'],
-                            "sound": {
-                                "id": rd12[0].id,
-                                "audio_path": {
-                                    "mp3": rd12[0].id + ".mp3",
-                                    "acc": rd12[0].id + ".aac"
-                                },
-                                "sound_name": rd12[0].sound_name,
-                                "description": rd12[0].description,
-                                "thum": config.apiUrl + rd12[0].thum,
-                                "section": rd12[0].section,
-                                "created": rd12[0].created,
-                            },
+                            "sound": s,
                             "created": row[i]['created'],
                         });
 

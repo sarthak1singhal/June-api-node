@@ -33,7 +33,7 @@ module.exports = function(app, passport) {
     app.post('/index', (req, res) => {
 
 
-        //console.log(req.body, "this is body")
+        console.log(req.body, "this is body")
         if (req.query.p) {
             var p = req.query.p;
 
@@ -44,17 +44,11 @@ module.exports = function(app, passport) {
                 req.body = {}
             }
 
-
-
-
-
-
-            console.log("header-start", req.headers, 'eaders')
-
-
+ 
+ 
 
             if (p == "try_con") {
-                res.send({ message: "working" })
+               return  res.send({ message: "working" })
             } else
             if (p == "uploadVideo") {
                 if (config.isAWS)
@@ -108,9 +102,9 @@ module.exports = function(app, passport) {
                 profile.get_user_data(req, res);
             } else if (p == "get_followers") {
                 profile.get_followers(req, res);
-            } else if (p == "get_followings") {
+            } else if (p == "get_following") {
                 profile.get_followings(req, res);
-            } else if (p == "SearchByHashTag") {
+            } else if (p == "searchByHashTag") {
                 discover.SearchByHashTag(req, res);
             } else if (p == "DeleteSound") {
                 DeleteSound(req, res);
@@ -126,7 +120,11 @@ module.exports = function(app, passport) {
                 getNotifications.getNotifications(req, res); //not done 
             } else if (p == "search") {
                 discover.search(req, res);
+            
             }
+
+            console.log(p)
+
 
 
         }

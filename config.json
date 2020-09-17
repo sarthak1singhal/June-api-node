@@ -1,7 +1,7 @@
 {
     "host": "localhost",
     "user": "root",
-    "password": "Sarthak1singhal12",
+    "password": "",
     "database": "june",
 
     "secret": "thisissecretlol",
