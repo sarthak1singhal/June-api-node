@@ -230,7 +230,7 @@ module.exports = function(app, passport) {
 
 
 
-    app.post('/isEmailExist', function(req, res, next) {
+    app.post('/isEmailExist', async function(req, res, next) {
         console.log("req.body")
 
         if (!req.body.email) {
@@ -377,7 +377,7 @@ module.exports = function(app, passport) {
 
 
 
-    app.post('/send-otp', function(req, res, next) {
+    app.post('/send-otp', async function(req, res, next) {
 
 
         if (!req.body.email)
