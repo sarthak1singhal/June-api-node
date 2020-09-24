@@ -14,8 +14,8 @@ const readJson = require("r-json")
 const config = readJson(`config.json`);
 
 const crypto = require("crypto");
+const client = require('./initRedis')
 
-var client = require("../../config/initRedis.js")
 var fx = require("../functions/functions")
 const jwt_refresh_expiration = 60 * 60 * 24 * 30;
 
@@ -332,8 +332,12 @@ module.exports = function(app, passport) {
 
                     if (r2.length == 0) {
 
-                        data.push(new_username);
 
+                        if (!data.includes(new_username)) {
+
+                            data.push(new_username);
+
+                        }
                     }
 
 
@@ -601,7 +605,7 @@ module.exports = function(app, passport) {
                 refresh_token = fx.refresh_token(64);
                 let refresh_token_maxage = Math.round(new Date().getTime() / 1000) + jwt_refresh_expiration;
 
-                client.SET(user.id, JSON.stringify({
+                client.SET(d.id, JSON.stringify({
                     refresh_token: refresh_token,
                     expires: refresh_token_maxage
                 }), (err, reply) => {
@@ -694,6 +698,97 @@ module.exports = function(app, passport) {
 
 
 
+
+    app.post('/saveUserName', fx.isLoggedIn, async function(req, res, next) {
+        console.log("req.body")
+
+        if (!req.body.username) {
+            return res.send({
+                isError: true,
+                message: "Enter a username"
+            })
+        }
+
+        username = req.body.username.trim()
+
+
+        try {
+
+            let acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
+
+
+
+            let [r, f] = await acon.execute("select * from users where username = ?", [username])
+
+
+
+
+            if (r.length == 0) {
+
+                let [r, f] = await acon.execute("insert into users username = ? where id = ?", [username, req.user.id])
+
+
+
+                return res.send({
+                    isError: true,
+                    code: 1,
+                    data: data,
+                    message: "Username Saved"
+                })
+
+
+
+
+            } else {
+
+
+                let data = [];
+                while (data.length != 4) {
+
+                    new_username = fx.username_append(username);
+                    let [r2, f] = await acon.execute("select * from users where username = ?", [new_username]);
+
+                    if (r2.length == 0) {
+
+                        data.push(new_username);
+
+                    }
+
+
+                }
+
+
+
+                return res.send({
+                    isError: true,
+                    code: 1,
+                    data: data,
+                    message: "Username already registered"
+                })
+
+            }
+
+
+
+
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
+
+
+
+
+
+
+    });
 
 
 

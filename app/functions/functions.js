@@ -6,7 +6,7 @@ var path = require('path');
 const axios = require('axios');
 readJson = require("r-json");
 const config = readJson(`config.json`);
-
+const client = require('../authentication/initRedis')
 
 module.exports = {
 
@@ -93,6 +93,129 @@ module.exports = {
         return username + text + text2;
     },
 
+
+    isLoggedIn: (req, res, next) => {
+
+        let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['token'] || req.cookies.access_token;
+        let refreshtoken = req.headers['refresh_token'] || req.cookies.refresh_token;
+
+        if (token && refreshtoken) {
+
+            try {
+                jwt.verify(token, config.jwt_secret, (e, authData) => {
+
+
+                    if (e) {
+                        if (e.name === "TokenExpiredError") {
+
+                            authData = jwt.verify(token, config.jwt_secret, { ignoreExpiration: true });
+
+                            client.GET(authData.id, (err, result) => {
+
+
+
+                                console.log(result, " RESULT");
+
+                                if (err) {
+                                    return res.sendStatus(500);
+
+                                }
+                                if (!result) {
+                                    return res.sendStatus(403);
+
+                                }
+                                result = JSON.parse(result);
+
+                                if (refreshtoken != result.refresh_token) {
+
+
+                                    return res.sendStatus(403);
+
+                                }
+
+
+                                let time = Math.round(new Date().getTime() / 1000);
+
+                                console.log(result.expires, "EXPIRY");
+                                console.log(time, "CURRENT TIME");
+                                //parseInt()
+                                if (result.expires < time) {
+
+
+                                    console.log("NEED A NEW REFRESH TOKEN");
+
+                                    let refresh_token = getRefreshTok(64);
+
+                                    res.cookie("refresh_token", refresh_token, {
+                                        // secure: true,
+                                        httpOnly: true
+                                    });
+
+                                    let refresh_token_maxage = Math.round(new Date().getTime() / 1000) + jwt_refresh_expiration;
+                                    client.set(authData.id,
+                                        JSON.stringify({
+                                            refresh_token: refresh_token,
+                                            expires: refresh_token_maxage
+                                        }), (ee, rr) => {
+                                            console.log(ee)
+                                        }
+                                    );
+
+                                }
+
+
+                                console.log("NEED A NEW ACCESS TOKEN");
+
+                                let token = jwt.sign({ id: authData.id, access: authData.access, email: authData.email }, config.jwt_secret, {
+                                    expiresIn: '30s'
+                                });
+                                // Again, let's assign this token into httpOnly cookie.
+                                res.cookie("access_token", token, {
+                                    // secure: true,
+                                    httpOnly: true
+                                });
+
+                                req.user = authData;
+
+                                return next()
+
+
+                            })
+
+
+                        } else {
+
+                            return res.sendStatus(403);
+
+                        }
+                    } else {
+
+                        console.log("CONTINUE WITHOUT NEW ACCESS TOKEN")
+
+                        console.log("PASSED");
+
+
+                        req.user = authData;
+                        return next()
+
+                    }
+
+                });
+
+                // handle token here
+
+
+            } catch (err) {
+
+                console.log(err)
+                return res.sendStatus(403)
+            }
+        } else {
+            return res.sendStatus(403)
+
+        }
+
+    },
 
 
 
