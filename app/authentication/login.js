@@ -576,6 +576,9 @@ module.exports = function(app, passport) {
 
         con.query("select * from users where email = ?", [email], function(e, r) {
 
+            if (e) console.log(e)
+
+
             if (r.length != 0) {
                 return res.send({
                     isError: false,
