@@ -88,6 +88,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 
 require('./app/routes.js')(app, passport);
+require('./app/authentication/login')(app, passport);
 
 require('./app/upload_fetch')(app, passport);
 
