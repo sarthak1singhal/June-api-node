@@ -33,191 +33,323 @@ module.exports = function(app, passport) {
         if (!req.body.email) {
             return res.send({
                 isError: true,
-                message: "Enter a email address"
+                message: "Invalid credentials"
+            })
+        }
+        if (!req.body.password) {
+            return res.send({
+                isError: true,
+                message: "Invalid credentials"
             })
         }
 
-        email = req.body.email.trim()
+
+        email = req.body.email.trim().toLowerCase()
 
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if (!re.test(String(email).toLowerCase())) {
 
-            return res.send({
-                isError: true,
-                message: "Invalid email address"
+            con.query("select * from users where username = ?", [email], function(e, r) {
+
+                if (r.length == 0) {
+                    return res.send({
+                        isError: true,
+                        code: 0,
+                        message: "No account found with this username"
+                    })
+                }
+
+                if (!bcrypt.compareSync(password, rows[0].password)) {
+                    return res.send({
+                        isError: true,
+                        code: 1,
+                        message: "Wrong Password"
+                    })
+
+                } else {
+
+                    user = r[0]
+
+
+                    var d = {
+                        "id": user.id,
+                        "email": user.email,
+                    }
+                    const token = jwt.sign(JSON.stringify(d), config.jwt_secret);
+
+
+                    refresh_token = "";
+
+
+
+
+                    client.GET(user.id, (err, reply) => {
+
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(500);
+                            return;
+                        }
+
+
+
+                        try {
+                            reply = JSON.parse(reply);
+
+                        } catch (_r) {
+
+                        }
+
+                        if (reply && reply.refresh_token) {
+
+                            refresh_token = reply.refresh_token;
+
+
+                        } else {
+
+
+                            refresh_token = fx.refresh_token(64);
+                            let refresh_token_maxage = Math.round(new Date().getTime() / 1000) + jwt_refresh_expiration;
+
+                            client.SET(user.id, JSON.stringify({
+                                refresh_token: refresh_token,
+                                expires: refresh_token_maxage
+                            }), (err, reply) => {
+
+                                if (err) {
+                                    console.log(err);
+                                    return;
+                                }
+
+                            })
+
+
+
+                        }
+
+
+
+                        res.cookie("access_token", token, {
+                            // secure: true,
+                            httpOnly: true
+                        });
+                        res.cookie("refresh_token", refresh_token, {
+                            // secure: true,
+                            httpOnly: true
+                        });
+
+
+                        let username = "";
+
+                        let isUsername = false;
+                        if (r[0].username) {
+
+                            username = r[0].username
+
+                            isUsername = true
+                        }
+
+                        return res.send({
+
+                            isError: false,
+                            first_name: r[0].first_name,
+                            last_name: r[0].last_name,
+                            gender: r[0].gender,
+                            block: r[0].block,
+                            email: r[0].email,
+                            profile_pic: r[0].profile_pic,
+                            app_language: r[0].app_language,
+                            token: token,
+                            refresh: refresh_token,
+                            isUsername: isUsername,
+                            username: username
+
+                        });
+
+
+
+                    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
+
+
+            })
+        } else {
+            con.query("select * from users where email = ?", [email], function(e, r) {
+
+                if (r.length == 0) {
+                    return res.send({
+                        isError: true,
+                        code: 0,
+                        message: "This is not a registered email account"
+                    })
+                }
+
+                if (!bcrypt.compareSync(password, rows[0].password)) {
+                    return res.send({
+                        isError: true,
+                        code: 1,
+                        message: "Wrong Password"
+                    })
+
+                } else {
+
+                    user = r[0]
+
+
+                    var d = {
+                        "id": user.id,
+                        "email": user.email,
+                    }
+                    const token = jwt.sign(JSON.stringify(d), config.jwt_secret);
+
+
+                    refresh_token = "";
+
+
+
+
+                    client.GET(user.id, (err, reply) => {
+
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(500);
+                            return;
+                        }
+
+
+
+                        try {
+                            reply = JSON.parse(reply);
+
+                        } catch (_r) {
+
+                        }
+
+                        if (reply && reply.refresh_token) {
+
+                            refresh_token = reply.refresh_token;
+
+
+                        } else {
+
+
+                            refresh_token = fx.refresh_token(64);
+                            let refresh_token_maxage = Math.round(new Date().getTime() / 1000) + jwt_refresh_expiration;
+
+                            client.SET(user.id, JSON.stringify({
+                                refresh_token: refresh_token,
+                                expires: refresh_token_maxage
+                            }), (err, reply) => {
+
+                                if (err) {
+                                    console.log(err);
+                                    return;
+                                }
+
+                            })
+
+
+
+                        }
+
+
+
+                        res.cookie("access_token", token, {
+                            // secure: true,
+                            httpOnly: true
+                        });
+                        res.cookie("refresh_token", refresh_token, {
+                            // secure: true,
+                            httpOnly: true
+                        });
+
+
+                        let username = "";
+
+                        let isUsername = false;
+                        if (r[0].username) {
+
+                            username = r[0].username
+
+                            isUsername = true
+                        }
+
+                        return res.send({
+
+                            isError: false,
+                            first_name: r[0].first_name,
+                            last_name: r[0].last_name,
+                            gender: r[0].gender,
+                            block: r[0].block,
+                            email: r[0].email,
+                            profile_pic: r[0].profile_pic,
+                            app_language: r[0].app_language,
+                            token: token,
+                            refresh: refresh_token,
+                            isUsername: isUsername,
+                            username: username
+
+                        });
+
+
+
+                    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
+
+
             })
         }
 
 
-        con.query("select * from users where email = ?", [email], function(e, r) {
 
-            if (r.length == 0) {
-                return res.send({
-                    isError: true,
-                    code: 0,
-                    message: "This is not a registered email account"
-                })
-            }
-
-            if (!bcrypt.compareSync(password, rows[0].password)) {
-                return res.send({
-                    isError: true,
-                    code: 1,
-                    message: "Wrong Password"
-                })
-
-            } else {
-
-                user = r[0]
-
-
-                var d = {
-                    "id": user.id,
-                    "email": user.email,
-                }
-                const token = jwt.sign(JSON.stringify(d), config.jwt_secret);
-
-
-                refresh_token = "";
-
-
-
-
-                client.GET(user.id, (err, reply) => {
-
-                    if (err) {
-                        console.log(err);
-                        res.sendStatus(500);
-                        return;
-                    }
-
-
-
-                    try {
-                        reply = JSON.parse(reply);
-
-                    } catch (_r) {
-
-                    }
-
-                    if (reply && reply.refresh_token) {
-
-                        refresh_token = reply.refresh_token;
-
-
-                    } else {
-
-
-                        refresh_token = fx.refresh_token(64);
-                        let refresh_token_maxage = Math.round(new Date().getTime() / 1000) + jwt_refresh_expiration;
-
-                        client.SET(user.id, JSON.stringify({
-                            refresh_token: refresh_token,
-                            expires: refresh_token_maxage
-                        }), (err, reply) => {
-
-                            if (err) {
-                                console.log(err);
-                                return;
-                            }
-
-                        })
-
-
-
-                    }
-
-
-
-                    res.cookie("access_token", token, {
-                        // secure: true,
-                        httpOnly: true
-                    });
-                    res.cookie("refresh_token", refresh_token, {
-                        // secure: true,
-                        httpOnly: true
-                    });
-
-
-                    let username = "";
-
-                    let isUsername = false;
-                    if (r[0].username) {
-
-                        username = r[0].username
-
-                        isUsername = true
-                    }
-
-                    res.send({
-
-                        isError: false,
-                        first_name: r[0].first_name,
-                        last_name: r[0].last_name,
-                        gender: r[0].gender,
-                        block: r[0].block,
-                        email: r[0].email,
-                        profile_pic: r[0].profile_pic,
-                        app_language: r[0].app_language,
-                        token: token,
-                        refresh: refresh_token,
-                        isUsername: isUsername,
-                        username: username
-
-                    });
-
-
-
-                })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                li = createNewOTP(number);
-
-                //send message
-
-
-
-                html = "Hello,<br> Please Click on the link to verify your email.<br><a href=" + li[1] + ">Click here to verify</a>";
-
-                fx.sendEmail(html, li[1] + " is your June verification code", email)
-
-                return res.send({
-                    isError: false,
-                    message: "OTP Sent",
-                    key: li[0]
-                })
-
-
-
-
-
-
-            }
-
-
-        })
 
 
 
@@ -368,6 +500,107 @@ module.exports = function(app, passport) {
 
 
     });
+
+
+    app.post('/isEmailorUsernameExist', async function(req, res, next) {
+        console.log("req.body")
+
+        if (!req.body.email) {
+            return res.send({
+                isError: true,
+                message: "Enter a email address"
+            })
+        }
+
+        email = req.body.email.trim()
+
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (!re.test(String(email).toLowerCase())) {
+            username = req.body.email.trim().toLowerCase()
+
+
+            try {
+
+                let acon = await amysql.createConnection({
+                    host: config.host,
+                    user: config.user,
+                    password: config.password,
+                    database: config.database
+                });
+
+
+
+                let [r, f] = await acon.execute("select * from users where username = ?", [username])
+
+
+
+
+                if (r.length == 0) {
+                    return res.send({
+                        isError: false,
+                        code: 0,
+                        message: "No user found"
+                    })
+                } else {
+
+
+
+
+
+
+                    return res.send({
+                        isError: true,
+                        code: 1,
+                        message: "Username already registered"
+                    })
+
+                }
+
+
+
+
+
+            } catch (e) {
+                console.log(e)
+            }
+
+
+        }
+
+
+
+
+
+
+        con.query("select * from users where email = ?", [email], function(e, r) {
+
+            if (r.length != 0) {
+                return res.send({
+                    isError: false,
+                    code: 0,
+                    message: "No user found"
+                })
+            } else {
+
+                return res.send({
+                    isError: true,
+                    code: 1,
+                    message: "Email already registered"
+                })
+
+            }
+
+
+        })
+
+
+
+
+
+
+    });
+
 
 
 
@@ -707,7 +940,7 @@ module.exports = function(app, passport) {
             })
         }
 
-        username = req.body.username.trim()
+        username = req.body.username.trim().toLowerCase()
 
 
         try {
