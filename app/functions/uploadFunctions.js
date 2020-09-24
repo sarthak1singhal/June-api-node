@@ -87,8 +87,6 @@ module.exports = {
             };
 
 
-
-
             s3bucket.upload(video_params, function(error, data) {
                 if (error) throw error
 

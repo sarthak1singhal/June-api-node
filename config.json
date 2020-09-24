@@ -15,5 +15,17 @@
     "apiUrl": "http://ec2-13-234-226-188.ap-south-1.compute.amazonaws.com/",
 
 
-    "fcmKey": "AAAAqJ6S9VU:APA91bG9QGuGE8X6noolf2xoKtQYtqoXE0LNVO_MaGCZ62na4FwQ5ZqdxyteQVNtM4vqE7OrBGRtGJzT9csdAn5PlrQbkbZrEnetpjnWwXs-jB7mqBOYjpSD7-_mfogUsViL70tXgS9V"
+    "fcmKey": "AAAAqJ6S9VU:APA91bG9QGuGE8X6noolf2xoKtQYtqoXE0LNVO_MaGCZ62na4FwQ5ZqdxyteQVNtM4vqE7OrBGRtGJzT9csdAn5PlrQbkbZrEnetpjnWwXs-jB7mqBOYjpSD7-_mfogUsViL70tXgS9V",
+
+    "jwt_secret": "Swpxsk@vUaaMxpk?lMaOL38!7rsa@3",
+    "refresh_secret": "slSDFfaFchYjkk6ksdl^Cj",
+
+    "hash_id_key": "nD4cpaaEcapc",
+    "jwt_secret_mail": "npdvjiu@qpt3",
+
+    "baseUrl": "http://ec2-13-235-17-220.ap-south-1.compute.amazonaws.com:443/",
+    "hash_len": 6,
+    "OTP_KEY": "mkAd4ioCn",
+    "clientId": "1194749257563443",
+    "clientSecret": "4c773d503e02d36bfc2a14e84f12094e"
 }

@@ -203,7 +203,7 @@ INSERT INTO `sound_section` (`id`, `section_name`, `created`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `fb_id` varchar(150) NOT NULL,
   `username` varchar(25) DEFAULT NULL,
   `verified` int(11) NOT NULL DEFAULT '0',
@@ -249,7 +249,7 @@ CREATE TABLE `verification_request` (
 
 CREATE TABLE `videos` (
   `id` int(11) NOT NULL,
-  `fb_id` varchar(50) NOT NULL,
+  `fb_id` varchar(150) NOT NULL,
   `description` varchar(320) NOT NULL,
   `video` varchar(500) NOT NULL DEFAULT 'NULL',
   `thum` varchar(500) NOT NULL DEFAULT 'NULL',
@@ -270,7 +270,7 @@ CREATE TABLE `videos` (
 
 CREATE TABLE `video_comment` (
   `id` int(11) NOT NULL,
-  `video_id` varchar(50) NOT NULL,
+  `video_id` varchar(150) NOT NULL,
   `fb_id` varchar(50) NOT NULL,
   `comments` varchar(250) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -285,7 +285,7 @@ CREATE TABLE `video_comment` (
 CREATE TABLE `video_like_dislike` (
   `id` int(11) NOT NULL,
   `video_id` varchar(50) NOT NULL,
-  `fb_id` varchar(50) NOT NULL,
+  `fb_id` varchar(150) NOT NULL,
   `creator_id` varchar(50) NOT NULL,
   `action` int(11) NOT NULL  default 0 COMMENT '1= like ',
   `dislike` int(11) NOT NULL default 0  COMMENT '1= dislike ',

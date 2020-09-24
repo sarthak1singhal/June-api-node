@@ -52,6 +52,7 @@
     "speakeasy": "2.0.0",
     "sql": "^0.78.0",
     "tether": "^1.4.7",
+    "uniqid": "^5.2.0",
     "uuid": "^7.0.3",
     "youtube-api": "^2.0.10",
     "yt-scraper": "^2.1.0"

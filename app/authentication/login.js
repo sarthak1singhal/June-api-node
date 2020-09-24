@@ -12,6 +12,7 @@ const nodemailer = require("nodemailer");
 
 const readJson = require("r-json")
 const config = readJson(`config.json`);
+var uniqid = require('uniqid');
 
 const crypto = require("crypto");
 const client = require('./initRedis')
@@ -74,8 +75,7 @@ module.exports = function(app, passport) {
 
 
                     var d = {
-                        "id": user.id,
-                        "email": user.email,
+                        "id": user.fb_id,
                     }
                     const token = jwt.sign(JSON.stringify(d), config.jwt_secret);
 
@@ -164,7 +164,8 @@ module.exports = function(app, passport) {
                             token: token,
                             refresh: refresh_token,
                             isUsername: isUsername,
-                            username: username
+                            username: username,
+                            uid: r[0].fb_id
 
                         });
 
@@ -199,6 +200,9 @@ module.exports = function(app, passport) {
         } else {
             con.query("select * from users where email = ?", [email], function(e, r) {
 
+
+
+
                 if (r.length == 0) {
                     return res.send({
                         isError: true,
@@ -206,6 +210,15 @@ module.exports = function(app, passport) {
                         message: "This is not a registered email account"
                     })
                 }
+                if (r[0].signup_type == "facebook") {
+                    return res.send({
+                        isError: true,
+                        code: 2,
+                        message: "This account is linked with facebook"
+                    })
+                }
+
+
 
                 if (!bcrypt.compareSync(password, rows[0].password)) {
                     return res.send({
@@ -220,8 +233,7 @@ module.exports = function(app, passport) {
 
 
                     var d = {
-                        "id": user.id,
-                        "email": user.email,
+                        "id": user.fb_id,
                     }
                     const token = jwt.sign(JSON.stringify(d), config.jwt_secret);
 
@@ -310,7 +322,9 @@ module.exports = function(app, passport) {
                             token: token,
                             refresh: refresh_token,
                             isUsername: isUsername,
-                            username: username
+                            username: username,
+                            uid: r[0].fb_id
+
 
                         });
 
@@ -367,6 +381,7 @@ module.exports = function(app, passport) {
         if (!req.body.email) {
             return res.send({
                 isError: true,
+                code: 0,
                 message: "Enter a email address"
             })
         }
@@ -379,6 +394,7 @@ module.exports = function(app, passport) {
 
             return res.send({
                 isError: true,
+                code: 1,
                 message: "Invalid email address"
             })
         }
@@ -390,17 +406,18 @@ module.exports = function(app, passport) {
 
         con.query("select * from users where email = ?", [email], function(e, r) {
 
-            if (r.length != 0) {
+            if (e) console.log(e);
+            if (r.length == 0) {
                 return res.send({
                     isError: false,
-                    code: 0,
+                    code: 3,
                     message: "No user found"
                 })
             } else {
 
                 return res.send({
                     isError: true,
-                    code: 1,
+                    code: 2,
                     message: "Email already registered"
                 })
 
@@ -539,9 +556,10 @@ module.exports = function(app, passport) {
 
                 if (r.length == 0) {
                     return res.send({
-                        isError: false,
+                        isError: true,
                         code: 0,
-                        message: "No user found"
+                        message: "No user found",
+                        email: email
                     })
                 } else {
 
@@ -551,9 +569,10 @@ module.exports = function(app, passport) {
 
 
                     return res.send({
-                        isError: true,
+                        isError: false,
                         code: 1,
-                        message: "Username already registered"
+                        message: "Username already registered",
+                        email: email
                     })
 
                 }
@@ -581,16 +600,18 @@ module.exports = function(app, passport) {
 
             if (r.length != 0) {
                 return res.send({
-                    isError: false,
+                    isError: true,
                     code: 0,
-                    message: "No user found"
+                    message: "No user found",
+                    email: email
                 })
             } else {
 
                 return res.send({
-                    isError: true,
+                    isError: false,
                     code: 1,
-                    message: "Email already registered"
+                    message: "Email already registered",
+                    email: email
                 })
 
             }
@@ -654,6 +675,21 @@ module.exports = function(app, passport) {
                 message: "Email too long, make length less than 50 characters"
             }))
         }
+        if (!req.body.number) {
+
+            req.body.number = "";
+        } else if ((req.body.number.length > 8 && req.body.number.length < 12) || isNaN(req.body.number.trim())) {
+
+            return res.send({
+                isError: true,
+                message: "Phone number is invalid"
+            })
+
+        }
+
+
+
+
         let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if (!re.test(String(req.body.email).toLowerCase())) {
@@ -786,7 +822,7 @@ module.exports = function(app, passport) {
         if (!req.body.number) {
 
             req.body.number = "";
-        } else if (req.body.number.length > 11 && req.body.number.length < 8) {
+        } else if ((req.body.number.length > 11 && req.body.number.length < 8) || isNaN(req.body.number.trim())) {
 
             return res.send({
                 isError: true,
@@ -795,12 +831,6 @@ module.exports = function(app, passport) {
 
         }
 
-        if (isNaN(req.body.number.trim())) {
-            return res.send({
-                isError: true,
-                message: "Phone number is invalid"
-            })
-        }
 
 
 
@@ -818,13 +848,14 @@ module.exports = function(app, passport) {
             password = bcrypt.hashSync(req.body.password, null, null)
 
 
-            con.query("insert into users (first_name, last_name, password, email,phoneNumber) values (?,?,?,?,?)", [req.body.f_name, req.body.l_name, password, req.body.email, req.body.number], function(e, row) {
+
+            let uuid = uniqid();
+            con.query("insert into users (first_name, last_name, password, email,phoneNumber, fb_id, signup_type) values (?,?,?,?,?,?)", [req.body.f_name, req.body.l_name, password, req.body.email, req.body.number, uuid, "manual"], function(e, row) {
 
 
 
                 var d = {
-                    "id": row.insertId,
-                    "email": req.body.email,
+                    "id": uuid,
                 }
                 const token = jwt.sign(JSON.stringify(d), config.jwt_secret);
 
@@ -878,7 +909,8 @@ module.exports = function(app, passport) {
                     app_language: "english",
                     email: req.body.email,
                     token: token,
-                    refresh: refresh_token
+                    refresh: refresh_token,
+                    uid: uuid
 
                 });
 
