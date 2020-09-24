@@ -15,6 +15,7 @@ const config = readJson(`config.json`);
 
 const crypto = require("crypto");
 const client = require('./initRedis')
+const amysql = require('mysql2/promise');
 
 var fx = require("../functions/functions")
 const jwt_refresh_expiration = 60 * 60 * 24 * 30;
