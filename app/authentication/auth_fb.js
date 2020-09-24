@@ -20,7 +20,7 @@ module.exports = function(app, passport) {
 
 
     app.post('/login-fb', function(req, res, next) {
-        console.log("req.body")
+        console.log(req.body)
 
         if (!req.body.email) {
             return res.send({
@@ -71,6 +71,12 @@ module.exports = function(app, passport) {
 
 
         email = req.body.email.trim().toLowerCase()
+
+
+
+        /* 
+        
+        
 
         con.query("select * from users where email = ?", [email], function(e, r) {
 
@@ -191,6 +197,9 @@ module.exports = function(app, passport) {
 
         })
 
+        
+        
+        */
 
 
 
