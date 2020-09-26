@@ -213,18 +213,16 @@ CREATE TABLE `users` (
   `email` varchar(50) DEFAULT NULL,
   `phoneNumber` varchar(12) DEFAULT NULL,
   `isPhoneVerified` int(2) NOT NULL DEFAULT 0,
-  `country_code` varchar(5) NOT NULL,
-  `gender` varchar(7) NOT NULL,
-  `bio` varchar(150) NOT NULL,
-  `profile_pic` varchar(250) NOT NULL,
+  `country_code` varchar(5) DEFAULT NULL,
+  `gender` varchar(7) DEFAULT NULL,
+  `bio` varchar(150) DEFAULT NULL,
+  `profile_pic` varchar(250) DEFAULT NULL,
   `block` varchar(2) NOT NULL DEFAULT '0',
-  `content_language` varchar(50) NOT NULL ,
-  `app_language` varchar(50) NOT NULL ,
+  `content_language` varchar(50) DEFAULT NULL ,
+  `app_language` varchar(50) DEFAULT NULL ,
   `version` varchar(15) DEFAULT '0',
-  `device` varchar(25) NOT NULL,
+  `device` varchar(25) DEFAULT NULL,
   `signup_type` varchar(110) NOT NULL,
-  `tokon` varchar(500) NOT NULL,
-  `bearer_token` varchar(500) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -257,8 +255,8 @@ CREATE TABLE `videos` (
   `view` int(11) NOT NULL DEFAULT '0',
   `section` varchar(250) NOT NULL DEFAULT '0',
   `sound_id` int(11) NOT NULL DEFAULT '0',
-  `language` varchar(20) NOT NULL,
-  `category` varchar(35) NOT NULL,
+  `language` varchar(20) NOT NULL DEFAULT 'english',
+  `category` varchar(35) DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -290,7 +288,7 @@ CREATE TABLE `video_like_dislike` (
   `action` int(11) NOT NULL  default 0 COMMENT '1= like ',
   `dislike` int(11) NOT NULL default 0  COMMENT '1= dislike ',
   `report` int(11) NOT NULL default 0  COMMENT '1= report ',
-`report_value` varchar(50) NOT NULL,
+`report_value` varchar(50) DEFAULT NULL,
 	  
 `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
