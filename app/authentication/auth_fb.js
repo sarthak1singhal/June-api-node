@@ -48,11 +48,21 @@ module.exports = function(app, passport) {
                 axios.get(link)
                     .then(function(response) {
                         // handle success
+                        console.log(response.data, " is response 2");
                         console.log(response.data.is_valid, " is response 2");
-                        console.log(response.data.user_id, " is response 2");
-
                         let user_id = response.data.user_id;
-                        if (response.data.is_valid) {
+
+                        try {
+                            let d = JSON.parse(response.data);
+                            console.log(d, "PARSED")
+                            user_id = d.user_id
+                            console.log(user_id, "PARSED");
+                        } catch (ee) {
+                            console.log(ee)
+                        }
+                        console.log();
+
+                        if (user_id) {
                             console.log("RAND")
                             email = req.body.email.trim().toLowerCase()
 
