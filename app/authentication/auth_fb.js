@@ -40,7 +40,7 @@ module.exports = function(app, passport) {
         axios.get(appLink)
             .then(function(response) {
                 // handle success
-                console.log(response, "is response");
+                //    console.log(response, "is response");
 
                 let appToken = response.data.access_token;
                 let link = 'https://graph.facebook.com/debug_token?input_token=' + userToken + '&access_token=' + appToken
@@ -48,10 +48,12 @@ module.exports = function(app, passport) {
                 axios.get(link)
                     .then(function(response) {
                         // handle success
-                        console.log(response.data, " is response 2");
+                        console.log(response.data.is_valid, " is response 2");
+                        console.log(response.data.user_id, " is response 2");
 
                         let user_id = response.data.user_id;
                         if (response.data.is_valid) {
+                            console.log("RAND")
                             email = req.body.email.trim().toLowerCase()
 
                             /*
@@ -256,7 +258,9 @@ module.exports = function(app, passport) {
 
                         } else {
 
-                            res.send({
+                            console.log("SASTI RAND")
+
+                            return res.send({
                                 isError: true,
                                 message: "Account not verified"
                             })
