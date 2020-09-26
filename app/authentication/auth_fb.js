@@ -79,7 +79,7 @@ module.exports = function(app, passport) {
                                     console.log(e);
                                 let uuid = uniqid();
                                 if (r.length == 0) {
-                                    con.query("insert into users (first_name, last_name,  email, fb_id,profile_pic,signup_type) values (?,?,?,?,?,?,?,?)", [req.body.f_name, req.body.l_name, email, uuid, req.body.profile_pic, req.body.signup_type], function(e, row) {
+                                    con.query("insert into users (first_name, last_name,  email, fb_id,profile_pic,signup_type) values (?,?,?,?,?,?)", [req.body.f_name, req.body.l_name, email, uuid, req.body.profile_pic, req.body.signup_type], function(e, row) {
 
 
                                         if (e) console.log(e)
