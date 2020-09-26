@@ -316,8 +316,8 @@ module.exports = {
 
     ,
     search: async function(req, res) {
-        _type = req.query.type;
-        keyword = req.query.keyword;
+        _type = req.body.type;
+        keyword = req.body.keyword;
         const acon = await amysql.createConnection({
             host: config.host,
             user: config.user,
@@ -326,6 +326,8 @@ module.exports = {
         });
 
 
+
+        console.log(req.body);
 
 
         console.log(_type, " ", keyword, " DATA")
@@ -494,7 +496,7 @@ module.exports = {
 
             } catch (e) {
                 console.log(e)
-                return ({
+                return res.send({
 
                     isError: true,
                     message: "Invalid Params"
@@ -502,7 +504,7 @@ module.exports = {
             }
 
         } else {
-            return ({
+            return res.send({
 
                 isError: true,
                 message: "Invalid Params"
