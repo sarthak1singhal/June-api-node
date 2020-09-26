@@ -41,7 +41,7 @@ module.exports = function(app, passport) {
             if (p != "uploadVideo") {
                 // req.query = req.body;
 
-                req.body = {}
+                // req.body = {}
             }
 
 
