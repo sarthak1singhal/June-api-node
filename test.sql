@@ -213,6 +213,7 @@ CREATE TABLE `users` (
   `email` varchar(50) DEFAULT NULL,
   `phoneNumber` varchar(12) DEFAULT NULL,
   `isPhoneVerified` int(2) NOT NULL DEFAULT 0,
+  `country_code` varchar(5) DEFAULT NULL,
   `gender` varchar(7) DEFAULT NULL,
   `bio` varchar(150) DEFAULT NULL,
   `profile_pic` varchar(250) DEFAULT NULL,
