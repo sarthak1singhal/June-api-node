@@ -208,7 +208,7 @@ module.exports = {
 
                 array_out = [];
 
- 
+
                 [row, ww] = await acon.execute("select * from videos where description like '%" + tag + "%' order by rand()");
 
 
@@ -325,11 +325,11 @@ module.exports = {
             database: config.database
         });
 
- 
 
 
-        if (!keyword) keyword = ""
-        if (_type && keyword.trim() != "") {
+
+        console.log(_type, " ", keyword, " DATA")
+        if (_type && keyword) {
             try {
 
                 if (_type == "video") {
@@ -351,38 +351,38 @@ module.exports = {
                             liked_count = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ? ", [row[i].id, fb_id]);
 
 
-                            s = {};
-                            if (rd12.length == 0) {
-                                s = {
-                                    "id": "",
-                                    "audio_path": {
-                                        "mp3": "", //complete sound path here
-                                        "acc": ""
-                                    },
-                                    "sound_name": "",
-                                    "description": "",
-                                    "thum": "",
-                                    "section": "",
-                                    "created": "",
-    
-                                }
-                            } else {
-                                s = {
-                                    "id": rd12[0].id,
-                                    "audio_path": {
-    
-                                        "mp3": config.apiUrl + rd12[0].id + ".mp3",
-                                        "acc": config.apiUrl + rd12[0].id + ".aac"
-                                    },
-                                    "sound_name": rd12[0].sound_name,
-                                    "description": rd12[0].description,
-                                    "thum": config.apiUrl + rd12[0].thum,
-                                    "section": rd12[0].section,
-                                    "created": rd12[0].created,
-                                }
+                        s = {};
+                        if (rd12.length == 0) {
+                            s = {
+                                "id": "",
+                                "audio_path": {
+                                    "mp3": "", //complete sound path here
+                                    "acc": ""
+                                },
+                                "sound_name": "",
+                                "description": "",
+                                "thum": "",
+                                "section": "",
+                                "created": "",
+
                             }
-                        
-                            
+                        } else {
+                            s = {
+                                "id": rd12[0].id,
+                                "audio_path": {
+
+                                    "mp3": config.apiUrl + rd12[0].id + ".mp3",
+                                    "acc": config.apiUrl + rd12[0].id + ".aac"
+                                },
+                                "sound_name": rd12[0].sound_name,
+                                "description": rd12[0].description,
+                                "thum": config.apiUrl + rd12[0].thum,
+                                "section": rd12[0].section,
+                                "created": rd12[0].created,
+                            }
+                        }
+
+
                         array_out.push({
                             "id": row[i]['id'],
                             "fb_id": row[i]['fb_id'],
@@ -401,7 +401,6 @@ module.exports = {
                             "liked": liked_count[0]['count'],
                             "video": config.apiUrl + row[i]['video'],
                             "thum": config.apiUrl + row[i]['thum'],
-                            "gif": config.apiUrl + row[i]['gif'],
                             "description": row[i]['description'],
                             "sound": s,
                             "created": row[i]['created'],
@@ -409,7 +408,7 @@ module.exports = {
 
                     }
 
-                    res.send({
+                    return res.send({
                         code: "200",
                         msg: array_out,
                         "type": _type
@@ -439,7 +438,7 @@ module.exports = {
 
                     }
 
-                    res.send({ code: 200, msg: array_out, "type": _type })
+                    return res.send({ code: 200, msg: array_out, "type": _type })
                 } else if (_type == "sound") {
                     [row1, f] = await acon.execute("select * from sound where sound_name like '%" + keyword + "%' or description like '%" + keyword + "%'  limit 15");
                     array_out1 = []
@@ -468,11 +467,15 @@ module.exports = {
                         });
                     }
 
-                    res.send({ code: "200", msg: array_out1, "type": _type })
+                    return res.send({ code: "200", msg: array_out1, "type": _type })
                 }
 
 
 
+                return res.send({
+                    isError: true,
+                    message: "Some Error"
+                })
 
 
 
@@ -491,8 +494,19 @@ module.exports = {
 
             } catch (e) {
                 console.log(e)
+                return ({
+
+                    isError: true,
+                    message: "Invalid Params"
+                });
             }
 
+        } else {
+            return ({
+
+                isError: true,
+                message: "Invalid Params"
+            });
         }
     }
 

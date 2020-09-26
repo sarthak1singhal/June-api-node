@@ -44,11 +44,11 @@ module.exports = function(app, passport) {
                 req.body = {}
             }
 
- 
- 
+
+
 
             if (p == "try_con") {
-               return  res.send({ message: "working" })
+                return res.send({ message: "working" })
             } else
             if (p == "uploadVideo") {
                 if (config.isAWS)
@@ -60,11 +60,7 @@ module.exports = function(app, passport) {
             }
             if (p == "reportVideo") {
                 reportVideo.reportVideo(req, res);
-            }
-            if (p == "signup") {
-                signup(req, res);
-            } else
-            if (p == "showAllVideos") {
+            } else if (p == "showAllVideos") {
                 showAllVideos.showAllVideos(req, res);
             } else
             if (p == "showMyAllVideos") {
@@ -105,31 +101,30 @@ module.exports = function(app, passport) {
             } else if (p == "get_following") {
                 return profile.get_followings(req, res);
             } else if (p == "searchByHashTag") {
-                return  discover.SearchByHashTag(req, res);
+                return discover.SearchByHashTag(req, res);
             } else if (p == "DeleteSound") {
-                return  DeleteSound(req, res);
+                return DeleteSound(req, res);
             } else if (p == "DeleteVideo") {
-                return  DeleteVideo(req, res);
+                return DeleteVideo(req, res);
             } else if (p == "DeleteVideo") {
-                return  DeleteVideo(req, res);
+                return DeleteVideo(req, res);
             } else if (p == "post_language") {
-                return  post_language(req, res);
+                return post_language(req, res);
             } else if (p == "editSoundSection") {
-                return  editSoundSection(req, res);
+                return editSoundSection(req, res);
             } else if (p == "getNotifications") {
-                return   getNotifications.getNotifications(req, res); //not done 
+                return getNotifications.getNotifications(req, res); //not done 
             } else if (p == "search") {
-                return   discover.search(req, res);
-            
-            }
-            else{
+                return discover.search(req, res);
+
+            } else {
                 return res.send({
                     isError: true,
-                    message: "method unavailable"
+                    message: "method " + p + "unavailable "
                 })
             }
 
-            
+
 
         }
 

@@ -56,7 +56,6 @@ module.exports = function(app, passport) {
 
 
                         if (user_id) {
-                            console.log("RAND")
                             email = req.body.email.trim().toLowerCase()
 
                             /*
@@ -261,7 +260,6 @@ module.exports = function(app, passport) {
 
                         } else {
 
-                            console.log("SASTI RAND")
 
                             return res.send({
                                 isError: true,

@@ -88,7 +88,6 @@ module.exports = {
                             "id": query99[i]['id'],
                             "video": config.apiUrl + query99[i]['video'],
                             "thum": config.apiUrl + query99[i]['thum'],
-                            "gif": config.apiUrl + query99[i]['gif'] + "?time=" + Math.random(),
                             "description": query99[i]['description'],
                             "liked": liked[0]['count'],
                             "count": {
@@ -136,7 +135,7 @@ module.exports = {
 
                     count_video_rows = array_out_video.length;
                     if (count_video_rows == 0) {
-                        array_out_video.push(0);
+                        //   array_out_video.push(0);
                     }
 
 
