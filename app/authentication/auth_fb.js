@@ -51,7 +51,7 @@ module.exports = function(app, passport) {
                         console.log(response.data, " is response 2");
 
                         let user_id = response.data.user_id;
-                        if (user_id) {
+                        if (response.data.is_valid) {
                             email = req.body.email.trim().toLowerCase()
 
                             /*
@@ -77,7 +77,8 @@ module.exports = function(app, passport) {
                                     con.query("insert into users (first_name, last_name,  email, fb_id,profile_pic,signup_type) values (?,?,?,?,?,?,?,?)", [req.body.f_name, req.body.l_name, email, uuid, req.body.profile_pic, req.body.signup_type], function(e, row) {
 
 
-                                        console.log(e);
+                                        if (e) console.log(e)
+
                                         var d = {
                                             "id": uuid,
                                         }
