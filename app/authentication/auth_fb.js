@@ -11,6 +11,7 @@ var fx = require("../functions/functions")
 const jwt_refresh_expiration = 60 * 60 * 24 * 30;
 const axios = require('axios');
 
+var uniqid = require('uniqid');
 
 
 module.exports = function(app, passport) {
