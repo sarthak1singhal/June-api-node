@@ -11,9 +11,9 @@ const fs = require('fs');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const ffmpeg = require('fluent-ffmpeg');
-const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg')
+//const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg')
 
-ffm.setFfmpegPath(ffmpegInstaller.path);
+//ffm.setFfmpegPath(ffmpegInstaller.path);
 
 const BUCKET_NAME = 'juneappbucket';
 

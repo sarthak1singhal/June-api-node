@@ -76,8 +76,8 @@ module.exports = {
             if (fb_id.trim() == "") {
 
                 res.send({
-                    code: 201,
-                    msg: { response: "Json Parem are missing" }
+                    isError: true,
+                    msg: "Json Parem are missing"
                 })
 
                 return
@@ -87,7 +87,7 @@ module.exports = {
 
 
             try {
-                const acon = await amysql.createConnection({
+                let acon = await amysql.createConnection({
                     host: config.host,
                     user: config.user,
                     password: config.password,
@@ -95,15 +95,15 @@ module.exports = {
                 });
 
                 console.log(fb_id, "this is fbdi")
-                const [row, f] = await acon.execute("select * from `follow_users` where `followed_fb_id` = ? order by id DESC", [fb_id])
+                let [row, f] = await acon.execute("select * from `follow_users` where `followed_fb_id` = ? order by id DESC", [fb_id])
 
                 array_out = [];
 
                 for (i in row) {
-                    const [rd1, f] = await acon.execute("select * from users where fb_id = ?", [row[i].fb_id])
+                    let [rd1, f] = await acon.execute("select * from users where fb_id = ?", [row[i].fb_id])
 
 
-                    const [follow_count, s1] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id=? and fb_id=? ", [row[i].fb_id, fb_id])
+                    let [follow_count, s1] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id=? and fb_id=? ", [row[i].fb_id, fb_id])
 
 
                     follow = ""
@@ -138,11 +138,16 @@ module.exports = {
                 }
 
 
-                res.send({ "code": 200, msg: array_out })
+                return res.send({ "isError": false, msg: array_out })
 
 
             } catch (e) {
                 console.log(e)
+
+                return res.send({
+                    isError: true,
+                    msg: "Some error occured"
+                })
             }
 
 
@@ -166,9 +171,9 @@ module.exports = {
 
                 {
 
-                    code: 201,
+                    isError: true,
 
-                    msg: { response: "Json Parem are missing" }
+                    msg: "Json Parem are missing"
 
                 })
         }
