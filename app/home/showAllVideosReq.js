@@ -132,7 +132,7 @@ module.exports = function(app) {
         } catch (e) {
             res.send({
                 isError: true,
-                msg = "Some error"
+                msg: "Some error"
             })
             console.log(e)
             return
@@ -295,7 +295,7 @@ module.exports = function(app) {
 
             return res.send({
                 isError: true,
-                msg = "Some error"
+                msg: "Some error"
             })
         }
 
@@ -480,7 +480,7 @@ module.exports = function(app) {
 
             return res.send({
                 isError: true,
-                msg = "Some error"
+                msg: "Some error"
             })
         }
 
