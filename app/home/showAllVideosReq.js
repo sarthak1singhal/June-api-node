@@ -385,10 +385,10 @@ module.exports = function(app) {
                 let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                let [countcomment, f] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                let [countcomment, m] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
 
-                let [liked, f] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
+                let [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
@@ -570,10 +570,10 @@ module.exports = function(app) {
                 let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                let [countcomment, f] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                let [countcomment, f3] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
 
-                let [liked, f] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
+                let [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
@@ -733,10 +733,10 @@ async function showMyAllVideos(req, res) {
 
                     let [countLikes, f2] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
 
-                    let [query112, f1] = await acon.execute("select * from sound where id=?", [query99[i].id]);
-                    let [countcomment, f2] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
+                    let [query112, nk] = await acon.execute("select * from sound where id=?", [query99[i].id]);
+                    let [countcomment, f3] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
 
-                    let [liked, f1] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
+                    let [liked, f4] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
 
                     s = {};
                     if (query112.length == 0) {
@@ -803,13 +803,13 @@ async function showMyAllVideos(req, res) {
 
                 //count total_fans
 
-                let [total_fans, qq] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
+                let [total_fans, qqj] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
 
                 //count total_fans
 
                 //count total_following
 
-                let [total_following, qq] = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ?", [fb_id]);
+                let [total_following, n] = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ?", [fb_id]);
 
                 //count total_following
 
