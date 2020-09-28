@@ -868,7 +868,7 @@ async function showMyAllVideos(req, res) {
 
 
 
-                return res.send({ isError: false, msg: array_out_video, userData = array_out })
+                return res.send({ isError: false, msg: array_out_video, userData: array_out })
 
 
             }

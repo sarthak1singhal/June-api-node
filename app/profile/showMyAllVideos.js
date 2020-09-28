@@ -47,11 +47,11 @@ module.exports = {
 
                         [countLikes, f2] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
 
-                        [query112, f1] = await acon.execute("select * from sound where id=?", [query99[i].id]);
+                        [query112, f3] = await acon.execute("select * from sound where id=?", [query99[i].id]);
 
-                        [countcomment, f2] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
+                        [countcomment, f4] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
 
-                        [liked, f1] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
+                        [liked, f5] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
 
                         s = {};
                         if (query112.length == 0) {
@@ -118,13 +118,13 @@ module.exports = {
 
                     //count total_fans
 
-                    [total_fans, qq] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
+                    [total_fans, df] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
 
                     //count total_fans
 
                     //count total_following
 
-                    [total_following, qq] = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ?", [fb_id]);
+                    [total_following, ss] = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ?", [fb_id]);
 
                     //count total_following
 
