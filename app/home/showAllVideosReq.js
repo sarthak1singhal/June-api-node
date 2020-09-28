@@ -795,7 +795,7 @@ async function showMyAllVideos(req, res) {
                     array_out_count_heart += query123[u]['id'] + ',';
                 }
 
-                let array_out_count_heart = array_out_count_heart + '0';
+                array_out_count_heart = array_out_count_heart + '0';
 
                 let [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN( ? ) ", [array_out_count_heart]);
 
