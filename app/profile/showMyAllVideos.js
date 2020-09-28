@@ -56,16 +56,16 @@ module.exports = {
                         s = {};
                         if (query112.length == 0) {
                             s = {
-                                "id": "null",
+                                "id": null,
                                 "audio_path": {
-                                    "mp3": "null", //complete sound path here
-                                    "acc": "null"
+                                    "mp3": null, //complete sound path here
+                                    "acc": null
                                 },
-                                "sound_name": "null",
-                                "description": "null",
-                                "thum": "null",
-                                "section": "null",
-                                "created": "null",
+                                "sound_name": null,
+                                "description": null,
+                                "thum": null,
+                                "section": null,
+                                "created": null,
 
                             }
                         } else {

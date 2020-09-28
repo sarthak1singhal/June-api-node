@@ -21,7 +21,6 @@ module.exports = {
 
         fb_id = req.query.fb_id;
         action = req.query.action;
-        token = req.query.token;
         _language = req.query.language;
 
 
@@ -29,10 +28,10 @@ module.exports = {
         console.log("SHOW ALL VIDEOS")
         video_id = req.query.video_id
         if (fb_id) {
-            con.query("update users set tokon = ? where fb_id = ?", [fb_id], function(e, r) {})
+            showVideos(fb_id, action, _language, video_id, res);
 
 
-            if (!_language) {
+            /*  if (!_language) {
                 con.query("select * from users where id= ?", [fb_id], function(e, r) {
                     if (r.length != 0) {
                         _language = r[0].language.toLowerCase();
@@ -40,15 +39,16 @@ module.exports = {
                         _language = "";
                     }
 
-                    showVideos(fb_id, action, token, _language, video_id, res);
+                    showVideos(fb_id, action, _language, video_id, res);
 
 
                 })
+
             } else {
-                showVideos(fb_id, action, token, _language, video_id, res);
+                showVideos(fb_id, action, _language, video_id, res);
 
             }
-
+*/
 
 
 
@@ -70,7 +70,7 @@ module.exports = {
 
 
 
-async function showVideos(fb_id, action, token, language, video_id, res) {
+async function showVideos(fb_id, action, language, video_id, res) {
     if (video_id) {
 
         hmap = {};

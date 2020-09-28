@@ -10,17 +10,19 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 readJson = require("r-json");
 const config = readJson(`config.json`);
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg')
 
+ffm.setFfmpegPath(ffmpegInstaller.path);
 
 const BUCKET_NAME = 'juneappbucket';
-
 
 
 module.exports = {
 
 
 
-    uploadVideo: function(req) {
+    uploadVideo: function(req, res) {
 
 
 
@@ -54,7 +56,6 @@ module.exports = {
         if (!sound_id) sound_id = "0"
         if (!description) description = " "
 
-        console.log("line54")
 
         content_language = content_language.toLowerCase();
         console.log(fb_id)
@@ -92,10 +93,7 @@ module.exports = {
 
             });
 
-            s3bucket.upload(gif_params, function(error, data) {
-                if (error) throw error
 
-            });
 
             s3bucket.upload(img_params, function(error, data) {
                 if (error) throw error

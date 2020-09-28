@@ -205,7 +205,7 @@ INSERT INTO `sound_section` (`id`, `section_name`, `created`) VALUES
 CREATE TABLE `users` (
   `id` int NOT NULL,
   `fb_id` varchar(150) NOT NULL,
-  `username` varchar(25) DEFAULT NULL,
+  `username` varchar(25) DEFAULT "",
   `verified` int(11) NOT NULL DEFAULT '0',
   `first_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default "",
   `last_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default "",
@@ -222,7 +222,7 @@ CREATE TABLE `users` (
   `app_language` varchar(50) DEFAULT NULL ,
   `version` varchar(15) DEFAULT '0',
   `device` varchar(25) DEFAULT NULL,
-  `signup_type` varchar(110) NOT NULL,
+  `signup_type` varchar(11) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -251,17 +251,20 @@ CREATE TABLE `videos` (
   `description` varchar(320) NOT NULL,
   `video` varchar(500) NOT NULL DEFAULT 'NULL',
   `thum` varchar(500) NOT NULL DEFAULT 'NULL',
-  `gif` varchar(500) NOT NULL DEFAULT 'NULL',
+  `gif` varchar(500) NOT NULL DEFAULT NULL,
   `view` int(11) NOT NULL DEFAULT '0',
   `section` varchar(250) NOT NULL DEFAULT '0',
-  `sound_id` int(11) NOT NULL DEFAULT '0',
+  `sound_id` varchar(20) NOT NULL DEFAULT '0',
   `language` varchar(20) NOT NULL DEFAULT 'english',
   `category` varchar(35) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `like` int(11) NOT NULL  default 0 COMMENT '1= like ',
+  `unlike` int(11) NOT NULL default 0  COMMENT '1= dislike ',
+  `report` int(11) NOT NULL default 0  COMMENT '1= report ',
+  `urlStorageType` varchar(11) NOT NULL default 0  COMMENT '1= dislike ',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
+ 
 --
 -- Table structure for table `video_comment`
 --
@@ -286,10 +289,7 @@ CREATE TABLE `video_like_dislike` (
   `fb_id` varchar(150) NOT NULL,
   `creator_id` varchar(50) NOT NULL,
   `action` int(11) NOT NULL  default 0 COMMENT '1= like ',
-  `dislike` int(11) NOT NULL default 0  COMMENT '1= dislike ',
-  `report` int(11) NOT NULL default 0  COMMENT '1= report ',
-`report_value` varchar(50) DEFAULT NULL,
-	  
+   	  
 `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

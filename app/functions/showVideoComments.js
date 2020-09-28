@@ -7,11 +7,18 @@ const config = readJson(`config.json`);
 module.exports = {
 
 
-
     showVideoComments: async function(req, res) {
         fb_id = req.query.fb_id;
 
         video_id = req.query.video_id;
+
+        if (!req.body.offset) {
+            return res.send({
+                isError: true,
+                msg: "Offset required"
+            })
+        }
+
 
         if (video_id) {
             array_out = [];
@@ -27,10 +34,10 @@ module.exports = {
 
 
 
-                let [_query, f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC", [video_id])
+                let [_query, f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC  offset = ? limit= 15", [video_id, req.body.offset])
 
                 for (i in _query) {
-                    [rd, f1] = await acon.execute("select * from users where fb_id= ?", [_query[i].fb_id]);
+                    let [rd, f1] = await acon.execute("select * from users where fb_id = ?", [_query[i].fb_id]);
 
                     array_out.push({
                         "video_id": _query[i]['video_id'],
@@ -49,7 +56,7 @@ module.exports = {
                 }
 
 
-                res.send({ code: "200", msg: array_out })
+                return res.send({ code: "200", msg: array_out })
 
 
 
@@ -67,13 +74,13 @@ module.exports = {
 
 
         } else {
-            res.send(
+            return res.send(
 
                 {
 
                     code: 201,
 
-                    msg: { response: "Json Parem are missing" }
+                    msg: "Json Parem are missing"
 
                 })
         }

@@ -20,7 +20,7 @@ module.exports = {
 
 
             if (action == "0") {
-                con.query("Delete from video_like_dislike where video_id = ?", [video_id], function(e, r) {
+                con.query("Delete from video_like_dislike where video_id = ? and fb_id = ?", [video_id, fb_id], function(e, r) {
 
                     if (e) console.log(e)
 
@@ -36,7 +36,7 @@ module.exports = {
             } else if (action = "1") {
 
 
-                con.query("insert into video_like_dislike(video_id,fb_id,action, creator_id,report_value)values(?,?,?,?,?)", [video_id, fb_id, action, "", ""], function(e, r) {
+                con.query("insert into video_like_dislike(video_id,fb_id,action, creator_id) values (?,?,?,?)", [video_id, fb_id, action, "", ], function(e, r) {
 
                     if (e) console.log(e)
 
