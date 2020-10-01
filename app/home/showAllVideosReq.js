@@ -577,7 +577,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? order by created desc limit = ?, 10 ", [req.body.fb_id, offset]);
+            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? order by created desc limit ?, 10 ", [req.body.fb_id, offset]);
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
