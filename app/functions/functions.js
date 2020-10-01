@@ -1,6 +1,7 @@
 // app/routes.js
 var uuid = require('uuid');
 const https = require('request')
+const jwt = require('jsonwebtoken');
 
 var path = require('path');
 const axios = require('axios');
