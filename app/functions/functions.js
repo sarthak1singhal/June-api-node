@@ -103,13 +103,18 @@ module.exports = {
 
             try {
                 jwt.verify(token, config.jwt_secret, (e, authData) => {
+                    console.log(authData, "OUTSIDE");
+
 
 
                     if (e) {
+
+                        console.log(e, "ERROR\n");
                         if (e.name === "TokenExpiredError") {
 
                             authData = jwt.verify(token, config.jwt_secret, { ignoreExpiration: true });
 
+                            console.log(authData);
                             client.GET(authData.id, (err, result) => {
 
 
@@ -224,3 +229,14 @@ module.exports = {
 
 
 };
+
+
+
+function getRefreshTok(len) {
+    var text = "";
+    var charset = "abcdefghijklmnopqrstuvwxyz0@#%ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+    for (var i = 0; i < len; i++)
+        text += charset.charAt(Math.floor(Math.random() * charset.length));
+
+    return text;
+}
