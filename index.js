@@ -95,7 +95,7 @@ require('./app/home/showAllVideosReq')(app, passport);
 require('./app/functions/showVideoComments')(app);
 require('./app/functions/soundsReq')(app);
 require('./app/profile/profileReq')(app);
-require('./app/profile/editProfileReq')(app);
+require('./app/profile/edit_profile')(app);
 
 require('./app/profile/follow_user')(app);
 require('./app/functions/postComment')(app);
@@ -103,6 +103,7 @@ require('./app/functions/reportVideo')(app);
 require('./app/functions/delete_updateVIew')(app);
 
 require('./app/notifications/getNotifications')(app);
+require('./app/functions/likeDislikeVideo')(app);
 
 require('./app/upload_fetch')(app, passport);
 
