@@ -537,7 +537,7 @@ module.exports = function(app) {
             })
 
         }
-        if (!req.body.offset) {
+        if (req.body.offset == undefined) {
             return res.send({
                 isError: true,
                 msg: "Invalid Parameters offset"
