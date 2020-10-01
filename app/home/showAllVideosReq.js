@@ -2,6 +2,7 @@ var path = require('path');
 const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
+const fx = require(`../functions/functions.js`);
 
 module.exports = function(app) {
 
@@ -522,12 +523,12 @@ module.exports = function(app) {
 
 
 
-    app.post('/videos-by-user', async function(req, res) {
+    app.post('/videos-by-user', fx.isLoggedIn, async function(req, res) {
 
 
         //v = ["hindi", "enlish", language]
 
-        console.log(req.body);
+        console.log(req.user);
 
 
         if (!req.body.fb_id) {
