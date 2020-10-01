@@ -527,26 +527,27 @@ module.exports = function(app) {
 
         //v = ["hindi", "enlish", language]
 
+        console.log(req.body);
 
 
         if (!req.body.fb_id) {
             return res.send({
                 isError: true,
-                msg: "Invalid Parameters"
+                msg: "Invalid Parameters fb_id"
             })
 
         }
         if (!req.body.offset) {
             return res.send({
                 isError: true,
-                msg: "Invalid Parameters"
+                msg: "Invalid Parameters offset"
             })
 
         }
         if (!req.body.limit) {
             return res.send({
                 isError: true,
-                msg: "Invalid Parameters"
+                msg: "Invalid Parameters limit"
             })
 
         }
@@ -562,7 +563,7 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
+            var acon = await amysql.createConnection({
                 host: config.host,
                 user: config.user,
                 password: config.password,
