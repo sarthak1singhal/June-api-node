@@ -220,6 +220,7 @@ CREATE TABLE `users` (
   `block` varchar(2) NOT NULL DEFAULT '0',
   `content_language` varchar(50) DEFAULT NULL ,
   `app_language` varchar(50) DEFAULT NULL ,
+  `dob` timestamp DEFAULT NULL ,
   `version` varchar(15) DEFAULT '0',
   `device` varchar(25) DEFAULT NULL,
   `signup_type` varchar(11) NOT NULL,

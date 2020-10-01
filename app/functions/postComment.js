@@ -8,16 +8,16 @@ const config = readJson(`config.json`);
 const con = require("../../params");
 var func = require('./functions')
 
-module.exports = {
+module.exports = function(app) {
 
 
 
-    postComment: function(req, res) {
-        fb_id = req.query.fb_id;
+    app.post("post-comment", func.isLoggedIn, (req, res) => {
+        fb_id = req.user.fb_id;
 
-        video_id = req.query.video_id;
+        video_id = req.body.video_id;
 
-        comment = req.query.comment
+        comment = req.body.comment
 
         if (fb_id && video_id && comment) {
 
@@ -42,7 +42,7 @@ module.exports = {
                             },
                         }
 
-                        res.send({ "code": "200", msg: arr })
+                        res.send({ isError: false, msg: arr })
 
                         con.query("select * from videos where id = ?", [video_id], function(error, row) {
 
@@ -126,13 +126,13 @@ module.exports = {
 
                 {
 
-                    code: 201,
+                    isError: true,
 
                     msg: "Json Parem are missing"
 
                 })
         }
-    }
+    })
 
 
 

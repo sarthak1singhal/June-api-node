@@ -201,7 +201,7 @@ module.exports = function(app) {
 
             }
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? offset = ? limit = 15", [req.body.sound_id, req.body.offset]);
+            let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? offset  ? limit  21", [req.body.sound_id, req.body.offset]);
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -349,7 +349,13 @@ module.exports = function(app) {
             })
 
         }
+        if (!req.body.limit) {
+            return res.send({
+                isError: true,
+                msg: "Invalid Parameters"
+            })
 
+        }
         if (!req.body.hashtag.trim()) {
             return res.send({
                 isError: true,
@@ -377,7 +383,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where description like '%" + keyword + "%' offset = " + req.body.offset + " limit 15");
+            let [row_posts, fields] = await acon.execute("Select * from videos where description like '%" + keyword + "%' offset " + req.body.offset + " limit 21");
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -537,9 +543,17 @@ module.exports = function(app) {
             })
 
         }
+        if (!req.body.limit) {
+            return res.send({
+                isError: true,
+                msg: "Invalid Parameters"
+            })
 
+        }
+        offset = req.body.offset
+        limit = req.body.limit
         if (offset == 0) {
-            showMyAllVideos(req, res);
+            showMyAllVideos(req, res, limit);
 
 
             return;
@@ -562,7 +576,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? offset = ? limit 12 order by created desc", [req.body.fb_id, req.body.offset]);
+            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? offset ? limit ? order by created desc", [req.body.fb_id, req.body.offset, limit]);
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -700,17 +714,17 @@ module.exports = function(app) {
 };
 
 
-async function showMyAllVideos(req, res) {
+async function showMyAllVideos(req, res, limit) {
 
 
 
 
-    fb_id = req.query.fb_id;
-    my_fb_id = req.query.my_fb_id;
+    fb_id = req.body.fb_id;
+    my_fb_id = req.user.id;
 
     if (fb_id && my_fb_id) {
 
-        const acon = await amysql.createConnection({
+        var acon = await amysql.createConnection({
             host: config.host,
             user: config.user,
             password: config.password,
@@ -726,7 +740,7 @@ async function showMyAllVideos(req, res) {
             let [query1, f] = await acon.execute("select * from users where fb_id=? ", [fb_id]);
             if (query1.length != 0) {
 
-                let [query99, f1] = await acon.execute("select * from videos where fb_id= ? offset = 0 limit = 12 order by created DESC", [fb_id]);
+                let [query99, f1] = await acon.execute("select * from videos where fb_id= ? offset 0 limit ? order by created DESC", [fb_id, limit]);
                 console.log(query1)
                 array_out_video = []
                 for (i in query99) {

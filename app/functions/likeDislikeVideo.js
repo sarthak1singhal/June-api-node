@@ -8,18 +8,18 @@ var con = require('../../params.js')
 
 var func = require('./functions')
 
-module.exports = {
+module.exports = function(app) {
 
-    likeDislikeVideo: function(req, res) {
-        fb_id = req.query.fb_id;
-        action = req.query.action;
+    app.post("likeDislikeVideo", func.isLoggedIn, (req, res) => {
+        fb_id = req.user.fb_id;
+        action = req.body.action;
 
-        video_id = req.query.video_id;
+        video_id = req.body.video_id;
 
         if (fb_id && video_id) {
 
 
-            if (action == "0") {
+            if (action == 0) {
                 con.query("Delete from video_like_dislike where video_id = ? and fb_id = ?", [video_id, fb_id], function(e, r) {
 
                     if (e) console.log(e)
@@ -33,7 +33,7 @@ module.exports = {
 
 
                 })
-            } else if (action = "1") {
+            } else if (action == 1) {
 
 
                 con.query("insert into video_like_dislike(video_id,fb_id,action, creator_id) values (?,?,?,?)", [video_id, fb_id, action, "", ], function(e, r) {
@@ -88,7 +88,7 @@ module.exports = {
                                                 noti['notification']['type'] = "";
                                                 noti['notification']['data'] = "";
                                                 func.sendNotification(noti)
-                                                res.send({ code: "200", msg: "done" })
+                                                res.send({ code: false, msg: "Liked" })
 
                                             }
                                         })
@@ -114,15 +114,16 @@ module.exports = {
 
                 {
 
-                    code: 201,
+                    isError: true,
 
-                    msg: { response: "Json Parem are missing" }
+                    msg: "Json Parem are missing"
+
 
                 })
         }
 
-    }
+    })
 
 
 
-};
+}

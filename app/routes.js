@@ -200,44 +200,6 @@ function updateVideoView(req, res) {
 
 
 
-function DeleteSound(req, res) {
-
-    id = req.query.id
-
-
-    //delete the sound file
-    if (!id) {
-        id = ""
-        res.send({ code: "201", msg: "ERROR" })
-
-        return;
-    }
-
-    if (id.trim() != "") {
-
-        con.query("delete from sound where id = ?", [id], function(e, r) {})
-
-
-        con.query("delete from fav_sound where sound_id = ?", [id], function(e, r) {})
-
-        con.query("update videos set sound_id = ? where sound_id = ?", ['0', id], function(e, r) {
-            if (e) console.log(e)
-
-            else {
-
-                res.send({ code: "200", msg: { response: "video unlike" } })
-
-
-            }
-        })
-
-
-    } else {
-        res.send({ code: "201", msg: "ERROR delete sound" })
-    }
-
-
-}
 
 
 
@@ -330,4 +292,44 @@ function editSoundSection() {
 
         })
     }
+}
+
+
+function DeleteSound(req, res) {
+
+    id = req.query.id
+
+
+    //delete the sound file
+    if (!id) {
+        id = ""
+        res.send({ code: "201", msg: "ERROR" })
+
+        return;
+    }
+
+    if (id.trim() != "") {
+
+        con.query("delete from sound where id = ?", [id], function(e, r) {})
+
+
+        con.query("delete from fav_sound where sound_id = ?", [id], function(e, r) {})
+
+        con.query("update videos set sound_id = ? where sound_id = ?", ['0', id], function(e, r) {
+            if (e) console.log(e)
+
+            else {
+
+                res.send({ code: "200", msg: { response: "video unlike" } })
+
+
+            }
+        })
+
+
+    } else {
+        res.send({ code: "201", msg: "ERROR delete sound" })
+    }
+
+
 }

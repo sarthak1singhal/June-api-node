@@ -4,23 +4,20 @@ const https = require('request')
 
 var path = require('path');
 var con = require('../../params.js')
+const fx = require('./functions')
+
+module.exports = function(app) {
 
 
-module.exports = {
+
+    app.post("reportVideo", fx.isLoggedIn, (req, res) => {
 
 
+        fb_id = req.user.id;
+        action = req.body.action;
 
-    reportVideo: function(req, res) {
-
-
-        console.log(req.query);
-        fb_id = req.query.fb_id;
-        action = req.query.action;
-
-        video_id = req.query.video_id
+        video_id = req.body.video_id
         if (fb_id && video_id && action) {
-
-
 
 
             con.query("select * from videos where id = ?", [video_id], function(e, r) {
@@ -31,7 +28,7 @@ module.exports = {
 
                 if (videoCreatorId != fb_id) {
                     if (action == "I don't like it") {
-                        con.query("update videos set `unlike` = `unlike` + 1 where id=?", [video_id], function(e1, r1) {
+                        con.query("update videos set `unlike` = `unlike` + 1 where id = ?", [video_id], function(e1, r1) {
 
                             if (e1) console.log(e1);
 
@@ -77,7 +74,7 @@ module.exports = {
 
 
 
-    }
+    })
 
 
 
