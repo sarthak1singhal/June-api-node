@@ -12,7 +12,7 @@ module.exports = function(app) {
 
             video_id = req.body.video_id;
 
-            if (!req.body.offset) {
+            if (req.body.offset == null) {
                 return res.send({
                     isError: true,
                     msg: "Offset required"
@@ -34,7 +34,7 @@ module.exports = function(app) {
 
 
 
-                    let [_query, f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC  offset   ? limit 30", [video_id, req.body.offset])
+                    let [_query, f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC limit ?, 30", [video_id, req.body.offset])
 
                     for (i in _query) {
                         let [rd, f1] = await acon.execute("select * from users where fb_id = ?", [_query[i].fb_id]);

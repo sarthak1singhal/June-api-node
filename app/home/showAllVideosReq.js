@@ -194,7 +194,7 @@ module.exports = function(app) {
                 })
 
             }
-            if (!req.body.offset) {
+            if (req.body.offset == null) {
                 return res.send({
                     isError: true,
                     msg: "Invalid Parameters"
@@ -202,7 +202,7 @@ module.exports = function(app) {
 
             }
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? offset  ? limit  21", [req.body.sound_id, req.body.offset]);
+            let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? limit  ?,21", [req.body.sound_id, req.body.offset]);
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -343,7 +343,7 @@ module.exports = function(app) {
             })
 
         }
-        if (!req.body.offset) {
+        if (req.body.offset == null) {
             return res.send({
                 isError: true,
                 msg: "Invalid Parameters"
@@ -384,7 +384,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where description like '%" + keyword + "%' offset " + req.body.offset + " limit 21");
+            let [row_posts, fields] = await acon.execute("Select * from videos where description like '%" + keyword + "%' limit " + req.body.offset + ", 21 ");
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -742,7 +742,7 @@ async function showMyAllVideos(req, res, limit) {
             let [query1, f] = await acon.execute("select * from users where fb_id=? ", [fb_id]);
             if (query1.length != 0) {
 
-                let [query99, f1] = await acon.execute("select * from videos where fb_id= ? offset 0 limit ? order by created DESC", [fb_id, limit]);
+                let [query99, f1] = await acon.execute("select * from videos where fb_id= ? order by created DESC limit 0, ?", [fb_id, limit]);
                 console.log(query1)
                 array_out_video = []
                 for (i in query99) {

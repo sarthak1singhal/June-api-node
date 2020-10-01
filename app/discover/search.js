@@ -15,7 +15,7 @@
 
          _type = req.body.type;
          keyword = req.body.keyword;
-         const acon = await amysql.createConnection({
+         var acon = await amysql.createConnection({
              host: config.host,
              user: config.user,
              password: config.password,

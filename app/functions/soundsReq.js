@@ -15,6 +15,17 @@ module.exports = function(app) {
         keyword = req.body.keyword;
         if (!keyword) keyword = "";
 
+
+
+        if (req.body.offset == null) {
+            return res.sed({
+                isError: true,
+                msg: "Parameter error"
+            })
+        }
+
+        offset = req.body.offset
+
         array_out = [];
 
         try {
@@ -27,56 +38,33 @@ module.exports = function(app) {
             });
 
 
-            if (!offset) {
-                return res.sed({
-                    isError: true,
-                    msg: "Parameter error"
-                })
-            }
 
 
             if (keyword.trim() == "") {
 
 
-                [_query, w] = await acon.execute("select * from sound_section ");
+                [query1, f1] = await acon.execute("select * from sound where section = ? limit ?, 30", [_query[i].id, offset]);
+                array_out1 = []
 
+                for (j in query1) {
 
+                    array_out1.push({
+                        "id": query1[j]['id'],
 
-
-                array_out = [];
-                array_out2 = []
-
-                for (i in _query) {
-
-                    //echo $row['section'];
-                    //echo "select * from sound where section ='".$row['section']."' ";
-
-                    //remove limit from here when implement pagination
-                    [query1, f1] = await acon.execute("select * from sound where section = ? limit 30", [_query[i].id]);
-                    array_out1 = []
-
-                    for (j in query1) {
-
-                        array_out1.push({
-                            "id": query1[j]['id'],
-
-                            "audio_path": {
-                                "mp3": query1[j]['id'] + ".mp3",
-                                "acc": query1[j]['id'] + ".aac"
-                            },
-                            "sound_name": query1[j]['sound_name'],
-                            "description": query1[j]['description'],
-                            "section": query1[j]['section'],
-                            "thum": config.apiUrl + query1[j]['thum'],
-                            "created": query1[j]['created'],
-                        });
-                    }
-
-
-
-
-
+                        "audio_path": {
+                            "mp3": query1[j]['id'] + ".mp3",
+                            "acc": query1[j]['id'] + ".aac"
+                        },
+                        "sound_name": query1[j]['sound_name'],
+                        "description": query1[j]['description'],
+                        "section": query1[j]['section'],
+                        "thum": config.apiUrl + query1[j]['thum'],
+                        "created": query1[j]['created'],
+                    });
                 }
+
+
+
 
 
                 res.send({ isError: false, msg: array_out1 })
@@ -88,39 +76,25 @@ module.exports = function(app) {
 
 
 
-                [_query, w] = await acon.execute("select * from sound_section ");
+
+                [query1, f1] = await acon.execute("select * from sound where section = ? and (sound_name like '%" + keyword + "%' or description like '%" + keyword + "%')  limit 15 ", [_query[i].id]);
+                array_out1 = []
+                for (j in query1) {
 
 
+                    array_out1.push({
+                        "id": query1[j]['id'],
 
-
-                array_out2 = [];
-
-                for (var i in _query) {
-
-
-                    [query1, f1] = await acon.execute("select * from sound where section = ? and (sound_name like '%" + keyword + "%' or description like '%" + keyword + "%')  limit 15 ", [_query[i].id]);
-                    array_out1 = []
-                    for (j in query1) {
-
-
-                        array_out1.push({
-                            "id": query1[j]['id'],
-
-                            "audio_path": {
-                                "mp3": query1[j]['id'] + ".mp3",
-                                "acc": query1[j]['id'] + ".aac"
-                            },
-                            "sound_name": query1[j]['sound_name'],
-                            "description": query1[j]['description'],
-                            "section": query1[j]['section'],
-                            "thum": config.apiUrl + query1[j]['thum'],
-                            "created": query1[j]['created'],
-                        });
-                    }
-
-
-
-
+                        "audio_path": {
+                            "mp3": query1[j]['id'] + ".mp3",
+                            "acc": query1[j]['id'] + ".aac"
+                        },
+                        "sound_name": query1[j]['sound_name'],
+                        "description": query1[j]['description'],
+                        "section": query1[j]['section'],
+                        "thum": config.apiUrl + query1[j]['thum'],
+                        "created": query1[j]['created'],
+                    });
                 }
 
 
@@ -297,7 +271,7 @@ module.exports = function(app) {
 
         fb_id = req.user.id;
 
-        if (!req.body.offset) {
+        if (req.body.offset == null) {
             return res.send({
                 isError: true,
                 msg: "Error"
@@ -323,7 +297,7 @@ module.exports = function(app) {
 
 
                 for (i in q) {
-                    [q1, f] = await acon.execute("select * from sound where id = ? offset = ? limit = 30", [q[i].sound_id, offset])
+                    [q1, f] = await acon.execute("select * from sound where id = ? limit = ?, 30", [q[i].sound_id, offset])
 
                     array_out1.push({
                         "id": q1[0].id,

@@ -12,7 +12,7 @@ module.exports = function(app) {
         fb_id = req.user.id;
 
 
-        if (!req.body.offset) {
+        if (req.body.offset == null) {
             return res.send({
                 isError: true,
                 msg: "Invalid Parameters "
@@ -32,7 +32,7 @@ module.exports = function(app) {
 
             array_out = [];
 
-            [_query, f] = await acon.execute("select * from notification where effected_fb_id=? order by id desc offset ? limit 30", [fb_id, offset])
+            [_query, f] = await acon.execute("select * from notification where effected_fb_id=? order by id desc limit ?, 30", [fb_id, offset])
 
             for (i in _query) {
                 [rd, f1] = await acon.execute("select * from users where fb_id= ?", [_query[i].fb_id]);

@@ -19,7 +19,7 @@ module.exports = function(app) {
 
 
         var fb_id = req.user.id;
-        if (!req.body.offset) {
+        if (req.body.offset == null) {
             return res.send({
                 isError: true,
                 msg: "Parameters error"
@@ -55,7 +55,7 @@ module.exports = function(app) {
 
 
                 if (query1.length != 0) {
-                    [_query, l] = await acon.execute("select * from video_like_dislike where fb_id= ? order by id DESC offset ? limit ?", [fb_id, offset, limit]);
+                    [_query, l] = await acon.execute("select * from video_like_dislike where fb_id= ? order by id DESC limit ?, ?", [fb_id, offset, limit]);
 
                     array_out_video = []
                     for (i in _query) {
@@ -215,7 +215,7 @@ module.exports = function(app) {
 
         fb_id = req.body.fb_id;
         offset = req.body.offset;
-        if (!offset) {
+        if (offset == null) {
             return res.send({
                 isError: true,
                 msg: "Invalid parameter"
@@ -236,7 +236,7 @@ module.exports = function(app) {
                 database: config.database
             });
 
-            let [row, f] = await acon.execute("select * from `follow_users` where `followed_fb_id` = ? order by id DESC offset  ? limit 40", [fb_id, offset])
+            let [row, f] = await acon.execute("select * from `follow_users` where `followed_fb_id` = ? order by id DESC limit ?, 40", [fb_id, offset])
 
             array_out = [];
 
@@ -306,7 +306,7 @@ module.exports = function(app) {
 
         fb_id = req.body.fb_id;
         offset = req.body.offset;
-        if (!offset) {
+        if (offset == null) {
             return res.send({
                 isError: true,
                 msg: "Invalid parameter"
@@ -334,7 +334,7 @@ module.exports = function(app) {
 
 
 
-            [query1, f] = await acon.execute("select * from follow_users where fb_id=? order by id DESC offset ? limit 40", [fb_id, offset]);
+            [query1, f] = await acon.execute("select * from follow_users where fb_id=? order by id DESC limit ?, 40", [fb_id, offset]);
 
             array_out = [];
 

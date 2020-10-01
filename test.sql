@@ -120,24 +120,25 @@ CREATE TABLE `notification` (
   `id` int(11) NOT NULL,
   `my_fb_id` varchar(250) NOT NULL,
   `effected_fb_id` varchar(250) NOT NULL,
-  `type` varchar(250) NOT NULL COMMENT 'likes,comments,mention,followers',
   `value` varchar(250) NOT NULL COMMENT 'this could be a video id',
+  `type` varchar(250) NOT NULL COMMENT 'likes,comments,mention,followers',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+ 
 
 --
 -- Table structure for table `sound`
 --
-
+ 
 CREATE TABLE `sound` (
   `id` int(11) NOT NULL,
   `sound_name` varchar(250) NOT NULL,
   `description` varchar(150) NOT NULL,
   `thum` varchar(500) NOT NULL,
   `section` varchar(250) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `priority` int NOT NULL default 0
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
