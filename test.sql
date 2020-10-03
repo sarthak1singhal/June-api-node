@@ -207,7 +207,7 @@ CREATE TABLE `users` (
   `id` int NOT NULL,
   `fb_id` varchar(150) NOT NULL,
   `username` varchar(25) DEFAULT "",
-  `verified` int(11) NOT NULL DEFAULT '0',
+  `verified` int(2) NOT NULL DEFAULT 0,
   `first_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default "",
   `last_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default "",
   `password` varchar(50) DEFAULT NULL,

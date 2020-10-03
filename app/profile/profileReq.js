@@ -130,33 +130,12 @@ module.exports = function(app) {
 
                     count_video_rows = array_out_video.length
 
-                    if (count_video_rows == 0)
-                        array_out_video.push(0);
 
 
 
 
 
 
-                    array_out = []
-                    array_out.push({
-                            "fb_id": fb_id,
-                            /*    "user_info": {
-                            "first_name": _query.length != 0 ? _query[0].first_name : "",
-                            "last_name": _query.length != 0 ? _query[0].last_name : "",
-                            "profile_pic": _query.length != 0 ? _query[0].profile_pic : "",
-                            "gender": _query.length != 0 ? _query[0].gender : "",
-                            "created": _query.length != 0 ? _query[0].created : "",
-                            "username": _query.length != 0 ? _query[0].username : "",
-                            "verified": _query.length != 0 ? _query[0].verified : "",
-                        },
-*/
-
-                            "user_videos": array_out_video
-                        }
-
-
-                    );
 
 
                 }

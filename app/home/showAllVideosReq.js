@@ -10,12 +10,13 @@ module.exports = function(app) {
 
 
 
-    app.post('/showAllVideos', async function(req, res) {
+    app.post('/showAllVideos', fx.isLoggedIn, async function(req, res) {
 
 
         //v = ["hindi", "enlish", language]
 
 
+        fb_id = req.user.id
 
         try {
             const acon = await amysql.createConnection({
@@ -43,7 +44,7 @@ module.exports = function(app) {
                 let [countcomment, y] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
 
-                let [liked, fk] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
+                let [liked, fk] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
@@ -96,6 +97,7 @@ module.exports = function(app) {
                     arr.push({
                         "id": row_posts[j]['id'],
                         "fb_id": row_posts[j]['fb_id'],
+                        "liked": liked[j]['count'],
                         "user_info": [{
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
@@ -104,6 +106,8 @@ module.exports = function(app) {
                             "verified": query1[0].verified,
                         }],
                         "count": {
+                            "view": row_posts[j]['view'],
+
                             "like_count": row_posts[j]['like'],
                             "video_comment_count": countcomment[0]['count']
                         },
@@ -167,11 +171,11 @@ module.exports = function(app) {
 
 
 
-    app.post('/videos-by-sound', async function(req, res) {
+    app.post('/videos-by-sound', fx.isLoggedIn, async function(req, res) {
 
 
         //v = ["hindi", "enlish", language]
-
+        fb_id = req.user.id
 
 
         try {
@@ -212,6 +216,7 @@ module.exports = function(app) {
 
                 let [countcomment, fn] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
+                [liked_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [_query[i].video_id, fb_id]);
 
 
 
@@ -257,6 +262,8 @@ module.exports = function(app) {
                     arr.push({
                         "id": row_posts[j]['id'],
                         "fb_id": row_posts[j]['fb_id'],
+                        "liked": liked[0]['count'],
+
                         "user_info": [{
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
@@ -265,6 +272,7 @@ module.exports = function(app) {
                             "verified": query1[0].verified,
                         }],
                         "count": {
+                            "view": row_posts[j]["view"],
                             "like_count": row_posts[j]['like'],
                             "video_comment_count": countcomment[0]['count']
                         },
@@ -329,12 +337,13 @@ module.exports = function(app) {
 
 
 
-    app.post('/videos-by-hashtag', async function(req, res) {
+    app.post('/videos-by-hashtag', fx.isLoggedIn, async function(req, res) {
 
 
         //v = ["hindi", "enlish", language]
 
 
+        fb_id = req.user.id
 
         if (!req.body.hashtag) {
             return res.send({
@@ -395,7 +404,7 @@ module.exports = function(app) {
                 let [countcomment, m] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
 
-                let [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
+                let [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
@@ -448,6 +457,7 @@ module.exports = function(app) {
                     arr.push({
                         "id": row_posts[j]['id'],
                         "fb_id": row_posts[j]['fb_id'],
+                        "liked": liked[0]['count'],
                         "user_info": [{
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
@@ -456,6 +466,7 @@ module.exports = function(app) {
                             "verified": query1[0].verified,
                         }],
                         "count": {
+                            "views": row_posts[j]['view'],
                             "like_count": row_posts[j]['like'],
                             "video_comment_count": countcomment[0]['count']
                         },
@@ -526,6 +537,8 @@ module.exports = function(app) {
     app.post('/videos-by-user', fx.isLoggedIn, async function(req, res) {
 
 
+        my_fb_id = req.body.id
+
         //v = ["hindi", "enlish", language]
 
         console.log(req.user);
@@ -545,13 +558,14 @@ module.exports = function(app) {
             })
 
         }
-        if (!req.body.limit) {
+        if (req.body.limit == null) {
             return res.send({
                 isError: true,
                 msg: "Invalid Parameters limit"
             })
 
         }
+
         offset = req.body.offset
         limit = req.body.limit
         if (offset == 0) {
@@ -578,7 +592,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? order by created desc limit ?, 10 ", [req.body.fb_id, offset]);
+            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? order by created desc limit ?, ? ", [req.body.fb_id, offset, limit]);
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -589,7 +603,7 @@ module.exports = function(app) {
                 let [countcomment, f3] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
 
-                let [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
+                let [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, my_fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
@@ -641,6 +655,8 @@ module.exports = function(app) {
 
                     arr.push({
                         "id": row_posts[j]['id'],
+                        "liked": liked[0]['count'],
+
                         "fb_id": row_posts[j]['fb_id'],
                         "user_info": [{
                             "first_name": query1[0].first_name,
@@ -651,11 +667,13 @@ module.exports = function(app) {
                         }],
                         "count": {
                             "like_count": row_posts[j]['like'],
-                            "video_comment_count": countcomment[0]['count']
+                            "video_comment_count": countcomment[0]['count'],
+                            "view": row_posts[j]['view']
                         },
                         "video": config.apiUrl + row_posts[j]['video'],
                         "thum": config.apiUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
+
                         "sound": smap,
                         "created": row_posts[j]['created']
                     });
