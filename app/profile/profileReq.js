@@ -386,4 +386,3 @@ module.exports = function(app) {
 
 
 };
-};
