@@ -55,7 +55,6 @@ module.exports = function(app) {
                         "id": rd1[0].id,
                         "video": rd1[0].video,
                         "thum": rd1[0].thum,
-                        "gif": rd1[0].gif
                     },
                     "created": _query[i]['created']
                 })

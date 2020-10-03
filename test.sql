@@ -217,7 +217,7 @@ CREATE TABLE `users` (
   `country_code` varchar(5) DEFAULT NULL,
   `gender` varchar(7) DEFAULT NULL,
   `bio` varchar(150) DEFAULT NULL,
-  `profile_pic` varchar(250) DEFAULT NULL,
+  `profile_pic` varchar(300) DEFAULT NULL,
   `block` varchar(2) NOT NULL DEFAULT '0',
   `content_language` varchar(50) DEFAULT NULL ,
   `app_language` varchar(50) DEFAULT NULL ,

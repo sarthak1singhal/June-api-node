@@ -224,7 +224,14 @@ module.exports = {
     },
 
 
+    logOutFromAllDevices: (userId) => {
+        client.del(userId, (er, rr) => {
 
+            if (er) console.log(er);
+        });
+
+
+    }
 
 
 

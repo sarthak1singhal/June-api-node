@@ -537,7 +537,7 @@ module.exports = function(app) {
     app.post('/videos-by-user', fx.isLoggedIn, async function(req, res) {
 
 
-        my_fb_id = req.body.id
+        my_fb_id = req.user.id
 
         //v = ["hindi", "enlish", language]
 

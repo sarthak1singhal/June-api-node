@@ -23,7 +23,7 @@
     "hash_id_key": "nD4cpaaEcapc",
     "jwt_secret_mail": "npdvjiu@qpt3",
 
-    "baseUrl": "http://ec2-13-235-17-220.ap-south-1.compute.amazonaws.com:443/",
+    "baseUrl": "http://ec2-13-233-22-72.ap-south-1.compute.amazonaws.com:3000/",
     "hash_len": 6,
     "OTP_KEY": "mkAd4ioCn",
     "clientId": "1194749257563443",

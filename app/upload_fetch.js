@@ -77,6 +77,8 @@ module.exports = function(app, passport) {
 
     app.get('/img', async(req, res) => {
 
+
+
         AWS.config.update({
             accessKeyId: config.awsAccessKey,
             secretAccessKey: config.awsSecretKey
@@ -102,6 +104,18 @@ module.exports = function(app, passport) {
     })
 
 
+
+
+    app.get('/local', async(req, res) => {
+
+
+        res.sendFile(path.join(__dirname, "../upload/" + req.query.p));
+
+
+
+
+
+    })
 
 
 
