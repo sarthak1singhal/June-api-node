@@ -6,6 +6,7 @@
  var con = require('../../params.js')
  const fx = require('../functions/functions')
  const multer = require("multer")
+ var fs = require('file-system');
 
  const upload = multer({
      dest: path.join(__dirname, '../../upload')
@@ -210,7 +211,7 @@
 
          } catch (e) {
              console.log(e)
-             res.send({ isErroe: true, message: e });
+             res.send({ isError: true, message: e });
          }
 
 
