@@ -19,20 +19,23 @@ module.exports = function(app) {
 
 
         var fb_id = req.user.id;
+
+        console.log(req.body);
+        console.log(fb_id);
         if (req.body.offset == null) {
             return res.send({
                 isError: true,
                 msg: "Parameters error"
             });
         }
-        let offset = req.body.offset;
+        offset = req.body.offset;
         if (!req.body.limit) {
             return res.send({
                 isError: true,
                 msg: "Parameters error"
             });
         }
-        let limit = req.user.limit;
+        limit = req.user.limit;
 
         if (fb_id) {
 
@@ -55,6 +58,11 @@ module.exports = function(app) {
 
 
                 if (query1.length != 0) {
+
+                    console.log(fb_id);
+                    console.log(offset);
+
+                    console.log(limit);
                     [_query, l] = await acon.execute("select * from video_like_dislike where fb_id= ? order by id DESC limit ?, ?", [fb_id, offset, limit]);
 
                     array_out_video = []
@@ -377,4 +385,5 @@ module.exports = function(app) {
 
 
 
+};
 };
