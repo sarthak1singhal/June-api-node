@@ -20,7 +20,6 @@ module.exports = function(app) {
 
         var fb_id = req.user.id;
 
-        console.log(req.body);
         console.log(fb_id);
         if (req.body.offset == null) {
             return res.send({
@@ -35,7 +34,7 @@ module.exports = function(app) {
                 msg: "Parameters error"
             });
         }
-        limit = req.user.limit;
+        limit = req.body.limit;
 
         if (fb_id) {
 
@@ -59,10 +58,7 @@ module.exports = function(app) {
 
                 if (query1.length != 0) {
 
-                    console.log(fb_id);
-                    console.log(offset);
 
-                    console.log(limit);
                     [_query, l] = await acon.execute("select * from video_like_dislike where fb_id= ? order by id DESC limit ?, ?", [fb_id, offset, limit]);
 
                     array_out_video = []
