@@ -4,7 +4,8 @@ npm-debug.log
 
 nodeappkey.pem
  
-
+upload
+/upload
 
 # Local development
 *.env

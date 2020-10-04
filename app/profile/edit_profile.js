@@ -260,7 +260,7 @@
              console.log(q[0]);
              if (req.body.file) {
                  userme = q[0].first_name + "-" + q[0].last_name;
-                 name = userme + "-" + Math.round(new Date().getTime() / 1000) +
+                 name = userme + "v" + Math.round(new Date().getTime() / 1000) +
                      path.extname(req.body.name).toLowerCase();
 
 
