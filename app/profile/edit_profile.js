@@ -221,5 +221,99 @@
 
 
 
+     app.post('/get-verified/', fx.isLoggedIn, upload.single("file"), async function(req, res) {
+
+
+         var acon = await amysql.createConnection({
+             host: config.host,
+             user: config.user,
+             password: config.password,
+             database: config.database
+         });
+
+
+
+         if (!req.body.file) {
+             return res.send({ isError: true, message: "Please upload a image" })
+         } else {
+             ext = path.extname(req.body.name).toLowerCase()
+             if (ext == ".jpg" || ext == ".png" || ext == ".jpeg") {} else {
+                 return res.send({ isError: true, message: "Please upload a product image in jpg, png or jpeg format" })
+
+             }
+         }
+
+
+
+
+         try {
+
+
+             const [q, l] = await acon.execute("select * from verification_request where fb_id = ?", [req.user.id]);
+
+
+
+
+
+
+
+             console.log(q[0]);
+             if (req.body.file) {
+                 userme = q[0].first_name + "-" + q[0].last_name;
+                 name = userme + "-" + Math.round(new Date().getTime() / 1000) +
+                     path.extname(req.body.name).toLowerCase();
+
+
+                 const targetPath = path.join(__dirname, "../../upload/" + name);
+                 var realFile = Buffer.from(req.body.file, "base64");
+
+
+                 console.log(targetPath, "PATH")
+                 fs.writeFileSync(targetPath, realFile);
+
+                 if (q.length != 0)
+                     if (q[0].attachment) {
+
+                         fname = q[0].attachment;
+
+                         const path0 = path.join(__dirname, "../../upload/" + fname);
+
+                         fs.unlink(path0, function(e) {
+                             console.log(e);
+                         });
+
+
+                     }
+
+             } else {
+                 return res.sen({ isError: true, message: "Failed" })
+             }
+
+
+             if (q.length == 0) {
+                 const [q1, l1] = await acon.execute("insert into verification_request (attachment, fb_id) values (?,?)", [name, req.user.id]);
+
+             } else
+                 const [q1, l1] = await acon.execute("update verification_request set attachment = ? where fb_id = ?", [name, req.user.id]);
+
+
+             res.send({
+                 isError: false,
+                 message: 'Uploaded Successfully',
+                 data: config.baseUrl + "local/" + name
+             })
+
+         } catch (e) {
+             console.log(e)
+             res.send({ isError: true, message: e });
+         }
+
+
+
+     })
+
+
+
+
 
  };
