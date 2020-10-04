@@ -6,6 +6,7 @@ nodeappkey.pem
  
 upload
 /upload
+package-lock.json
 
 # Local development
 *.env

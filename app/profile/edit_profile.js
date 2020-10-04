@@ -156,7 +156,7 @@
          try {
 
 
-             const [q, l] = await acon.execute("select * from users where fb_id = ?", [req.user.id]);
+             [q, l] = await acon.execute("select * from users where fb_id = ?", [req.user.id]);
 
 
 
@@ -171,7 +171,7 @@
                      path.extname(req.body.name).toLowerCase();
 
 
-                 const targetPath = path.join(__dirname, "../../upload/" + name);
+                 targetPath = path.join(__dirname, "../../upload/" + name);
                  var realFile = Buffer.from(req.body.file, "base64");
 
 
@@ -185,7 +185,7 @@
 
                      fname = q[0].profile_pic;
 
-                     const path0 = path.join(__dirname, "../../upload/" + fname);
+                     path0 = path.join(__dirname, "../../upload/" + fname);
 
                      fs.unlink(path0, function(e) {
                          console.log(e);
@@ -198,7 +198,7 @@
                  return res.sen({ isError: true, message: "Failed" })
              }
 
-             const [q1, l1] = await acon.execute("update users set profile_pic = ? where fb_id = ?", [name, req.user.id]);
+             [q1, l1] = await acon.execute("update users set profile_pic = ? where fb_id = ?", [name, req.user.id]);
 
 
              res.send({
@@ -249,7 +249,7 @@
          try {
 
 
-             const [q, l] = await acon.execute("select * from verification_request where fb_id = ?", [req.user.id]);
+             [q, l] = await acon.execute("select * from verification_request where fb_id = ?", [req.user.id]);
 
 
 
@@ -264,7 +264,7 @@
                      path.extname(req.body.name).toLowerCase();
 
 
-                 const targetPath = path.join(__dirname, "../../upload/" + name);
+                 targetPath = path.join(__dirname, "../../upload/" + name);
                  var realFile = Buffer.from(req.body.file, "base64");
 
 
@@ -276,7 +276,7 @@
 
                          fname = q[0].attachment;
 
-                         const path0 = path.join(__dirname, "../../upload/" + fname);
+                         path0 = path.join(__dirname, "../../upload/" + fname);
 
                          fs.unlink(path0, function(e) {
                              console.log(e);
@@ -291,10 +291,10 @@
 
 
              if (q.length == 0) {
-                 const [q1, l1] = await acon.execute("insert into verification_request (attachment, fb_id) values (?,?)", [name, req.user.id]);
+                 [q1, l1] = await acon.execute("insert into verification_request (attachment, fb_id) values (?,?)", [name, req.user.id]);
 
              } else
-                 const [q1, l1] = await acon.execute("update verification_request set attachment = ? where fb_id = ?", [name, req.user.id]);
+                 [q1, l1] = await acon.execute("update verification_request set attachment = ? where fb_id = ?", [name, req.user.id]);
 
 
              res.send({
