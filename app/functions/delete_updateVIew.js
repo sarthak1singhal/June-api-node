@@ -10,7 +10,7 @@ module.exports = function(app) {
 
 
 
-    app.post("reportVideo", fx.isLoggedIn, (req, res) => {
+    app.post("/delete-video", fx.isLoggedIn, (req, res) => {
 
 
         fb_id = req.user.id
@@ -74,7 +74,7 @@ module.exports = function(app) {
 
 
 
-    app.post("updateVideoView", fx.isLoggedIn, (req, res) => {
+    app.post("/updateVideoView", fx.isLoggedIn, (req, res) => {
 
 
         id = req.body.video_id

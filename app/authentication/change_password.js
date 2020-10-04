@@ -27,14 +27,14 @@ module.exports = function(app, passport) {
         if (!(req.body.password && req.body.confirm_password && req.body.new_password)) {
             return res.send({
                 isError: true,
-                message: "Some error occured "
+                msg: "Some error occured "
             })
         }
 
         if (!req.body.password.trim()) {
             return res.send({
                 isError: true,
-                message: "Some error occured "
+                msg: "Some error occured "
             })
         }
 
@@ -42,7 +42,7 @@ module.exports = function(app, passport) {
         if (!req.body.new_password.trim()) {
             return res.send({
                 isError: true,
-                message: "Some error occured "
+                msg: "Some error occured "
             })
         }
 
@@ -53,21 +53,21 @@ module.exports = function(app, passport) {
         if (!req.body.confirm_password.trim()) {
             return res.send({
                 isError: true,
-                message: "Some error occured "
+                msg: "Some error occured "
             })
         }
 
         if (req.body.new_password.includes(" ")) {
             return res.send({
                 isError: true,
-                message: "Password should not contains spaces"
+                msg: "Password should not contains spaces"
             })
         }
 
         if (req.body.new_password.trim().length < 8) {
             return res.send({
                 isError: true,
-                message: "Password length too short. Use minimum 8 characters"
+                msg: "Password length too short. Use minimum 8 characters"
             })
         }
 
@@ -76,7 +76,7 @@ module.exports = function(app, passport) {
         if (req.body.confirm_password.trim() != req.body.new_password.trim()) {
             return res.send({
                 isError: true,
-                message: "Passwords do not match"
+                msg: "Passwords do not match"
             })
         }
 
@@ -91,7 +91,7 @@ module.exports = function(app, passport) {
             if (rows.length == 0) {
                 return res.send({
                     isError: true,
-                    message: "Some error occoured"
+                    msg: "Some error occoured"
                 });
             }
 
@@ -99,7 +99,7 @@ module.exports = function(app, passport) {
 
                 return res.send({
                     isError: true,
-                    message: "Oops! Cannot change your password"
+                    msg: "Oops! Cannot change your password"
                 });
             }
 
@@ -115,7 +115,7 @@ module.exports = function(app, passport) {
                 else {
                     res.send({
                         isError: false,
-                        message: "Password updated successfully"
+                        msg: "Password updated successfully"
                     })
 
 

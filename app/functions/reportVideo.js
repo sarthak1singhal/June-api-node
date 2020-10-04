@@ -10,7 +10,7 @@ module.exports = function(app) {
 
 
 
-    app.post("reportVideo", fx.isLoggedIn, (req, res) => {
+    app.post("/reportVideo", fx.isLoggedIn, (req, res) => {
 
 
         fb_id = req.user.id;

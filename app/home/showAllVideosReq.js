@@ -1097,9 +1097,10 @@ async function showMyAllVideos(req, res, limit) {
                         "phoneNumber": query1[0].dob,
                         "isPhoneVerified": query1[0].doisPhoneVerifiedb,
                         "email": query1[0].email,
-
+                        "signup_type": query1[0].signup_type
 
                     }
+
 
                     array_out.personal = myInfo;
                 }

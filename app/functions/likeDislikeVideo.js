@@ -10,7 +10,7 @@ var func = require('./functions')
 
 module.exports = function(app) {
 
-    app.post("likeDislikeVideo", func.isLoggedIn, (req, res) => {
+    app.post("/likeDislikeVideo", func.isLoggedIn, (req, res) => {
         fb_id = req.user.fb_id;
         action = req.body.action;
 

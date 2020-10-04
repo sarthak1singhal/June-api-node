@@ -57,9 +57,6 @@ module.exports = function(app, passport) {
                     uploadFunctions.uploadVideo(req, res)
 
 
-            }
-            if (p == "reportVideo") {
-                reportVideo.reportVideo(req, res);
             } else if (p == "showAllVideos") {
                 showAllVideos.showAllVideos(req, res);
             } else
@@ -68,38 +65,13 @@ module.exports = function(app, passport) {
             } else
             if (p == "discover") {
                 discover.discover(req, res);
-            } else
-            if (p == "likeDislikeVideo") {
-                likeDislikeVideo.likeDislikeVideo(req, res);
-            } else
-            if (p == "postComment") {
-                postComment.postComment(req, res);
-            } else
-            if (p == "showVideoComments") {
-                showVideoComments.showVideoComments(req, res);
             } else if (p == "updateVideoView") {
                 updateVideoView(req, res);
 
-            } else if (p == "allSounds") {
-                sounds.allSounds(req, res);
-
-            } else if (p == "fav_sound") {
-                sounds.fav_sound(req, res);
-
-            } else if (p == "my_liked_video") {
-                profile.my_liked_video(req, res);
             } else if (p == "my_FavSound") {
                 sounds.my_FavSound(req, res);
-            } else if (p == "edit_profile") {
-                edit_profile.edit_profile(req, res);
-            } else if (p == "follow_users") {
-                return edit_profile.follow_users(req, res);
             } else if (p == "get_user_data") {
                 return profile.get_user_data(req, res);
-            } else if (p == "get_followers") {
-                return profile.get_followers(req, res);
-            } else if (p == "get_following") {
-                return profile.get_followings(req, res);
             } else if (p == "searchByHashTag") {
                 return discover.SearchByHashTag(req, res);
             } else if (p == "DeleteSound") {

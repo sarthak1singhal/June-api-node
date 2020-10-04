@@ -107,14 +107,7 @@ module.exports = function(app, passport) {
 
 
     app.get('/local', async(req, res) => {
-
-
         res.sendFile(path.join(__dirname, "../upload/" + req.query.p));
-
-
-
-
-
     })
 
 

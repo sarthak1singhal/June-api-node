@@ -16,7 +16,7 @@
  module.exports = function(app) {
 
      app.post('/edit-profile', fx.isLoggedIn, async function(req, res) {
-         fb_id = req.user.fb_id;
+         fb_id = req.user.id;
          first_name = req.body.full_name;
          username = req.body.username;
          gender = req.body.gender;
@@ -46,8 +46,14 @@
 
 
 
-         if (fb_id && first_name && username) {
+         con.query("select * from users where username = ?", [username], function(e, r) {
 
+             if (r.length != 0) {
+                 return res.send({
+                     isError: true,
+                     "msg": "Username already exist"
+                 })
+             }
 
 
              con.query("update users SET first_name =? , last_name =? , gender = ?, bio =?  , username = ?  WHERE fb_id = ? ", [first_name, last_name, gender, bio, username, fb_id], function(erri, r) {
@@ -60,7 +66,7 @@
                      res.send({
                          isError: true,
 
-                         msg: "Problem in updating"
+                         msg: "Problem in updating details"
                      })
 
                  } else {
@@ -79,13 +85,15 @@
 
                                  "last_name": row[0].last_name,
                                  "gender": row[0].gender,
-                                 "bio": row[0].bio
+                                 "bio": row[0].bio,
+                                 "phoneNumber": row[0].phoneNumber,
+                                 "dob": row[0].dob
                              }
 
 
                              res.send({
 
-                                 isError: true,
+                                 isError: false,
                                  msg: array_out
 
                              })
@@ -107,19 +115,7 @@
              })
 
 
-
-
-         } else {
-             res.send(
-
-                 {
-
-                     isError: true,
-
-                     msg: "Parameters are missing"
-
-                 })
-         }
+         })
 
      })
 
@@ -221,7 +217,7 @@
 
 
 
-     app.post('/get-verified/', fx.isLoggedIn, upload.single("file"), async function(req, res) {
+     app.post('/get-verified', fx.isLoggedIn, upload.single("file"), async function(req, res) {
 
 
          var acon = await amysql.createConnection({

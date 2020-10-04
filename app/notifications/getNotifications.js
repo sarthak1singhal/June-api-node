@@ -8,7 +8,7 @@ module.exports = function(app) {
 
 
 
-    app.post("get-notification", fx.isLoggedIn, async function(req, res) {
+    app.post("/get-notification", fx.isLoggedIn, async function(req, res) {
         fb_id = req.user.id;
 
 
