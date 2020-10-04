@@ -225,7 +225,7 @@ CREATE TABLE `users` (
   `version` varchar(15) DEFAULT '0',
   `device` varchar(25) DEFAULT NULL,
   `signup_type` varchar(11) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP  
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
