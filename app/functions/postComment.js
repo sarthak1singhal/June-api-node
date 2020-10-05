@@ -13,7 +13,7 @@ module.exports = function(app) {
 
 
     app.post("/post-comment", func.isLoggedIn, (req, res) => {
-        fb_id = req.user.fb_id;
+        fb_id = req.user.id;
 
         video_id = req.body.video_id;
 

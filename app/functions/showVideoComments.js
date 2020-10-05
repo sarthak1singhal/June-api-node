@@ -34,7 +34,7 @@ module.exports = function(app) {
 
 
 
-                    let [_query, f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC limit ?, 30", [video_id, req.body.offset])
+                    let [_query, f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC limit ?, 25", [video_id, req.body.offset])
 
                     for (i in _query) {
                         let [rd, f1] = await acon.execute("select * from users where fb_id = ?", [_query[i].fb_id]);
@@ -56,7 +56,7 @@ module.exports = function(app) {
                     }
 
 
-                    return res.send({ code: "200", msg: array_out })
+                    return res.send({ isError: false, msg: array_out })
 
 
 
@@ -78,7 +78,7 @@ module.exports = function(app) {
 
                     {
 
-                        code: 201,
+                        isError: true,
 
                         msg: "Json Parem are missing"
 

@@ -43,7 +43,7 @@ module.exports = function(app) {
             if (keyword.trim() == "") {
 
 
-                [query1, f1] = await acon.execute("select * from sound where section = ? limit ?, 30", [_query[i].id, offset]);
+                [query1, f1] = await acon.execute("select * from sound limit ?, 20", [offset]);
                 array_out1 = []
 
                 for (j in query1) {
@@ -74,10 +74,7 @@ module.exports = function(app) {
             } else {
 
 
-
-
-
-                [query1, f1] = await acon.execute("select * from sound where section = ? and (sound_name like '%" + keyword + "%' or description like '%" + keyword + "%')  limit 15 ", [_query[i].id]);
+                [query1, f1] = await acon.execute("select * from sound where section = ? and (sound_name like '%" + keyword + "%' or description like '%" + keyword + "%')  limit 20 ", [_query[i].id]);
                 array_out1 = []
                 for (j in query1) {
 
@@ -129,6 +126,10 @@ module.exports = function(app) {
 
         } catch (e) {
             console.log(e)
+            res.send({
+                isError: true,
+                msg: "Some error"
+            })
         }
 
 
