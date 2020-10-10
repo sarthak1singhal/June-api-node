@@ -16,7 +16,7 @@ module.exports = function(app) {
 
 
 
-    app.post('/getUploadUrl', fx.isLoggedIn, async function(req, res) {
+    app.post('/getUploadUrl', async function(req, res) {
 
 
         var p = {
