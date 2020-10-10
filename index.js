@@ -108,6 +108,7 @@ require('./app/notifications/getNotifications')(app);
 require('./app/functions/likeDislikeVideo')(app);
 
 require('./app/upload_fetch')(app, passport);
+require('./app/profile/getUploadUrl')(app, passport);
 
 
 /*app.listen(80, function() {
