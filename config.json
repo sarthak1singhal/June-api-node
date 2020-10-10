@@ -27,5 +27,8 @@
     "hash_len": 6,
     "OTP_KEY": "mkAd4ioCn",
     "clientId": "1194749257563443",
-    "clientSecret": "4c773d503e02d36bfc2a14e84f12094e"
+    "clientSecret": "4c773d503e02d36bfc2a14e84f12094e",
+    "cdnUrl": "https://d3pxd5vsj7zayf.cloudfront.net/",
+    "mumbai_bucket_region": "ap-south-1",
+    "bucket_name": "xyz"
 }

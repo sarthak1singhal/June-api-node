@@ -74,7 +74,7 @@ module.exports = function(app) {
 
 
 
-    app.post("/updateVideoView", fx.isLoggedIn, (req, res) => {
+    app.post("/updateVideoView", (req, res) => {
 
 
         id = req.body.video_id
@@ -87,26 +87,18 @@ module.exports = function(app) {
         }
 
 
-        if (id) {
-            con.query("update videos set `view` = `view` + 1 where id = ?", [id], function(er, row) {
+        con.query("update videos set `view` = `view` + 1 where id = ?", [id], function(er, row) {
 
-
-                return res.send({
-                    isError: false,
-                    msg: "success"
-                })
-
-
-            })
-
-        } else {
 
             return res.send({
-                isError: true,
-                msg: "Json Parem are missing updateVideoVIew"
+                isError: false,
+                msg: "success"
             })
 
-        }
+
+        })
+
+
 
 
 

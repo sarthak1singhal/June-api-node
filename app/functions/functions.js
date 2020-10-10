@@ -8,6 +8,7 @@ const axios = require('axios');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const client = require('../authentication/initRedis')
+const AWS = require('aws-sdk');
 
 module.exports = {
 
@@ -231,7 +232,36 @@ module.exports = {
         });
 
 
+    },
+
+
+
+
+
+    generateUploadSignedUrl: function(params) {
+        let { region, bucket, path, expires = 60, acl = 'private', contentType = 'application/octet-stream', accessKeyId = config.awsAccessKey, secretAccessKey = config.awsSecretKey } = params
+
+
+        const S3 = new AWS.S3({
+            accessKeyId: accessKeyId,
+            secretAccessKey: secretAccessKey,
+            region: region,
+            s3ForcePathStyle: true,
+            signatureVersion: 'v4'
+        })
+        const Params = { Bucket: bucket, Key: path, Expires: expires, ACL: acl, ContentType: contentType };
+        return new Promise(function(resolve, reject) {
+            S3.getSignedUrl('putObject', Params, function(err, url) {
+                if (err) {
+                    resolve(err);
+                } else {
+                    resolve(url);
+                }
+            });
+        })
+
     }
+
 
 
 

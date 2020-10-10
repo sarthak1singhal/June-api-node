@@ -74,7 +74,7 @@ module.exports = function(app) {
             } else {
 
 
-                [query1, f1] = await acon.execute("select * from sound where section = ? and (sound_name like '%" + keyword + "%' or description like '%" + keyword + "%')  limit 20 ", [_query[i].id]);
+                [query1, f1] = await acon.execute("select * from sound where section = ? and (sound_name like '%" + keyword + "%' or description like '%" + keyword + "%')  limit ?, 20 ", [offset]);
                 array_out1 = []
                 for (j in query1) {
 

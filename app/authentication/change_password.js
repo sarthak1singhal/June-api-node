@@ -27,7 +27,7 @@ module.exports = function(app, passport) {
         if (!(req.body.password && req.body.confirm_password && req.body.new_password)) {
             return res.send({
                 isError: true,
-                msg: "Some error occured "
+                msg: "Some  error occured "
             })
         }
 
