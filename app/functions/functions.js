@@ -239,7 +239,7 @@ module.exports = {
 
 
     generateUploadSignedUrl: function(params) {
-        let { region, bucket, path, expires = 60, acl = 'public', contentType = 'application/octet-stream', accessKeyId = config.awsAccessKey, secretAccessKey = config.awsSecretKey } = params
+        let { region, bucket, path, expires = 3 * 60, acl = 'private', contentType = 'application/octet-stream', accessKeyId = config.awsAccessKey, secretAccessKey = config.awsSecretKey } = params
 
 
         const S3 = new AWS.S3({
