@@ -22,7 +22,7 @@ module.exports = function(app) {
         var p = {
             region: config.mumbai_bucket_region,
             bucket: config.bucket_name,
-            path: "/public/video2"
+            path: "public/video2"
 
         }
         var x = await fx.generateUploadSignedUrl(p);
