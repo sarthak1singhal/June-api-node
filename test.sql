@@ -218,7 +218,7 @@ CREATE TABLE `videos` (
   `description` varchar(400) NOT NULL DEFAULT "",
   `video` varchar(500) NOT NULL DEFAULT 'NULL',
   `thum` varchar(500) NOT NULL DEFAULT 'NULL',
-  `gif` varchar(500) NOT NULL DEFAULT NULL,
+  `gif` varchar(500) default NULL,
   `view` int(11) NOT NULL DEFAULT '0',
   `section` varchar(250) NOT NULL DEFAULT '0',
   `sound_id` varchar(20) NOT NULL DEFAULT '0',
