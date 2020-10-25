@@ -217,7 +217,7 @@ CREATE TABLE `videos` (
   `fb_id` varchar(150) NOT NULL,
   `description` varchar(400) NOT NULL DEFAULT "",
   `video` varchar(500) NOT NULL DEFAULT 'NULL',
-  `thum` varchar(500) NOT NULL DEFAULT NULL,
+  `thum` varchar(500) NOT NULL DEFAULT 'NULL',
   `gif` varchar(500) NOT NULL DEFAULT NULL,
   `view` int(11) NOT NULL DEFAULT '0',
   `section` varchar(250) NOT NULL DEFAULT '0',
