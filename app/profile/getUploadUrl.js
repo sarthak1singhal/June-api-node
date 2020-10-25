@@ -65,10 +65,11 @@ module.exports = function(app) {
             });
 
             var [user, fields] = await acon.execute("SELECT * FROM users WHERE fb_id = ?", [req.user.id]);
+            console.log(user);
             var id = hashids.encode(user.id);
 
 
-            if (id == null)
+            if (!id)
                 id = (Math.random() * 1000).toString();
 
             var fileName = id + new Date().getTime().toString() + ".mp4";
