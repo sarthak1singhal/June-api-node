@@ -106,7 +106,7 @@ module.exports = function(app) {
 
         return res.send({
             url: x,
-            fileName = fileName
+            fileName: fileName
         })
     })
 
