@@ -12,7 +12,7 @@
     "awsSecretKey": "oTCfJByaSGOC6h5p+5fnvZwfZmFuOj6e+mG3a5EF",
 
 
-    "apiUrl": "http://ec2-13-234-226-188.ap-south-1.compute.amazonaws.com/",
+    "apiUrl": "http://ec2-13-233-22-72.ap-south-1.compute.amazonaws.com:3000/",
 
 
     "fcmKey": "AAAAqJ6S9VU:APA91bG9QGuGE8X6noolf2xoKtQYtqoXE0LNVO_MaGCZ62na4FwQ5ZqdxyteQVNtM4vqE7OrBGRtGJzT9csdAn5PlrQbkbZrEnetpjnWwXs-jB7mqBOYjpSD7-_mfogUsViL70tXgS9V",
@@ -22,6 +22,10 @@
 
     "hash_id_key": "nD4cpaaEcapc",
     "jwt_secret_mail": "npdvjiu@qpt3",
+
+    "short_id_key": "ajnsckjanh",
+
+    "lambda_access_token": "spo6f4iq2m38s",
 
     "baseUrl": "http://ec2-13-233-22-72.ap-south-1.compute.amazonaws.com:3000/",
     "hash_len": 6,

@@ -30,6 +30,7 @@
     "formidable": "^1.2.2",
     "google-auth-library": "^6.0.5",
     "googleapis": "^51.0.0",
+    "hashids": "^2.2.1",
     "hls-server": "^1.5.0",
     "image-thumbnail": "^1.0.8",
     "imagemagick": "^0.1.3",
