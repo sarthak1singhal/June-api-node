@@ -78,12 +78,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.apiUrl + query112[0].id + ".mp3", //complete sound path here
-                                "acc": config.apiUrl + query112[0].id + ".aac"
+                                "mp3": config.cdnUrl + query112[0].id , //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id 
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.apiUrl + config.apiUrl + query112[0].thum,
+                            "thum": config.cdnUrl  + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -101,7 +101,7 @@ module.exports = function(app) {
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic": query1[0].profile_pic,
+                            "profile_pic":config.cdnUrl  + query1[0].profile_pic,
                             "username": query1[0].username,
                             "verified": query1[0].verified,
                         },
@@ -111,8 +111,8 @@ module.exports = function(app) {
                             "like_count": row_posts[j]['like'],
                             "video_comment_count": countcomment[0]['count']
                         },
-                        "video": config.apiUrl + row_posts[j]['video'],
-                        "thum": config.apiUrl + row_posts[j]['thum'],
+                        "video": config.cdnUrl + row_posts[j]['video'],
+                        "thum": config.cdnUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
                         "sound": smap,
 
@@ -267,12 +267,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.apiUrl + query112[0].id + ".mp3", //complete sound path here
-                                "acc": config.apiUrl + query112[0].id + ".aac"
+                                "mp3": config.cdnUrl + query112[0].id , //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id 
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.apiUrl + config.apiUrl + query112[0].thum,
+                            "thum": config.cdnUrl +  query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -300,8 +300,8 @@ module.exports = function(app) {
                             "like_count": row_posts[j]['like'],
                             "video_comment_count": countcomment[0]['count']
                         },
-                        "video": config.apiUrl + row_posts[j]['video'],
-                        "thum": config.apiUrl + row_posts[j]['thum'],
+                        "video": config.cdnUrl + row_posts[j]['video'],
+                        "thum": config.cdnUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
                         "sound": smap,
 
@@ -432,12 +432,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.apiUrl + query112[0].id + ".mp3", //complete sound path here
-                                "acc": config.apiUrl + query112[0].id + ".aac"
+                                "mp3": config.cdnUrl + query112[0].id , //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id 
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.apiUrl + config.apiUrl + query112[0].thum,
+                            "thum": config.cdnUrl  + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -465,8 +465,8 @@ module.exports = function(app) {
                             "like_count": row_posts[j]['like'],
                             "video_comment_count": countcomment[0]['count']
                         },
-                        "video": config.apiUrl + row_posts[j]['video'],
-                        "thum": config.apiUrl + row_posts[j]['thum'],
+                        "video": config.cdnUrl + row_posts[j]['video'],
+                        "thum": config.cdnUrl + row_posts[j]['thum'],
 
                         "description": row_posts[j]['description'],
                         "sound": smap,
@@ -627,12 +627,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.apiUrl + query112[0].id + ".mp3", //complete sound path here
-                                "acc": config.apiUrl + query112[0].id + ".aac"
+                                "mp3": config.cdnUrl + query112[0].id , //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id  
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.apiUrl + config.apiUrl + query112[0].thum,
+                            "thum": config.cdnUrl + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -659,8 +659,8 @@ module.exports = function(app) {
                             "like_count": row_posts[j]['like'],
                             "video_comment_count": countcomment[0]['count']
                         },
-                        "video": config.apiUrl + row_posts[j]['video'],
-                        "thum": config.apiUrl + row_posts[j]['thum'],
+                        "video": config.cdnUrl + row_posts[j]['video'],
+                        "thum": config.cdnUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
                         "sound": smap,
                         "created": row_posts[j]['created']
@@ -826,12 +826,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.apiUrl + query112[0].id + ".mp3", //complete sound path here
-                                "acc": config.apiUrl + query112[0].id + ".aac"
+                                "mp3": config.cdnUrl + query112[0].id  , //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id 
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.apiUrl + config.apiUrl + query112[0].thum,
+                            "thum": config.cdnUrl  + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -859,8 +859,8 @@ module.exports = function(app) {
                             "video_comment_count": countcomment[0]['count'],
                             "view": row_posts[j]['view']
                         },
-                        "video": config.apiUrl + row_posts[j]['video'],
-                        "thum": config.apiUrl + row_posts[j]['thum'],
+                        "video": config.cdnUrl + row_posts[j]['video'],
+                        "thum": config.cdnUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
 
                         "sound": smap,
@@ -980,12 +980,12 @@ async function showMyAllVideos(req, res, limit) {
                             "id": query112[0].id,
                             "audio_path": {
 
-                                "mp3": config.apiUrl + query112[0].id + ".mp3",
-                                "acc": config.apiUrl + query112[0].id + ".aac"
+                                "mp3": config.cdnUrl + query112[0].id  ,
+                                "acc": config.cdnUrl + query112[0].id  
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.apiUrl + query112[0].thum,
+                            "thum": config.cdnUrl + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
                         }
@@ -993,8 +993,8 @@ async function showMyAllVideos(req, res, limit) {
 
                     array_out_video.push({
                         "id": query99[i]['id'],
-                        "video": config.apiUrl + query99[i]['video'],
-                        "thum": config.apiUrl + query99[i]['thum'],
+                        "video": config.cdnUrl + query99[i]['video'],
+                        "thum": config.cdnUrl + query99[i]['thum'],
                         "description": query99[i]['description'],
                         "liked": liked[0]['count'],
                         "count": {
