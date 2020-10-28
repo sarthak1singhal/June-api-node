@@ -21,7 +21,7 @@ module.exports = function(app) {
         console.log(req.body);
         console.log(config.lambda_access_token)
 
-        if (accessToken != config.lambda_access_token) {
+        if (accessToken.toString().trim() != config.lambda_access_token.toString().trim()) {
             console.log("unexqual");
             //return res.send({ isError: "Invalid access" })
         }
