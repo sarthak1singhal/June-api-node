@@ -72,24 +72,33 @@ module.exports = function(app) {
                 database: config.database
             });
 
-            var [user, fields] = await acon.execute("SELECT * FROM users WHERE fb_id = ?", [req.user.id]);
-            console.log(user);
-            var id = hashids.encode(user.id);
+            var [abc, fields] = await acon.execute("SELECT * FROM users WHERE fb_id = ?", [req.user.id]);
+            console.log(abc);
+            var id = hashids.encode(abc.id);
 
 
-            if (!id)
+
+            if (!id) {
+                console.log("RANDOM ID")
                 id = (Math.random() * 1000).toString();
 
+            }
             var fileName = id + new Date().getTime().toString() + ".mp4";
 
+            console.log("id  = ", id);
+            console.log("user id  = ", user.id);
+            console.log("filename  = ", fileName);
             description = req.body.description;
             if (!description) description = "";
+            console.log(req.body)
             sound_id = fileName;
             if (req.body.sound_id) {
+                console.log("LINE 95")
                 sound_id = req.body.sound_id;
             }
 
 
+            sound_id = "ABC";
             var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
 
 
