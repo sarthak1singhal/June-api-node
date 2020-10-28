@@ -98,13 +98,13 @@ module.exports = function(app) {
                         "id": row_posts[j]['id'],
                         "fb_id": row_posts[j]['fb_id'],
                         "liked": liked[j]['count'],
-                        "user_info": [{
+                        "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
                             "profile_pic": query1[0].profile_pic,
                             "username": query1[0].username,
                             "verified": query1[0].verified,
-                        }],
+                        },
                         "count": {
                             "view": row_posts[j]['view'],
 
@@ -287,13 +287,13 @@ module.exports = function(app) {
                         "id": row_posts[j]['id'],
                         "fb_id": row_posts[j]['fb_id'],
                         "liked": liked[j]['count'],
-                        "user_info": [{
+                        "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
                             "profile_pic": query1[0].profile_pic,
                             "username": query1[0].username,
                             "verified": query1[0].verified,
-                        }],
+                        },
                         "count": {
                             "view": row_posts[j]['view'],
 
@@ -453,13 +453,13 @@ module.exports = function(app) {
                         "fb_id": row_posts[j]['fb_id'],
                         "liked": liked[0]['count'],
 
-                        "user_info": [{
+                        "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
                             "profile_pic": query1[0].profile_pic,
                             "username": query1[0].username,
                             "verified": query1[0].verified,
-                        }],
+                        },
                         "count": {
                             "view": row_posts[j]["view"],
                             "like_count": row_posts[j]['like'],
@@ -647,13 +647,13 @@ module.exports = function(app) {
                         "id": row_posts[j]['id'],
                         "fb_id": row_posts[j]['fb_id'],
                         "liked": liked[0]['count'],
-                        "user_info": [{
+                        "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
                             "profile_pic": query1[0].profile_pic,
                             "username": query1[0].username,
                             "verified": query1[0].verified,
-                        }],
+                        },
                         "count": {
                             "views": row_posts[j]['view'],
                             "like_count": row_posts[j]['like'],
@@ -847,13 +847,13 @@ module.exports = function(app) {
                         "liked": liked[0]['count'],
 
                         "fb_id": row_posts[j]['fb_id'],
-                        "user_info": [{
+                        "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
                             "profile_pic": query1[0].profile_pic,
                             "username": query1[0].username,
                             "verified": query1[0].verified,
-                        }],
+                        },
                         "count": {
                             "like_count": row_posts[j]['like'],
                             "video_comment_count": countcomment[0]['count'],
@@ -950,7 +950,6 @@ async function showMyAllVideos(req, res, limit) {
             if (query1.length != 0) {
 
                 let [query99, f1] = await acon.execute("select * from videos where fb_id= ? order by created DESC limit 0, ?", [fb_id, limit]);
-                console.log(query1)
                 array_out_video = []
                 for (i in query99) {
 
@@ -1002,6 +1001,17 @@ async function showMyAllVideos(req, res, limit) {
                             "like_count": countLikes[0]['count'],
                             "video_comment_count": countcomment[0]['count'],
                             "view": query99[i]['view'],
+                        },
+                        "user_info": {
+
+                            "first_name": query1[0].first_name,
+                            "last_name": query1[0].last_name,
+                            "profile_pic": query1[0].profile_pic,
+
+                            "username": query1[0].username,
+                            "verified": query1[0].verified,
+
+
                         },
                         "sound": s,
                         "created": query99[i]['created']

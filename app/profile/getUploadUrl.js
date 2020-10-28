@@ -16,22 +16,16 @@ module.exports = function(app) {
 
         videoPath = req.body.videoPath;
         thumbPath = req.body.thumbPath;
-        accessToken = req.body.thumbPath;
+        accessToken = req.body.accessToken;
         currentPath = req.body.currentPath;
         console.log(req.body);
         console.log(config.lambda_access_token)
 
-        if (accessToken.toString().trim() != config.lambda_access_token.toString().trim()) {
+        if (accessToken != config.lambda_access_token) {
             console.log("unexqual");
             //return res.send({ isError: "Invalid access" })
         }
-        if (accessToken == config.lambda_access_token) {
-            console.log("EQUAL 29")
-        }
 
-        if (accessToken === config.lambda_access_token) {
-            console.log("EQUAL 29")
-        }
         try {
             var acon = await amysql.createConnection({
                 host: config.host,
