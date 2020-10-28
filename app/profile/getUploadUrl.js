@@ -61,7 +61,6 @@ module.exports = function(app) {
 
 
 
-        var hashids = new Hashids(config.short_id_key);
 
 
         try {
@@ -73,20 +72,22 @@ module.exports = function(app) {
             });
 
             var [abc, fields] = await acon.execute("SELECT * FROM users WHERE fb_id = ?", [req.user.id]);
-            console.log(abc);
+            var hashids = new Hashids(config.short_id_key);
+
             var id = hashids.encode(abc.id);
 
 
 
+            console.log(id, "TJOS OS ID");
             if (!id) {
                 console.log("RANDOM ID")
-                id = (Math.random() * 1000).toString();
+                id = Math.floor((Math.random() * 1000)).toString();
 
             }
             var fileName = id + new Date().getTime().toString() + ".mp4";
 
             console.log("id  = ", id);
-            console.log("user id  = ", user.id);
+            console.log("user id  = ", req.user.id);
             console.log("filename  = ", fileName);
             description = req.body.description;
             if (!description) description = "";
