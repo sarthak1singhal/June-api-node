@@ -18,11 +18,16 @@ module.exports = function(app) {
         thumbPath = req.body.thumbPath;
         accessToken = req.body.thumbPath;
         currentPath = req.body.currentPath;
+        console.log(req.body);
+        console.log(config.lambda_access_token)
+
         if (accessToken != config.lambda_access_token) {
+            console.log("unexqual");
             return res.send({
                 isError: "Invalid access"
             })
         }
+
         try {
             var acon = await amysql.createConnection({
                 host: config.host,
@@ -31,10 +36,13 @@ module.exports = function(app) {
                 database: config.database
             });
 
+
             var [upd, d] = acon.execute("update videos set video = ? where thum = ?, isAvailable = ? where video = ?", [videoPath, thumbPath, currentPath, 1]);
 
+            console.log("UPDATED");
 
         } catch (e) {
+            console.log(e);
             return res.send({
                 "isError": true
             });
