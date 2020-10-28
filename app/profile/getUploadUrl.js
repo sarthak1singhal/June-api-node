@@ -41,7 +41,7 @@ module.exports = function(app) {
             });
 
 
-            var [upd, d] = acon.execute("update videos set video = ? where thum = ?, isAvailable = ? where video = ?", [videoPath, thumbPath, 1, currentPath]);
+            var [upd, d] = await acon.execute("update videos set video = ?, thum = ?, isAvailable = ? where video = ?", [videoPath, thumbPath, 1, currentPath]);
 
             console.log("UPDATED");
 
