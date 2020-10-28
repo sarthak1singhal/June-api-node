@@ -23,11 +23,15 @@ module.exports = function(app) {
 
         if (accessToken != config.lambda_access_token) {
             console.log("unexqual");
-            return res.send({
-                isError: "Invalid access"
-            })
+            //return res.send({ isError: "Invalid access" })
+        }
+        if (accessToken == config.lambda_access_token) {
+            console.log("EQUAL 29")
         }
 
+        if (accessToken === config.lambda_access_token) {
+            console.log("EQUAL 29")
+        }
         try {
             var acon = await amysql.createConnection({
                 host: config.host,
@@ -80,7 +84,6 @@ module.exports = function(app) {
 
             console.log(id, "TJOS OS ID");
             if (!id) {
-                console.log("RANDOM ID")
                 id = Math.floor((Math.random() * 1000)).toString();
 
             }
