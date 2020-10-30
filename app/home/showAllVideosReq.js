@@ -1146,6 +1146,8 @@ async function showMyAllVideos(req, res, limit) {
                     }
 
                     array_out_video.push({
+                        "fb_id": fb_id,
+
                         "id": query99[i]['id'],
                         "video": config.cdnUrl + query99[i]['video'],
                         "thum": config.cdnUrl + query99[i]['thum'],
