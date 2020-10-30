@@ -15,7 +15,6 @@ module.exports = function(app) {
         //v = ["hindi", "enlish", language]
 
 
-        fb_id = req.user.fb_id;
 
         try {
             const acon = await amysql.createConnection({
