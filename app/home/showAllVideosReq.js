@@ -199,7 +199,7 @@ module.exports = function(app) {
 
                 let [liked, fk] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
 
-                console.log(liked);
+                console.log(liked[0]);
                 console.log(fb_id);
                 console.log("ABCD");
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
@@ -253,7 +253,7 @@ module.exports = function(app) {
                     arr.push({
                         "id": row_posts[j]['id'],
                         "fb_id": row_posts[j]['fb_id'],
-                        "liked": liked[j]['count'],
+                        "liked": liked[0]['count'],
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
