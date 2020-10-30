@@ -46,68 +46,73 @@ module.exports = function(app) {
 
                         con.query("select * from videos where id = ?", [video_id], function(error, row) {
 
-                            effected_fb_id = row[0].fb_id;
 
-                            _token = row[0].tokon;
-                            con.query("insert into notification(my_fb_id,effected_fb_id,type,value)values(?,?,?,?)", [fb_id, effected_fb_id, "comment_video", video_id], function(e1, r1) {
+                            if (error) {
+                                console.log(error)
+                            } else {
+                                effected_fb_id = row[0].fb_id;
 
-                                if (e1) console.log(e1)
+                                _token = row[0].tokon;
+                                con.query("insert into notification(my_fb_id,effected_fb_id,type,value)values(?,?,?,?)", [fb_id, effected_fb_id, "comment_video", video_id], function(e1, r1) {
 
-                                else {
+                                    if (e1) console.log(e1)
 
-                                    con.query("select * from users where fb_id = ?", [effected_fb_id], function(e2, r2) {
+                                    else {
 
-                                        if (e2) console.log(e2)
+                                        con.query("select * from users where fb_id = ?", [effected_fb_id], function(e2, r2) {
 
-                                        else {
+                                            if (e2) console.log(e2)
 
-                                            noti = {}
-                                            noti = {
-                                                notification: {}
+                                            else {
+
+                                                noti = {}
+                                                noti = {
+                                                    notification: {}
+                                                }
+
+                                                name = r[0].first_name;
+
+                                                title = name + " posted a comment on your video"
+
+                                                message = comment;
+                                                noti['to'] = _token;
+                                                noti['notification']['title'] = title;
+                                                noti['notification']['body'] = message;
+                                                // $notification['notification']['text'] = $sender_details['User']['username'].' has sent you a friend request';
+                                                noti['notification']['badge'] = "1";
+                                                noti['notification']['sound'] = "default";
+                                                noti['notification']['icon'] = "";
+                                                noti['notification']['image'] = "";
+                                                noti['notification']['type'] = "";
+                                                noti['notification']['data'] = "";
+                                                func.sendNotification(noti)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                             }
 
-                                            name = r[0].first_name;
 
-                                            title = name + " posted a comment on your video"
+                                        })
 
-                                            message = comment;
-                                            noti['to'] = _token;
-                                            noti['notification']['title'] = title;
-                                            noti['notification']['body'] = message;
-                                            // $notification['notification']['text'] = $sender_details['User']['username'].' has sent you a friend request';
-                                            noti['notification']['badge'] = "1";
-                                            noti['notification']['sound'] = "default";
-                                            noti['notification']['icon'] = "";
-                                            noti['notification']['image'] = "";
-                                            noti['notification']['type'] = "";
-                                            noti['notification']['data'] = "";
-                                            func.sendNotification(noti)
+
+                                    }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-                                        }
-
-
-                                    })
-
-
-                                }
-
-
-
-                            })
+                                })
+                            }
 
 
                         })

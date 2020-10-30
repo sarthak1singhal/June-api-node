@@ -9,7 +9,7 @@ module.exports = function(app) {
 
 
     app.post("/get-notification", fx.isLoggedIn, async function(req, res) {
-        fb_id = req.user.id;
+        var fb_id = req.user.id;
 
 
         if (req.body.offset == null) {
@@ -35,11 +35,11 @@ module.exports = function(app) {
             [_query, f] = await acon.execute("select * from notification where effected_fb_id=? order by id desc limit ?, 30", [fb_id, offset])
 
             for (i in _query) {
-                [rd, f1] = await acon.execute("select * from users where fb_id= ?", [_query[i].fb_id]);
+                [rd, f1] = await acon.execute("select * from users where fb_id= ?", [_query[i].my_fb_id]);
                 [rd1, f1] = await acon.execute("select * from videos where id=? ", [_query[i].value]);
 
                 array_out.push({
-                    "fb_id": _query[i]['fb_id'],
+                    "fb_id": _query[i]['my_fb_id'],
                     "fb_id_details": {
                         "first_name": rd[0].first_name,
                         "last_name": rd[0].last_name,

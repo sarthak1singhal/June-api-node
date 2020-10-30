@@ -8,7 +8,7 @@ const fx = require("../functions/functions");
 module.exports = function(app) {
 
 
-    app.post('/showVideoComments', fx.isLoggedIn, async function(req, res) {
+    app.post('/showVideoComments', async function(req, res) {
 
             video_id = req.body.video_id;
 
