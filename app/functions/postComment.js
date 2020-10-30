@@ -19,6 +19,8 @@ module.exports = function(app) {
 
         comment = req.body.comment
 
+        console.log(req.body);
+
         if (fb_id && video_id && comment) {
 
             con.query("select * from users where fb_id = ?", [fb_id], function(e, r) {
@@ -50,6 +52,9 @@ module.exports = function(app) {
                             if (error) {
                                 console.log(error)
                             } else {
+
+                                console.log(row);
+                                console.log(row[0]);
                                 effected_fb_id = row[0].fb_id;
 
                                 _token = row[0].tokon;
