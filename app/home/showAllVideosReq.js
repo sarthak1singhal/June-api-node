@@ -32,7 +32,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos order by where isAvailable = 1 rand() limit 20");
+            let [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 20");
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
