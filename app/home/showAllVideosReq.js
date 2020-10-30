@@ -10,13 +10,12 @@ module.exports = function(app) {
 
 
 
-    app.post('/showAllVideos', fx.isLoggedIn, async function(req, res) {
+    app.post('/showAllVideos', async function(req, res) {
 
 
         //v = ["hindi", "enlish", language]
 
 
-        fb_id = req.user.id
 
         try {
             const acon = await amysql.createConnection({
@@ -33,7 +32,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos order by rand() limit 20");
+            let [row_posts, fields] = await acon.execute("Select * from videos order by where isAvailable = 1 rand() limit 20");
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -78,12 +77,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.cdnUrl + query112[0].id , //complete sound path here
-                                "acc": config.cdnUrl + query112[0].id 
+                                "mp3": config.cdnUrl + query112[0].id, //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.cdnUrl  + query112[0].thum,
+                            "thum": config.cdnUrl + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -101,7 +100,7 @@ module.exports = function(app) {
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic":config.cdnUrl  + query1[0].profile_pic,
+                            "profile_pic": config.cdnUrl + query1[0].profile_pic,
                             "username": query1[0].username,
                             "verified": query1[0].verified,
                         },
@@ -267,12 +266,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.cdnUrl + query112[0].id , //complete sound path here
-                                "acc": config.cdnUrl + query112[0].id 
+                                "mp3": config.cdnUrl + query112[0].id, //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.cdnUrl +  query112[0].thum,
+                            "thum": config.cdnUrl + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -432,12 +431,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.cdnUrl + query112[0].id , //complete sound path here
-                                "acc": config.cdnUrl + query112[0].id 
+                                "mp3": config.cdnUrl + query112[0].id, //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.cdnUrl  + query112[0].thum,
+                            "thum": config.cdnUrl + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -627,8 +626,8 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.cdnUrl + query112[0].id , //complete sound path here
-                                "acc": config.cdnUrl + query112[0].id  
+                                "mp3": config.cdnUrl + query112[0].id, //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
@@ -826,12 +825,12 @@ module.exports = function(app) {
                         smap = {
                             "id": query112[0].id,
                             "audio_path": {
-                                "mp3": config.cdnUrl + query112[0].id  , //complete sound path here
-                                "acc": config.cdnUrl + query112[0].id 
+                                "mp3": config.cdnUrl + query112[0].id, //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,
-                            "thum": config.cdnUrl  + query112[0].thum,
+                            "thum": config.cdnUrl + query112[0].thum,
                             "section": query112[0].section,
                             "created": query112[0].created,
 
@@ -980,8 +979,8 @@ async function showMyAllVideos(req, res, limit) {
                             "id": query112[0].id,
                             "audio_path": {
 
-                                "mp3": config.cdnUrl + query112[0].id  ,
-                                "acc": config.cdnUrl + query112[0].id  
+                                "mp3": config.cdnUrl + query112[0].id,
+                                "acc": config.cdnUrl + query112[0].id
                             },
                             "sound_name": query112[0].sound_name,
                             "description": query112[0].description,

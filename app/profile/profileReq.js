@@ -96,8 +96,8 @@ module.exports = function(app) {
                             smap = {
                                 "id": rd12[0].id,
                                 "audio_path": {
-                                    "mp3": rd12[0].id + ".mp3",
-                                    "acc": rd12[0].id + ".aac"
+                                    "mp3": config.cdnUrl + rd12[0].id,
+                                    "acc": config.cdnUrl + rd12[0].id
                                 },
                                 "sound_name": rd12[0].sound_name,
                                 "description": rd12[0].description,
@@ -110,8 +110,8 @@ module.exports = function(app) {
 
                         array_out_video.push({
                             "id": rdd[0].id,
-                            "video": rdd[0].video,
-                            "thum": rdd[0].thum,
+                            "video": config.cdnUrl + rdd[0].video,
+                            "thum": config.cdnUrl + rdd[0].thum,
                             "description": rdd[0].description,
                             "liked": liked_count[0]['count'],
                             "user_info": {
@@ -119,7 +119,7 @@ module.exports = function(app) {
                                 "username": rd11[0].username,
                                 "verified": rd11[0].verified,
                                 "last_name": rd11[0].last_name,
-                                "profile_pic": rd11[0].profile_pic,
+                                "profile_pic": config.cdnUrl + rd11[0].profile_pic,
                             },
                             "count": {
                                 "like_count": countLikes_count[0]['count'],
@@ -233,11 +233,11 @@ module.exports = function(app) {
                 follow = ""
                 follow_button_status = ""
                 if (follow_count[0]['count'] == "0" || follow_count[0]['count'] == 0) {
-                    follow = "0";
+                    follow = 0;
                     follow_button_status = "Follow";
                 } else
                 if (follow_count[0]['count'] != "0" || follow_count[0]['count'] != 0) {
-                    follow = "1";
+                    follow = 1;
                     follow_button_status = "Unfollow";
                 }
 
@@ -250,7 +250,7 @@ module.exports = function(app) {
                     "last_name": rd1[0].last_name,
                     "gender": rd1[0].gender,
                     "bio": rd1[0].bio,
-                    "profile_pic": rd1[0].profile_pic,
+                    "profile_pic": config.cdnUrl + rd1[0].profile_pic,
                     "created": rd1[0].created,
                     "follow_Status": {
 
@@ -285,7 +285,7 @@ module.exports = function(app) {
 
 
 
-    app.post('/get-followers', fx.isLoggedIn, async function(req, res) {
+    app.post('/get-following', fx.isLoggedIn, async function(req, res) {
 
         fb_id = req.body.fb_id;
         offset = req.body.offset;
@@ -335,11 +335,11 @@ module.exports = function(app) {
                 follow = ""
 
                 if (follow_count[0]['count'] == "0" || follow_count[0]['count'] == 0) {
-                    follow = "0";
+                    follow = 0;
                     follow_button_status = "Follow";
                 } else
                 if (follow_count[0]['count'] != "0" || follow_count[0]['count'] != 0) {
-                    follow = "1";
+                    follow = 1;
                     follow_button_status = "Unfollow";
                 }
 
@@ -352,7 +352,7 @@ module.exports = function(app) {
                     "last_name": rd1[0].last_name,
                     "gender": rd1[0].gender,
                     "bio": rd1[0].bio,
-                    "profile_pic": rd1[0].profile_pic,
+                    "profile_pic": config.cdnUrl + rd1[0].profile_pic,
                     "created": rd1[0].created,
                     "follow_Status": {
                         "follow": follow,

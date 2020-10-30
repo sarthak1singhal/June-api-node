@@ -43,7 +43,7 @@ module.exports = function(app) {
                     "fb_id_details": {
                         "first_name": rd[0].first_name,
                         "last_name": rd[0].last_name,
-                        "profile_pic": rd[0].profile_pic,
+                        "profile_pic": config.cdnUrl + rd[0].profile_pic,
                         "username": rd[0].username,
                         "verified": rd[0].verified,
                     },
@@ -53,8 +53,8 @@ module.exports = function(app) {
                     "value": _query[i]['value'],
                     "value_data": {
                         "id": rd1[0].id,
-                        "video": rd1[0].video,
-                        "thum": rd1[0].thum,
+                        "video": config.cdnUrl + rd1[0].video,
+                        "thum": config.cdnUrl + rd1[0].thum,
                     },
                     "created": _query[i]['created']
                 })
