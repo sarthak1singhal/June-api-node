@@ -199,6 +199,9 @@ module.exports = function(app) {
 
                 let [liked, fk] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
 
+                console.log(liked);
+                console.log(fb_id);
+                console.log("ABCD");
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
                 if (row_posts[j]['view'] > 1000) {
