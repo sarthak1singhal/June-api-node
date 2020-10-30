@@ -9,13 +9,168 @@ module.exports = function(app) {
 
 
 
-
-    app.post('/showAllVideos', async function(req, res) {
+    app.post('/showAllVideosUnsigned', async function(req, res) {
 
 
         //v = ["hindi", "enlish", language]
 
 
+        fb_id = req.user.fb_id;
+
+        try {
+            const acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
+
+            hmap = {};
+            arr = [];
+
+
+
+
+
+            let [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 20");
+
+            for (j in row_posts) {
+                let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+
+                let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
+
+
+                let [countcomment, y] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+
+
+
+                score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
+
+                if (row_posts[j]['view'] > 1000) {
+                    score = row_posts[j]['like'] - 10 * row_posts[j]['report'] - 7 * row_posts[j]['unlike'];
+                } else
+                if (row_posts[j]['view'] > 10000) {
+                    score = row_posts[j]['like'] - 120 * row_posts[j]['report'] - 70 * row_posts[j]['unlike'];
+                }
+
+
+                if (score > 0) {
+                    smap = {};
+                    if (query112.length == 0) {
+
+                        smap = {
+                            "id": null,
+                            "audio_path": {
+                                "mp3": null, //complete sound path here
+                                "acc": null
+                            },
+                            "sound_name": null,
+                            "description": null,
+                            "thum": null,
+                            "section": null,
+                            "created": null,
+
+                        }
+
+                    } else {
+                        smap = {
+                            "id": query112[0].id,
+                            "audio_path": {
+                                "mp3": config.cdnUrl + query112[0].id, //complete sound path here
+                                "acc": config.cdnUrl + query112[0].id
+                            },
+                            "sound_name": query112[0].sound_name,
+                            "description": query112[0].description,
+                            "thum": config.cdnUrl + query112[0].thum,
+                            "section": query112[0].section,
+                            "created": query112[0].created,
+
+                        }
+                    }
+
+
+
+
+
+                    arr.push({
+                        "id": row_posts[j]['id'],
+                        "fb_id": row_posts[j]['fb_id'],
+                        "liked": 0,
+                        "user_info": {
+                            "first_name": query1[0].first_name,
+                            "last_name": query1[0].last_name,
+                            "profile_pic": config.cdnUrl + query1[0].profile_pic,
+                            "username": query1[0].username,
+                            "verified": query1[0].verified,
+                        },
+                        "count": {
+                            "view": row_posts[j]['view'],
+
+                            "like_count": row_posts[j]['like'],
+                            "video_comment_count": countcomment[0]['count']
+                        },
+                        "video": config.cdnUrl + row_posts[j]['video'],
+                        "thum": config.cdnUrl + row_posts[j]['thum'],
+                        "description": row_posts[j]['description'],
+                        "sound": smap,
+
+                        "created": row_posts[j]['created']
+                    });
+
+
+
+                }
+
+
+            }
+
+
+
+
+
+
+
+            return res.send({ isError: false, msg: arr })
+
+        } catch (e) {
+            res.send({
+                isError: true,
+                msg: "Some error"
+            })
+            console.log(e)
+            return
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    })
+
+    app.post('/showAllVideos', fx.isLoggedIn, async function(req, res) {
+
+
+        //v = ["hindi", "enlish", language]
+
+
+        fb_id = req.user.fb_id;
 
         try {
             const acon = await amysql.createConnection({
