@@ -364,7 +364,7 @@ module.exports = function(app) {
             }
 
 
-            res.send({ "code": "200", msg: array_out })
+            res.send({ isError: false, msg: array_out })
 
 
 

@@ -38,6 +38,20 @@ module.exports = function(app) {
                 [rd, f1] = await acon.execute("select * from users where fb_id= ?", [_query[i].my_fb_id]);
                 [rd1, f1] = await acon.execute("select * from videos where id=? ", [_query[i].value]);
 
+                var valueData = {
+
+                };
+
+                if (rd1.length != 0) {
+
+                    valueData = {
+                        "id": rd1[0].id,
+                        "video": config.cdnUrl + rd1[0].video,
+                        "thum": config.cdnUrl + rd1[0].thum,
+                    };
+                }
+
+
                 array_out.push({
                     "fb_id": _query[i]['my_fb_id'],
                     "fb_id_details": {
@@ -51,11 +65,7 @@ module.exports = function(app) {
                     "effected_fb_id": _query[i]['effected_fb_id'],
                     "type": _query[i]['type'],
                     "value": _query[i]['value'],
-                    "value_data": {
-                        "id": rd1[0].id,
-                        "video": config.cdnUrl + rd1[0].video,
-                        "thum": config.cdnUrl + rd1[0].thum,
-                    },
+                    "value_data": valueData,
                     "created": _query[i]['created']
                 })
             }

@@ -38,10 +38,6 @@ module.exports = function(app) {
                     res.send({ isError: false, msg: "unfollow" })
 
 
-
-
-
-
                 })
             } else if (status == 1) {
 

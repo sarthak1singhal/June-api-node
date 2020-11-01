@@ -822,7 +822,7 @@ module.exports = function(app, passport) {
         if (!req.body.number) {
 
             req.body.number = "";
-        } else if ((req.body.number.length > 11 && req.body.number.length < 8) || isNaN(req.body.number.trim())) {
+        } else if ((req.body.number.length > 12 || req.body.number.length < 8) || isNaN(req.body.number.trim())) {
 
             return res.send({
                 isError: true,
