@@ -909,9 +909,15 @@ module.exports = function(app) {
 
         }
 
+        console.log("LINE 912");
         offset = req.body.offset
         limit = req.body.limit
+        console.log(req.body);
+        console.log(my_fb_id);
         if (offset == 0) {
+
+
+            console.log("LINE 920");
             showMyAllVideos(req, res, limit);
 
 
@@ -1085,6 +1091,9 @@ async function showMyAllVideos(req, res, limit) {
     fb_id = req.body.fb_id;
     my_fb_id = req.user.id;
 
+    console.log("LINE 1094");
+    console.log(req.user);
+    console.log(fb_id)
     if (fb_id && my_fb_id) {
 
         var acon = await amysql.createConnection({
@@ -1098,10 +1107,12 @@ async function showMyAllVideos(req, res, limit) {
         try {
 
 
+            console.log("LINE 1110");
 
 
             let [query1, f] = await acon.execute("select * from users where fb_id=? ", [fb_id]);
             if (query1.length != 0) {
+                console.log("LINE 1115");
 
                 let [query99, f1] = await acon.execute("select * from videos where fb_id= ? order by created DESC limit 0, ?", [fb_id, limit]);
                 array_out_video = []
