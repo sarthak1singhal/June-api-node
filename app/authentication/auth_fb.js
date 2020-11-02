@@ -21,7 +21,7 @@ module.exports = function(app, passport) {
 
 
 
-    app.post('/login-fb', function(req, res, next) {
+    app.post('/login-fb', async function(req, res, next) {
         console.log(req.body)
 
         if (!req.body.email) {
