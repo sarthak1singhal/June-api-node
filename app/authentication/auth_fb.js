@@ -72,13 +72,38 @@ module.exports = function(app, passport) {
   }
                             */
 
+                            username = email.split("@")[0];
+                            if (!username) {
+                                username = req.body.f_name;
+                            }
 
+
+                            let data = [];
+                            while (data.length != 1) {
+
+                                new_username = fx.username_append(username);
+                                if (new_username) {
+                                    let [r2, f] = await acon.execute("select * from users where username = ?", [new_username]);
+
+                                    if (r2.length == 0) {
+
+
+                                        if (!data.includes(new_username)) {
+
+                                            data.push(new_username);
+
+                                        }
+                                    }
+                                }
+
+
+                            }
                             con.query("select * from users where email = ?", [email], function(e, r) {
                                 if (e)
                                     console.log(e);
                                 let uuid = uniqid();
                                 if (r.length == 0) {
-                                    con.query("insert into users (first_name, last_name,  email, fb_id,profile_pic,signup_type) values (?,?,?,?,?,?)", [req.body.f_name, req.body.l_name, email, uuid, req.body.profile_pic, req.body.signup_type], function(e, row) {
+                                    con.query("insert into users (first_name, last_name,  email, fb_id,profile_pic,signup_type, username) values (?,?,?,?,?,?,?)", [req.body.f_name, req.body.l_name, email, uuid, req.body.profile_pic, req.body.signup_type, data[0]], function(e, row) {
 
 
                                         if (e) console.log(e)

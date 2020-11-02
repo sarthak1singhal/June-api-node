@@ -90,9 +90,14 @@ module.exports = {
         for (var i = 0; i < Math.floor(Math.random() * 3); i++)
             text += charset2.charAt(Math.floor(Math.random() * charset2.length));
 
+        u_name = username + text + text2;
+        if (u_name.length > 30) {
+            u_name = new Date().getTime().toString();
+        }
 
 
-        return username + text + text2;
+
+        return;
     },
 
 

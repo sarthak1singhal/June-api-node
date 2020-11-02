@@ -170,11 +170,11 @@ INSERT INTO `sound_section` (`id`, `section_name`, `created`) VALUES
 CREATE TABLE `users` (
   `id` int NOT NULL,
   `fb_id` varchar(150) NOT NULL,
-  `username` varchar(25) DEFAULT "",
+  `username` varchar(50) DEFAULT "",
   `verified` int(2) NOT NULL DEFAULT 0,
   `first_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default "",
   `last_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default "",
-  `password` varchar(50) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `phoneNumber` varchar(12) DEFAULT NULL,
   `isPhoneVerified` int(2) NOT NULL DEFAULT 0,
