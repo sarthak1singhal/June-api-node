@@ -846,7 +846,7 @@ module.exports = function(app, passport) {
 
 
 
-        con.query("select * from users where email = ?", [email], function(e, r) {
+        con.query("select * from users where email = ?", [req.body.email], function(e, r) {
 
             if (r.length != 0) {
                 return res.send({
