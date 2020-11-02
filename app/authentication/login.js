@@ -760,7 +760,7 @@ module.exports = function(app, passport) {
 
 
 
-    app.post('/signup', function(req, res, next) {
+    app.post('/signup', async function(req, res, next) {
 
 
         otp = req.body.otp;
@@ -849,6 +849,12 @@ module.exports = function(app, passport) {
             username = req.body.f_name;
         }
 
+        let acon = await amysql.createConnection({
+            host: config.host,
+            user: config.user,
+            password: config.password,
+            database: config.database
+        });
 
         let data = [];
         while (data.length != 1) {
@@ -872,6 +878,7 @@ module.exports = function(app, passport) {
         }
 
 
+
         con.query("select * from users where email = ?", [req.body.email], function(e, r) {
 
             if (r.length != 0) {
@@ -888,7 +895,6 @@ module.exports = function(app, passport) {
 
             let uuid = uniqid();
 
-            console.log(req.body.f_name, req.body.l_name, password, req.body.email, req.body.number, uuid);
 
             if (!req.body.number) {
                 req.body.number = 0

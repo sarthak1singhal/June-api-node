@@ -13,6 +13,7 @@ const axios = require('axios');
 
 var uniqid = require('uniqid');
 
+const amysql = require('mysql2/promise');
 
 module.exports = function(app, passport) {
 
@@ -77,6 +78,12 @@ module.exports = function(app, passport) {
                                 username = req.body.f_name;
                             }
 
+                            let acon = await amysql.createConnection({
+                                host: config.host,
+                                user: config.user,
+                                password: config.password,
+                                database: config.database
+                            });
 
                             let data = [];
                             while (data.length != 1) {
