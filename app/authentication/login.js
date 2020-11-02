@@ -678,7 +678,7 @@ module.exports = function(app, passport) {
         if (!req.body.number) {
 
             req.body.number = "";
-        } else if ((req.body.number.length > 8 && req.body.number.length < 12) || isNaN(req.body.number.trim())) {
+        } else if ((req.body.number.length > 12 || req.body.number.length < 8) || isNaN(req.body.number.trim())) {
             console.log(req.body.number.length > 12 || req.body.number.length < 8);
 
             console.log(isNaN(req.body.number.trim()));
