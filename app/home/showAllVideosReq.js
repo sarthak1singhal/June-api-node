@@ -1288,6 +1288,11 @@ async function showMyAllVideos(req, res, limit) {
                 return res.send({ isError: false, msg: array_out_video, userData: array_out })
 
 
+            } else {
+                return res.send({
+                    isError: true,
+                    msg: "No user found"
+                })
             }
 
 

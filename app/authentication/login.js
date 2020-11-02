@@ -861,9 +861,19 @@ module.exports = function(app, passport) {
 
 
             let uuid = uniqid();
+
+            console.log(req.body.f_name, req.body.l_name, password, req.body.email, req.body.number, uuid);
+
             con.query("insert into users (first_name, last_name, password, email,phoneNumber, fb_id, signup_type) values (?,?,?,?,?,?)", [req.body.f_name, req.body.l_name, password, req.body.email, req.body.number, uuid, "manual"], function(e, row) {
 
+                if (e) {
+                    console.log(e)
+                    return res.send({
 
+                        isError: true,
+                        msg: "Proflie cannot be created"
+                    })
+                }
 
                 var d = {
                     "id": uuid,
