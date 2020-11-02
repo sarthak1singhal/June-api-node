@@ -725,9 +725,9 @@ module.exports = function(app, passport) {
             }
 
 
-            li = createNewOTP(number);
+            li = createNewOTP(req.body.email);
 
-            sendOTPMail(li[1], number)
+            sendOTPMail(li[1], req.body.email)
 
             return res.send({
                 isError: false,
