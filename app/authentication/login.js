@@ -814,7 +814,7 @@ module.exports = function(app, passport) {
             });
 
 
-        isVerify = verifyOTP(req.body.email, req.body.hash, req.body.otp, res);
+        isVerify = verifyOTP(req.body.email, req.body.key, req.body.otp, res);
 
         if (!isVerify) {
             return res.send({
