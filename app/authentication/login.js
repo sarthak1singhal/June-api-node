@@ -681,6 +681,7 @@ module.exports = function(app, passport) {
         } else if ((req.body.number.length > 12 || req.body.number.length < 8) || isNaN(req.body.number.trim())) {
             console.log(req.body.number.length > 12 || req.body.number.length < 8);
 
+            console.log("RANDI RANDI")
             console.log(isNaN(req.body.number.trim()));
 
             return res.send({
