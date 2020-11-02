@@ -857,17 +857,27 @@ module.exports = function(app, passport) {
         });
 
         let data = [];
+        var sa = 0;
         while (data.length != 1) {
 
+            console.log(sa)
+            sa++;
             new_username = fx.username_append(username);
+
+
+            console.log(new_username)
             if (new_username) {
+
                 let [r2, f] = await acon.execute("select * from users where username = ?", [new_username]);
 
+                console.log(r2);
                 if (r2.length == 0) {
 
 
+                    console.log("RAND")
                     if (!data.includes(new_username)) {
 
+                        console.log("BHANDI")
                         data.push(new_username);
 
                     }
