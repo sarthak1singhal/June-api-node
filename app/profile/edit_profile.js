@@ -34,11 +34,11 @@
          }
 
          var last_name;
-         if (first_name.split(" ").length > 1) {
+         if (full_name.split(" ").length > 1) {
 
              first_name = full_name.split(" ")[0];
 
-             for (let i = 1; i < first_name.split(" ").length; i++) {
+             for (let i = 1; i < full_name.split(" ").length; i++) {
                  last_name = last_name + first_name.split(" ")[i] + " ";
              }
 
