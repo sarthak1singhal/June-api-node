@@ -40,14 +40,14 @@ module.exports = function(app) {
             } else if (status == 1) {
 
 
-                con.query("select * from follow_users where fb_id = ? and followed_by_id  = ?", [], function(err, roww) {
+                con.query("select * from follow_users where fb_id = ? and followed_by_id  = ?", [fb_id, followed_fb_id], function(err, roww) {
                     if (err) console.log(err)
 
                     else if (roww.length == 0) {
 
-                        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
+                        //console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
 
-                        con.query("insert into follow_users(fb_id,followed_fb_id)values(?,?)", [fb_id, followed_fb_id], function(e, r) {
+                        con.query("insert into follow_users (fb_id, followed_fb_id) values (?,?)", [fb_id, followed_fb_id], function(e, r) {
 
 
                             if (e) console.log(e)
