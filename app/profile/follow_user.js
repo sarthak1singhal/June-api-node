@@ -22,6 +22,9 @@ module.exports = function(app) {
         followed_fb_id = req.body.other_userid;
         status = req.body.status;
 
+        console.log(fb_id);
+        console.log(req.body)
+
         if (followed_fb_id) {
 
             console.log(req.body);
@@ -31,6 +34,7 @@ module.exports = function(app) {
 
                 con.query("delete from follow_users where fb_id = ? and followed_fb_id = ?", [fb_id, followed_fb_id], function(e, r) {
 
+                    console.log("DELETED");
 
                     if (e) console.log(e)
                     res.send({ isError: false, msg: "unfollow" })
@@ -41,11 +45,13 @@ module.exports = function(app) {
 
 
                 con.query("select * from follow_users where fb_id = ? and followed_fb_id  = ?", [fb_id, followed_fb_id], function(err, roww) {
+
+                    console.log(roww)
                     if (err) console.log(err)
 
                     else if (roww.length == 0) {
 
-                        //console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
+                        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
 
                         con.query("insert into follow_users (fb_id, followed_fb_id) values (?,?)", [fb_id, followed_fb_id], function(e, r) {
 
@@ -60,6 +66,13 @@ module.exports = function(app) {
                                 con.query("insert into notification(my_fb_id,effected_fb_id,type,value)values(?,?,?,?)", [fb_id, followed_fb_id, "following_you", ""], function(err, row) {
 
 
+                                    con.query("select * from follow_users", [], function(err, roo) {
+                                        console.log(roo)
+
+
+                                    })
+
+
 
                                 })
 
@@ -70,6 +83,11 @@ module.exports = function(app) {
                         })
 
                     } else {
+                        con.query("select * from follow_users", [], function(err, roo) {
+                            console.log(roo)
+
+
+                        })
                         res.send({
                             isError: true,
                             msg: "You already follows the user "
