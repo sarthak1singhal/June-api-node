@@ -366,6 +366,7 @@ module.exports = function(app) {
 
             let [users, fields] = await acon.execute("Select * from follow_users where fb_id = ? limit ?,50", [fb_id, offset2]);
 
+            console.log(users);
             arr_id = [];
 
             for (let i = 0; i < users.length; i++)
@@ -373,10 +374,14 @@ module.exports = function(app) {
 
 
 
+
+            console.log(arr_id);
+
             [row_posts, fields] = await acon.execute("Select * from videos where fb_id in ? order by created desc limit ?,20", [arr_id, offset]);
 
 
 
+            console.log(row_posts);
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -962,7 +967,6 @@ module.exports = function(app) {
                 if (row_posts[j]['view'] > 10000) {
                     score = row_posts[j]['like'] - 120 * row_posts[j]['report'] - 70 * row_posts[j]['unlike'];
                 }
-
 
                 if (score > 0) {
                     smap = {};
