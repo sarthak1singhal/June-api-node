@@ -18,13 +18,12 @@ module.exports = function(app) {
     app.post('/follow-user', fx.isLoggedIn, async function(req, res) {
 
 
-        fb_id = req.user.fb_id;
+        fb_id = req.user.id;
         followed_fb_id = req.body.other_userid;
         status = req.body.status;
 
-        if (fb_id && followed_fb_id) {
+        if (followed_fb_id) {
 
-            if (fb_id.trim() == "") return;
             if (followed_fb_id.trim() == "") return;
 
 
