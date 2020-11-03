@@ -24,7 +24,7 @@ module.exports = function(app) {
 
         if (followed_fb_id) {
 
-            if (followed_fb_id.trim() == "") return;
+            console.log(req.body);
 
 
             if (status == 0) {
@@ -39,12 +39,14 @@ module.exports = function(app) {
                 })
             } else if (status == 1) {
 
+                console.log("DADAD")
 
                 con.query("select * from follow_users where fb_id = ? and followed_by_id  = ?", [], function(err, roww) {
                     if (err) console.log(err)
 
                     else if (roww.length == 0) {
 
+                        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
 
                         con.query("insert into follow_users(fb_id,followed_fb_id)values(?,?)", [fb_id, followed_fb_id], function(e, r) {
 
@@ -53,6 +55,7 @@ module.exports = function(app) {
 
                             else {
                                 res.send({ isError: false, msg: "follow successful" })
+                                console.log("ssssssssssssssssss")
 
 
                                 con.query("insert into notification(my_fb_id,effected_fb_id,type,value)values(?,?,?,?)", [fb_id, followed_fb_id, "following_you", ""], function(err, row) {
