@@ -22,11 +22,10 @@ module.exports = function(app) {
         followed_fb_id = req.body.other_userid;
         status = req.body.status;
 
-        if (fb_id && followed_fb_id && status) {
+        if (fb_id && followed_fb_id) {
 
             if (fb_id.trim() == "") return;
             if (followed_fb_id.trim() == "") return;
-            if (status.trim() == "") return;
 
 
             if (status == 0) {

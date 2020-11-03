@@ -39,7 +39,7 @@
              first_name = full_name.split(" ")[0];
 
              for (let i = 1; i < full_name.split(" ").length; i++) {
-                 last_name = last_name + first_name.split(" ")[i] + " ";
+                 last_name = last_name + full_name.split(" ")[i] + " ";
              }
 
              last_name = last_name.trim()
