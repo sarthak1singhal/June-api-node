@@ -1,8 +1,8 @@
 var path = require('path');
-const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require("../functions/functions");
+const con = require('../../params.js')
 
 module.exports = function(app) {
 
@@ -39,7 +39,6 @@ module.exports = function(app) {
                 })
             } else if (status == 1) {
 
-                console.log("DADAD")
 
                 con.query("select * from follow_users where fb_id = ? and followed_by_id  = ?", [], function(err, roww) {
                     if (err) console.log(err)
