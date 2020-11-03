@@ -53,12 +53,13 @@
 
          con.query("select * from users where username = ?", [username], function(e, r) {
 
-             if (r.length != 0) {
-                 return res.send({
-                     isError: true,
-                     "msg": "Username already exist"
-                 })
-             }
+             if (r[0].fb_id != fb_id)
+                 if (r.length != 0) {
+                     return res.send({
+                         isError: true,
+                         "msg": "Username already exist"
+                     })
+                 }
 
 
              con.query("update users SET first_name =? , last_name =? , gender = ?, bio =?  , username = ?  WHERE fb_id = ? ", [first_name, last_name, gender, bio, username, fb_id], function(erri, r) {
