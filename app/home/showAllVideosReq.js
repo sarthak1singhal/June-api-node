@@ -370,7 +370,7 @@ module.exports = function(app) {
             arr_id = [];
 
             for (let i = 0; i < users.length; i++)
-                arr_id.add(users[i].followed_fb_id)
+                arr_id.push(users[i].followed_fb_id)
 
 
 
