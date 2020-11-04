@@ -144,28 +144,11 @@ module.exports = function(app) {
 
 
         try {
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
-
-            var [abc, fields] = await acon.execute("SELECT * FROM users WHERE fb_id = ?", [req.user.id]);
-            var hashids = new Hashids(config.short_id_key);
-
-            var id = hashids.encode(abc.id);
 
 
 
-            console.log(id, "TJOS OS ID");
-            if (!id) {
-                id = Math.floor((Math.random() * 1000)).toString();
+            var fileName = req.user.id + ".png";
 
-            }
-            var fileName = id + new Date().getTime().toString() + ".png";
-
-            console.log("id  = ", id);
             //   var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
 
 
@@ -184,6 +167,7 @@ module.exports = function(app) {
             bucket: config.bucket_name,
             path: "profilePic/" + fileName
 
+
         }
         var x = await fx.generateUploadSignedUrl(p);
 
@@ -191,7 +175,9 @@ module.exports = function(app) {
 
         return res.send({
             url: x,
-            fileName: fileName
+            fileName: "profilePic/" + fileName,
+            cdnurl: config.cdnUrl + "profilePic/" + fileName,
+
         })
     })
 

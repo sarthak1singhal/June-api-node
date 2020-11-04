@@ -222,7 +222,42 @@
 
 
 
+     app.post('/on-profile-img-upload/', fx.isLoggedIn, async function(req, res) {
 
+
+         var acon = await amysql.createConnection({
+             host: config.host,
+             user: config.user,
+             password: config.password,
+             database: config.database
+         });
+
+
+
+
+
+
+
+         try {
+
+
+             [q1, l1] = await acon.execute("update users set profile_pic = ? where fb_id = ?", [req.body.path, req.user.id]);
+
+
+             res.send({
+                 isError: false,
+                 message: 'Uploaded Successfully',
+
+             })
+
+         } catch (e) {
+             console.log(e)
+             res.send({ isError: true, message: e });
+         }
+
+
+
+     })
 
 
      app.post('/get-verified', fx.isLoggedIn, upload.single("file"), async function(req, res) {
