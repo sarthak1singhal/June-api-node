@@ -275,7 +275,7 @@ module.exports = {
         if (!url) {
             return null;
         }
-        if (url.toString().contains("facebook")) {
+        if (url.includes("facebook")) {
             return url;
         } else {
             return config.cdnUrl + url;
