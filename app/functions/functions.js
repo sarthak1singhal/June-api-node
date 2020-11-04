@@ -267,6 +267,21 @@ module.exports = {
 
     }
 
+    ,
+
+    getImageUrl: function(url) {
+
+
+        if (!url) {
+            return null;
+        }
+        if (url.toString().contains("facebook")) {
+            return url;
+        } else {
+            return config.cdnUrl + url;
+        }
+
+    }
 
 
 

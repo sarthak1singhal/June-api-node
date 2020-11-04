@@ -57,7 +57,7 @@ module.exports = function(app) {
                     "fb_id_details": {
                         "first_name": rd[0].first_name,
                         "last_name": rd[0].last_name,
-                        "profile_pic": config.cdnUrl + rd[0].profile_pic,
+                        "profile_pic": fx.getImageUrl(rd[0].profile_pic),
                         "username": rd[0].username,
                         "verified": rd[0].verified,
                     },

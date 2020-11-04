@@ -98,7 +98,7 @@ module.exports = function(app) {
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic": config.cdnUrl + query1[0].profile_pic,
+                            "profile_pic": fx.getImageUrl(query1[0].profile_pic),
                             "username": query1[0].username,
                             "verified": query1[0].verified,
                         },
@@ -255,7 +255,7 @@ module.exports = function(app) {
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic": config.cdnUrl + query1[0].profile_pic,
+                            "profile_pic": fx.getImageUrl(query1[0].profile_pic),
                             "username": query1[0].username,
                             "verified": query1[0].verified,
                         },
@@ -449,7 +449,7 @@ module.exports = function(app) {
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic": query1[0].profile_pic,
+                            "profile_pic": fx.getImageUrl(query1[0].profile_pic),
                             "username": query1[0].username,
                             "verified": query1[0].verified,
                         },
@@ -615,7 +615,7 @@ module.exports = function(app) {
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic": query1[0].profile_pic,
+                            "profile_pic": fx.getImageUrl(query1[0].profile_pic),
                             "username": query1[0].username,
                             "verified": query1[0].verified,
                         },
@@ -809,7 +809,7 @@ module.exports = function(app) {
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic": query1[0].profile_pic,
+                            "profile_pic": fx.getImageUrl(query1[0].profile_pic),
                             "username": query1[0].username,
                             "verified": query1[0].verified,
                         },
@@ -1014,7 +1014,7 @@ module.exports = function(app) {
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic": query1[0].profile_pic,
+                            "profile_pic": fx.getImageUrl(query1[0].profile_pic),
                             "username": query1[0].username,
                             "verified": query1[0].verified,
                         },
@@ -1177,7 +1177,7 @@ async function showMyAllVideos(req, res, limit) {
 
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
-                            "profile_pic": query1[0].profile_pic,
+                            "profile_pic": fx.getImageUrl(query1[0].profile_pic),
 
                             "username": query1[0].username,
                             "verified": query1[0].verified,
@@ -1250,7 +1250,7 @@ async function showMyAllVideos(req, res, limit) {
                         "fb_id": query1[0].fb_id,
                         "first_name": query1[0].first_name,
                         "last_name": query1[0].last_name,
-                        "profile_pic": query1[0].profile_pic,
+                        "profile_pic": fx.getImageUrl(query1[0].profile_pic),
                         "bio": query1[0].bio,
                         "gender": query1[0].gender,
                         "created": query1[0].created,

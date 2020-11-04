@@ -119,7 +119,7 @@ module.exports = function(app) {
                                 "username": rd11[0].username,
                                 "verified": rd11[0].verified,
                                 "last_name": rd11[0].last_name,
-                                "profile_pic": config.cdnUrl + rd11[0].profile_pic,
+                                "profile_pic": fx.getImageUrl(rd11[0].profile_pic),
                             },
                             "count": {
                                 "like_count": countLikes_count[0]['count'],
@@ -250,7 +250,7 @@ module.exports = function(app) {
                     "last_name": rd1[0].last_name,
                     "gender": rd1[0].gender,
                     "bio": rd1[0].bio,
-                    "profile_pic": config.cdnUrl + rd1[0].profile_pic,
+                    "profile_pic": fx.getImageUrl(rd1[0].profile_pic),
                     "created": rd1[0].created,
                     "follow_Status": {
 
@@ -352,7 +352,7 @@ module.exports = function(app) {
                     "last_name": rd1[0].last_name,
                     "gender": rd1[0].gender,
                     "bio": rd1[0].bio,
-                    "profile_pic": config.cdnUrl + rd1[0].profile_pic,
+                    "profile_pic": fx.getImageUrl(rd1[0].profile_pic),
                     "created": rd1[0].created,
                     "follow_Status": {
                         "follow": follow,

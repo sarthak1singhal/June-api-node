@@ -146,10 +146,10 @@ module.exports = function(app) {
         try {
 
 
-
             var fileName = req.user.id + ".png";
 
             //   var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
+
 
 
         } catch (e) {
@@ -170,6 +170,7 @@ module.exports = function(app) {
 
         }
         var x = await fx.generateUploadSignedUrl(p);
+
 
 
 

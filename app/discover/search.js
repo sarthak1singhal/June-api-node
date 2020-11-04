@@ -2,6 +2,7 @@
  const amysql = require('mysql2/promise');
  readJson = require("r-json");
  const config = readJson(`config.json`);
+ const fx = require('../functions/functions')
 
  module.exports = function(app) {
 
@@ -85,7 +86,7 @@
                              "user_info": {
                                  "first_name": rd[0].first_name,
                                  "last_name": rd[0].last_name,
-                                 "profile_pic": rd[0].profile_pic,
+                                 "profile_pic": fx.getImageUrl(rd[0].profile_pic),
                                  "username": rd[0].username,
                                  "verified": rd[0].verified,
                              },
@@ -123,7 +124,7 @@
                              "first_name": row[i]['first_name'],
                              "last_name": row[i]['last_name'],
                              "gender": row[i]['gender'],
-                             "profile_pic": row[i]['profile_pic'],
+                             "profile_pic": fx.getImageUrl(row[i]['profile_pic']),
                              "block": row[i]['block'],
                              "version": row[i]['version'],
                              "device": row[i]['device'],
