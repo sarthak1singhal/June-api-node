@@ -377,7 +377,7 @@ module.exports = function(app) {
 
             console.log(arr_id);
 
-            [row_posts, fields] = await acon.execute("Select * from videos where fb_id in ? order by created desc limit ?,20", [arr_id, offset]);
+            [row_posts, fields] = await acon.execute("Select * from videos where fb_id in (?) order by created desc limit ?,20", [arr_id, offset]);
 
 
 
