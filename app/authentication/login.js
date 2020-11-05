@@ -47,6 +47,7 @@ module.exports = function(app, passport) {
 
 
         email = req.body.email.trim().toLowerCase()
+        password = req.body.password.trim();
 
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -521,7 +522,7 @@ module.exports = function(app, passport) {
 
 
     app.post('/isEmailorUsernameExist', async function(req, res, next) {
-        console.log("req.body")
+        console.log(req.body)
 
         if (!req.body.email) {
             return res.send({
@@ -530,13 +531,12 @@ module.exports = function(app, passport) {
             })
         }
 
-        email = req.body.email.trim()
+        email = req.body.email.trim().toLowerCase()
 
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if (!re.test(String(email).toLowerCase())) {
             username = req.body.email.trim().toLowerCase()
-
 
             try {
 
@@ -598,7 +598,7 @@ module.exports = function(app, passport) {
             if (e) console.log(e)
 
 
-            if (r.length != 0) {
+            if (r.length == 0) {
                 return res.send({
                     isError: true,
                     code: 0,
@@ -606,6 +606,10 @@ module.exports = function(app, passport) {
                     email: email
                 })
             } else {
+
+
+
+
 
                 return res.send({
                     isError: false,

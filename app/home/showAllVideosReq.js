@@ -377,7 +377,7 @@ module.exports = function(app) {
 
             console.log(arr_id);
 
-            [row_posts, fields] = await acon.execute("Select * from videos where fb_id in (?) order by created desc limit ?,20", [arr_id, offset]);
+            [row_posts, fields] = await acon.execute("Select * from videos where fb_id in (?) and isAvailable = 1 order by created desc limit ?,20", [arr_id, offset]);
 
 
 
@@ -554,7 +554,7 @@ module.exports = function(app) {
 
             }
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? limit  ?,21", [req.body.sound_id, req.body.offset]);
+            let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? and isAvailable = 1 limit  ?,21", [req.body.sound_id, req.body.offset]);
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -741,7 +741,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where description like '%" + keyword + "%' limit " + req.body.offset + ", 21 ");
+            let [row_posts, fields] = await acon.execute("Select * from videos where description like '%" + keyword + "%' and isAvailable = 1 limit " + req.body.offset + ", 21 ");
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -946,7 +946,7 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? order by created desc limit ?, ? ", [req.body.fb_id, offset, limit]);
+            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? and isAvailable = 1 order by created desc limit ?, ? ", [req.body.fb_id, offset, limit]);
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -1118,7 +1118,7 @@ async function showMyAllVideos(req, res, limit) {
             if (query1.length != 0) {
                 console.log("LINE 1115");
 
-                let [query99, f1] = await acon.execute("select * from videos where fb_id= ? order by created DESC limit 0, ?", [fb_id, limit]);
+                let [query99, f1] = await acon.execute("select * from videos where fb_id= ? and isAvailable = 1 order by created DESC limit 0, ?", [fb_id, limit]);
                 array_out_video = []
                 for (i in query99) {
 
@@ -1192,7 +1192,7 @@ async function showMyAllVideos(req, res, limit) {
 
 
                 //count total heart
-                let [query123, k2] = await acon.execute("select * from videos where fb_id=? ", [fb_id]);
+                let [query123, k2] = await acon.execute("select * from videos where fb_id=? and isAvailable = ?", [fb_id, 1]);
 
                 let array_out_count_heart = 0;
                 for (u in query123) {
