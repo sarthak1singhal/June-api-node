@@ -53,8 +53,10 @@ module.exports = function(app, passport) {
 
         if (!re.test(String(email).toLowerCase())) {
 
+            console.log("ITS A USERNANE")
             con.query("select * from users where username = ?", [email], function(e, r) {
 
+                console.log(r)
                 if (r.length == 0) {
                     return res.send({
                         isError: true,
@@ -63,7 +65,9 @@ module.exports = function(app, passport) {
                     })
                 }
 
+                console.log("username in database")
                 if (!bcrypt.compareSync(password, r[0].password)) {
+                    console.log("passwords do not match")
                     return res.send({
                         isError: true,
                         code: 1,
@@ -74,12 +78,14 @@ module.exports = function(app, passport) {
 
                     user = r[0]
 
+                    console.log("Passwordds match")
 
                     var d = {
                         "id": user.fb_id,
                     }
                     const token = jwt.sign(JSON.stringify(d), config.jwt_secret);
 
+                    console.log("JWT")
 
                     refresh_token = "";
 
@@ -199,9 +205,12 @@ module.exports = function(app, passport) {
 
             })
         } else {
+
+            console.log("ITS AN EMAIL")
             con.query("select * from users where email = ?", [email], function(e, r) {
 
 
+                console.log(r[0])
 
 
                 if (r.length == 0) {
@@ -222,6 +231,7 @@ module.exports = function(app, passport) {
 
 
                 if (!bcrypt.compareSync(password, r[0].password)) {
+                    console.log("WRONG PASSSSSOQRK")
                     return res.send({
                         isError: true,
                         code: 1,
