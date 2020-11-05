@@ -63,7 +63,7 @@ module.exports = function(app, passport) {
                     })
                 }
 
-                if (!bcrypt.compareSync(password, rows[0].password)) {
+                if (!bcrypt.compareSync(password, r[0].password)) {
                     return res.send({
                         isError: true,
                         code: 1,
@@ -221,7 +221,7 @@ module.exports = function(app, passport) {
 
 
 
-                if (!bcrypt.compareSync(password, rows[0].password)) {
+                if (!bcrypt.compareSync(password, r[0].password)) {
                     return res.send({
                         isError: true,
                         code: 1,
