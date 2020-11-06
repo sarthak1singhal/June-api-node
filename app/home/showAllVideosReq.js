@@ -58,7 +58,7 @@ module.exports = function(app) {
                     if (query112.length == 0) {
 
                         smap = {
-                            "id": null,
+                            "id": row_posts[j].sound_id,
                             "audio_path": {
                                 "mp3": null, //complete sound path here
                                 "acc": null
@@ -215,7 +215,7 @@ module.exports = function(app) {
                     if (query112.length == 0) {
 
                         smap = {
-                            "id": null,
+                            "id": row_posts[j].sound_id,
                             "audio_path": {
                                 "mp3": null, //complete sound path here
                                 "acc": null
@@ -409,7 +409,7 @@ module.exports = function(app) {
                     if (query112.length == 0) {
 
                         smap = {
-                            "id": null,
+                            "id": row_posts[j].sound_id,
                             "audio_path": {
                                 "mp3": null, //complete sound path here
                                 "acc": null
@@ -574,7 +574,7 @@ module.exports = function(app) {
                     if (query112.length == 0) {
 
                         smap = {
-                            "id": null,
+                            "id": row_posts[j].sound_id,
                             "audio_path": {
                                 "mp3": null, //complete sound path here
                                 "acc": null
@@ -769,7 +769,7 @@ module.exports = function(app) {
                     if (query112.length == 0) {
 
                         smap = {
-                            "id": null,
+                            "id": row_posts[j].sound_id,
                             "audio_path": {
                                 "mp3": null, //complete sound path here
                                 "acc": null
@@ -973,7 +973,7 @@ module.exports = function(app) {
                     if (query112.length == 0) {
 
                         smap = {
-                            "id": null,
+                            "id": row_posts[j].sound_id,
                             "audio_path": {
                                 "mp3": null, //complete sound path here
                                 "acc": null
@@ -1124,7 +1124,7 @@ async function showMyAllVideos(req, res, limit) {
 
                     let [countLikes, f2] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
 
-                    let [query112, nk] = await acon.execute("select * from sound where id=?", [query99[i].id]);
+                    let [query112, nk] = await acon.execute("select * from sound where id=?", [query99[i].sound_id]);
                     let [countcomment, f3] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
 
                     let [liked, f4] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
@@ -1132,7 +1132,7 @@ async function showMyAllVideos(req, res, limit) {
                     s = {};
                     if (query112.length == 0) {
                         s = {
-                            "id": null,
+                            "id": query99[j].sound_id,
                             "audio_path": {
                                 "mp3": null, //complete sound path here
                                 "acc": null

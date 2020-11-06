@@ -221,7 +221,7 @@ CREATE TABLE `videos` (
   `gif` varchar(500) default NULL,
   `view` int(11) NOT NULL DEFAULT '0',
   `section` varchar(250) NOT NULL DEFAULT '0',
-  `sound_id` varchar(80) NOT NULL DEFAULT '0',
+  `sound_id` varchar(120) NOT NULL DEFAULT '0',
   `language` varchar(20) NOT NULL DEFAULT 'english',
   `category` varchar(35) DEFAULT NULL,
   `like` int(11) NOT NULL  default 0 COMMENT '1= like ',

@@ -22,7 +22,7 @@ module.exports = function(app) {
         console.log(config.lambda_access_token)
 
         if (accessToken != config.lambda_access_token) {
-            console.log("unexqual");
+            console.log("unequal");
             //return res.send({ isError: "Invalid access" })
         }
 
@@ -91,12 +91,10 @@ module.exports = function(app) {
             console.log(req.body)
             sound_id = fileName;
             if (req.body.sound_id) {
-                console.log("LINE 95")
                 sound_id = req.body.sound_id;
             }
 
 
-            sound_id = "ABC";
             var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
 
 

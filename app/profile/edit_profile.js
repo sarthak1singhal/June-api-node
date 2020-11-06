@@ -55,8 +55,9 @@
 
              console.log(r);
              console.log(fb_id);
-             if (r[0].fb_id != fb_id)
-                 if (r.length != 0) {
+
+             if (r.length != 0)
+                 if (r[0].fb_id != fb_id) {
                      return res.send({
                          isError: true,
                          "msg": "Username already exist"

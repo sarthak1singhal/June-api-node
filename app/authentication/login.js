@@ -30,7 +30,6 @@ module.exports = function(app, passport) {
 
 
     app.post('/login', function(req, res, next) {
-        console.log("req.body")
 
         if (!req.body.email) {
             return res.send({
@@ -53,10 +52,8 @@ module.exports = function(app, passport) {
 
         if (!re.test(String(email).toLowerCase())) {
 
-            console.log("ITS A USERNANE")
             con.query("select * from users where username = ?", [email], function(e, r) {
 
-                console.log(r)
                 if (r.length == 0) {
                     return res.send({
                         isError: true,
@@ -65,9 +62,7 @@ module.exports = function(app, passport) {
                     })
                 }
 
-                console.log("username in database")
                 if (!bcrypt.compareSync(password, r[0].password)) {
-                    console.log("passwords do not match")
                     return res.send({
                         isError: true,
                         code: 1,
@@ -206,11 +201,9 @@ module.exports = function(app, passport) {
             })
         } else {
 
-            console.log("ITS AN EMAIL")
             con.query("select * from users where email = ?", [email], function(e, r) {
 
 
-                console.log(r[0])
 
 
                 if (r.length == 0) {
@@ -563,6 +556,16 @@ module.exports = function(app, passport) {
 
 
 
+                if (r[0].signup_type == "facebook") {
+
+                    return res.send({
+                        isError: true,
+                        code: 2,
+                        message: "This account is linked with facebook, use facebook login to continue",
+                        email: email
+                    })
+                }
+
 
                 if (r.length == 0) {
                     return res.send({
@@ -572,11 +575,6 @@ module.exports = function(app, passport) {
                         email: email
                     })
                 } else {
-
-
-
-
-
 
                     return res.send({
                         isError: false,
@@ -618,6 +616,15 @@ module.exports = function(app, passport) {
             } else {
 
 
+                if (r[0].signup_type == "facebook") {
+
+                    return res.send({
+                        isError: true,
+                        code: 2,
+                        message: "This account is linked with facebook, use facebook login to continue",
+                        email: email
+                    })
+                }
 
 
 
