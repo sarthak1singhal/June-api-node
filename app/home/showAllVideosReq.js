@@ -564,7 +564,7 @@ module.exports = function(app) {
 
                 let [countcomment, fn] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
-                [liked_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [_query[i].video_id, fb_id]);
+                [liked_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [row_posts[i].id, fb_id]);
 
 
 
@@ -1132,7 +1132,7 @@ async function showMyAllVideos(req, res, limit) {
                     s = {};
                     if (query112.length == 0) {
                         s = {
-                            "id": query99[j].sound_id,
+                            "id": query99[i].sound_id,
                             "audio_path": {
                                 "mp3": null, //complete sound path here
                                 "acc": null
