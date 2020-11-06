@@ -556,6 +556,7 @@ module.exports = function(app) {
 
             let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? and isAvailable = 1 limit  ?,21", [req.body.sound_id, req.body.offset]);
 
+            console.log(row_posts);
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
 
