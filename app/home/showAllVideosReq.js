@@ -546,14 +546,9 @@ module.exports = function(app) {
                 })
 
             }
-            if (req.body.offset == null) {
-                return res.send({
-                    isError: true,
-                    msg: "Invalid Parameters"
-                })
 
-            }
 
+            console.log(req.body);
             let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? and isAvailable = 1 limit  ?,21", [req.body.sound_id, req.body.offset]);
 
             console.log(row_posts);
