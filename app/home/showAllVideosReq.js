@@ -1192,13 +1192,16 @@ async function showMyAllVideos(req, res, limit) {
 
                 let array_out_count_heart = 0;
                 for (u in query123) {
-                    array_out_count_heart += query123[u]['id'] + ',';
+                    array_out_count_heart.push(query123[u]['id']);
                 }
 
-                array_out_count_heart = array_out_count_heart + '0';
+                //array_out_count_heart = array_out_count_heart + '0';
 
-                let [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN( ? ) ", [array_out_count_heart]);
+                let [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (?) ", [array_out_count_heart]);
 
+                console.log(array_out_count_heart);
+
+                console.log(hear_count);
                 //count total heart
 
                 //count total_fans
