@@ -1190,7 +1190,7 @@ async function showMyAllVideos(req, res, limit) {
                 //count total heart
                 let [query123, k2] = await acon.execute("select * from videos where fb_id=? and isAvailable = ?", [fb_id, 1]);
 
-                let array_out_count_heart = 0;
+                let array_out_count_heart = [];
                 for (u in query123) {
                     array_out_count_heart.push(query123[u]['id']);
                 }
