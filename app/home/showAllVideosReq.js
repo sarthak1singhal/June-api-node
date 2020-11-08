@@ -1199,9 +1199,9 @@ async function showMyAllVideos(req, res, limit) {
 
                 let [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
 
-                console.log(hear_count)
-                console.log(array_out_count_heart)
-                    //count total heart
+                console.log(hear_count);
+                console.log(array_out_count_heart);
+                //count total heart
 
                 //count total_fans
 
@@ -1217,7 +1217,8 @@ async function showMyAllVideos(req, res, limit) {
 
 
 
-                console.log(total_following[0]["count"], "total following bc") console.log(total_fans, "total fans bc")
+                console.log(total_following[0]["count"], "total following bc")
+                console.log(total_fans, "total fans bc")
 
                 count_video_rows = array_out_video.length;
                 if (count_video_rows == 0) {
