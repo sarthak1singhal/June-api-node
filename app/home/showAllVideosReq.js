@@ -1190,19 +1190,18 @@ async function showMyAllVideos(req, res, limit) {
                 //count total heart
                 let [query123, k2] = await acon.execute("select * from videos where fb_id=? and isAvailable = ?", [fb_id, 1]);
 
-                let array_out_count_heart = [];
+                let array_out_count_heart = '';
                 for (u in query123) {
-                    array_out_count_heart.push(query123[u]['id']);
+                    array_out_count_heart += query123[u]['id'] + ',';
                 }
 
-                //array_out_count_heart = array_out_count_heart + '0';
+                array_out_count_heart = array_out_count_heart.substring(0, array_out_count_heart.length - 1);;
 
-                let [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (?) ", [array_out_count_heart]);
+                let [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
 
-                console.log(array_out_count_heart);
-
-                console.log(hear_count);
-                //count total heart
+                console.log(hear_count)
+                console.log(array_out_count_heart)
+                    //count total heart
 
                 //count total_fans
 
@@ -1218,8 +1217,7 @@ async function showMyAllVideos(req, res, limit) {
 
 
 
-                console.log(total_following[0]["count"], "total following bc")
-                console.log(total_fans, "total fans bc")
+                console.log(total_following[0]["count"], "total following bc") console.log(total_fans, "total fans bc")
 
                 count_video_rows = array_out_video.length;
                 if (count_video_rows == 0) {
@@ -1236,8 +1234,7 @@ async function showMyAllVideos(req, res, limit) {
                 if (follow_count[0]['count'] == 0) {
                     follow = "0";
                     follow_button_status = "Follow";
-                } else
-                if (follow_count[0]['count'] != 0) {
+                } else if (follow_count[0]['count'] != 0) {
                     follow = "1";
                     follow_button_status = "Unfollow";
                 }
