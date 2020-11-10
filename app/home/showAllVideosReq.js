@@ -392,7 +392,7 @@ module.exports = function(app) {
             console.log(row_posts);
             console.log(str_id)
 
-            [rooooPostt, fields] = await acon.execute("Select * from videos where fb_id IN (" + str_id + ") and isAvailable = 1 order by created desc limit " + offset + " , 20 ", []);
+            var [rooooPostt, ff] = await acon.execute("Select * from videos where fb_id IN (" + str_id + ") and isAvailable = 1 order by created desc limit " + offset + " , 20 ", []);
 
 
             console.log(rooooPostt)
@@ -1211,11 +1211,14 @@ async function showMyAllVideos(req, res, limit) {
                     array_out_count_heart += query123[u]['id'] + ',';
                 }
 
-                array_out_count_heart = array_out_count_heart.substring(0, array_out_count_heart.length - 1);;
+                console.log(array_out_count_heart)
+
+                if (array_out_count_heart.trim())
+                    array_out_count_heart = array_out_count_heart.substring(0, array_out_count_heart.length - 1);;
 
 
                 hear_count = [{ "count": 0 }];
-                if (array_out_count_heart.trim)
+                if (array_out_count_heart.trim())
                     [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
 
                 //count total heart
