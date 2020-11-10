@@ -199,10 +199,10 @@ module.exports = function(app) {
 
             if (req.body.haveIds == null) req.body.haveIds = "";
             if (req.body.haveIds.trim()) {
-                [row_posts, fields] = await acon.execute("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 3");
+                [row_posts, fields] = await acon.execute("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 20");
 
             } else {
-                [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 3");
+                [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 20");
 
             }
 
