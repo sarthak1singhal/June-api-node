@@ -369,25 +369,30 @@ module.exports = function(app) {
             console.log(users);
             arr_id = [];
 
-            var str_id = "";
+            var str_id = '';
 
             for (let i = 0; i < users.length; i++) {
                 arr_id.push(users[i].followed_fb_id)
-                str_id += users[i].followed_fb_id + ",";
+                str_id += users[i].followed_fb_id + ',';
 
             }
 
-            str_id = str_id.substring(0, str_id.length - 1);;
+            if (str_id)
+                str_id = str_id.substring(0, str_id.length - 1);;
 
 
             console.log(arr_id);
+
+
 
             [row_posts, fields] = await acon.execute("Select * from videos where fb_id in (?) and isAvailable = 1 order by created desc limit ?,20", [arr_id, offset]);
 
 
 
             console.log(row_posts);
-            [rooooPostt, fields] = await acon.execute("Select * from videos where fb_id in (" + str_id + ") and isAvailable = 1 order by created desc limit ? , 20 ", [offset]);
+            console.log(str_id)
+
+            [rooooPostt, fields] = await acon.execute("Select * from videos where fb_id IN (" + str_id + ") and isAvailable = 1 order by created desc limit " + offset + " , 20 ", []);
 
 
             console.log(rooooPostt)
@@ -1197,7 +1202,9 @@ async function showMyAllVideos(req, res, limit) {
 
 
                 //count total heart
-                let [query123, k2] = await acon.execute("select * from videos where fb_id=? and isAvailable = ?", [fb_id, 1]);
+                console.log(fb_id)
+
+                let [query123, k2] = await acon.execute("select * from videos where fb_id = ? and isAvailable = ?", [fb_id, 1]);
 
                 let array_out_count_heart = '';
                 for (u in query123) {
@@ -1206,7 +1213,10 @@ async function showMyAllVideos(req, res, limit) {
 
                 array_out_count_heart = array_out_count_heart.substring(0, array_out_count_heart.length - 1);;
 
-                let [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
+
+                hear_count = [{ "count": 0 }];
+                if (array_out_count_heart.trim)
+                    [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
 
                 //count total heart
 
@@ -1341,5 +1351,8 @@ async function showMyAllVideos(req, res, limit) {
 
             })
     }
+
+}
+}
 
 }
