@@ -369,10 +369,15 @@ module.exports = function(app) {
             console.log(users);
             arr_id = [];
 
-            for (let i = 0; i < users.length; i++)
+            var str_id = "";
+
+            for (let i = 0; i < users.length; i++) {
                 arr_id.push(users[i].followed_fb_id)
+                str_id += users[i].followed_fb_id + ",";
 
+            }
 
+            str_id = str_id.substring(0, str_id.length - 1);;
 
 
             console.log(arr_id);
@@ -382,6 +387,10 @@ module.exports = function(app) {
 
 
             console.log(row_posts);
+            [rooooPostt, fields] = await acon.execute("Select * from videos where fb_id in (" + str_id + ") and isAvailable = 1 order by created desc limit ? , 20 ", [offset]);
+
+
+            console.log(rooooPostt)
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -1199,8 +1208,6 @@ async function showMyAllVideos(req, res, limit) {
 
                 let [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
 
-                console.log(hear_count);
-                console.log(array_out_count_heart);
                 //count total heart
 
                 //count total_fans
@@ -1216,9 +1223,6 @@ async function showMyAllVideos(req, res, limit) {
                 //count total_following
 
 
-
-                console.log(total_following[0]["count"], "total following bc")
-                console.log(total_fans, "total fans bc")
 
                 count_video_rows = array_out_video.length;
                 if (count_video_rows == 0) {
