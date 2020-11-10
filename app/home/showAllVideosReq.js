@@ -32,6 +32,7 @@ module.exports = function(app) {
 
 
             row_posts = [];
+            if (req.body.haveIds == null) req.body.haveIds = "";
 
             if (req.body.haveIds.trim()) {
                 [row_posts, fields] = await acon.execute("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 20");
@@ -196,6 +197,7 @@ module.exports = function(app) {
 
             row_posts = [];
 
+            if (req.body.haveIds == null) req.body.haveIds = "";
             if (req.body.haveIds.trim()) {
                 [row_posts, fields] = await acon.execute("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 3");
 
