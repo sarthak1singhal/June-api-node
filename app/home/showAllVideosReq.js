@@ -389,7 +389,6 @@ module.exports = function(app) {
                 [row_posts, ffff] = await acon.execute("Select * from `videos` where `fb_id` IN (" + str_id + ") and isAvailable = 1 order by created desc limit " + offset + " , 20 ", []);
 
 
-            console.log(rooooPostt)
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
