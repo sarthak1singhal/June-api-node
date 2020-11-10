@@ -31,7 +31,15 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 20");
+            row_posts = [];
+
+            if (req.body.haveIds.trim()) {
+                [row_posts, fields] = await acon.execute("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 20");
+
+            } else {
+                [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 20");
+
+            }
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
@@ -186,7 +194,15 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 20");
+            row_posts = [];
+
+            if (req.body.haveIds.trim()) {
+                [row_posts, fields] = await acon.execute("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 3");
+
+            } else {
+                [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 3");
+
+            }
 
             for (j in row_posts) {
                 let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);

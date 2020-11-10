@@ -81,23 +81,23 @@ module.exports = function(app) {
                 id = Math.floor((Math.random() * 1000)).toString();
 
             }
-            var fileName = id + new Date().getTime().toString() + ".mp4";
+            var fileName = id + new Date().getTime().toString();
+            sound_id = fileName;
 
+            fileName = fileName + ".mp4";
             console.log("id  = ", id);
             console.log("user id  = ", req.user.id);
             console.log("filename  = ", fileName);
             description = req.body.description;
             if (!description) description = "";
             console.log(req.body)
-            sound_id = fileName;
             if (req.body.sound_id) {
                 sound_id = req.body.sound_id;
             }
 
 
-            console.log(description);
-            console.log(sound_id);
-            // var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
+
+            var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
 
 
         } catch (e) {
@@ -121,7 +121,7 @@ module.exports = function(app) {
 
 
         return res.send({
-            //     url: x,
+            url: x,
             fileName: fileName
         })
     })
