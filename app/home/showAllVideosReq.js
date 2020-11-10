@@ -367,32 +367,26 @@ module.exports = function(app) {
             let [users, fields] = await acon.execute("Select * from follow_users where fb_id = ? limit ?,50", [fb_id, offset2]);
 
             console.log(users);
-            arr_id = [];
 
             var str_id = '';
 
             for (let i = 0; i < users.length; i++) {
-                arr_id.push(users[i].followed_fb_id)
-                str_id += users[i].followed_fb_id + ',';
+                str_id += "'" + users[i].followed_fb_id + "',";
 
             }
 
-            if (str_id)
+            if (str_id.trim())
                 str_id = str_id.substring(0, str_id.length - 1);;
 
 
-            console.log(arr_id);
 
 
 
-            [row_posts, fields] = await acon.execute("Select * from videos where fb_id in (?) and isAvailable = 1 order by created desc limit ?,20", [arr_id, offset]);
-
-
-
-            console.log(row_posts);
             console.log(str_id)
 
-            var [rooooPostt, ff] = await acon.execute("Select * from videos where fb_id IN (" + str_id + ") and isAvailable = 1 order by created desc limit " + offset + " , 20 ", []);
+            row_posts = [];
+            if (str_id.trim())
+                [row_posts, ffff] = await acon.execute("Select * from `videos` where `fb_id` IN (" + str_id + ") and isAvailable = 1 order by created desc limit " + offset + " , 20 ", []);
 
 
             console.log(rooooPostt)
