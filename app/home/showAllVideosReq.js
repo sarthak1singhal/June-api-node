@@ -452,7 +452,7 @@ module.exports = function(app) {
                     arr.push({
                         "id": row_posts[j]['id'],
                         "fb_id": row_posts[j]['fb_id'],
-                        "liked": liked[j]['count'],
+                        "liked": liked[0]['count'],
                         "user_info": {
                             "first_name": query1[0].first_name,
                             "last_name": query1[0].last_name,
