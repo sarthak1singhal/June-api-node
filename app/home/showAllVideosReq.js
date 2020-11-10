@@ -1353,6 +1353,3 @@ async function showMyAllVideos(req, res, limit) {
     }
 
 }
-}
-
-}
