@@ -95,7 +95,9 @@ module.exports = function(app) {
             }
 
 
-            var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
+            console.log(description);
+            console.log(sound_id);
+            // var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
 
 
         } catch (e) {
@@ -119,7 +121,7 @@ module.exports = function(app) {
 
 
         return res.send({
-            url: x,
+            //     url: x,
             fileName: fileName
         })
     })
