@@ -866,7 +866,7 @@ module.exports = function(app) {
 
 
             let [hashtagDetails, fields66] = await acon.execute("select * from discover_section where section_name = ?", [req.body.hashtag]);
-            let [videoCount, fields66] = await acon.execute("SELECT count(*) as count from videos where description like '%" + keyword + "%' and isAvailable = 1 ");
+            let [videoCount, cda] = await acon.execute("SELECT count(*) as count from videos where description like '%" + keyword + "%' and isAvailable = 1 ");
 
 
 
