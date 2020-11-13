@@ -548,7 +548,7 @@ module.exports = function(app) {
 
 
         //v = ["hindi", "enlish", language]
-        fb_id = req.user.id
+        fb_id = req.body.fb_id
 
 
         try {
@@ -585,7 +585,11 @@ module.exports = function(app) {
 
                 let [countcomment, fn] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
-                [liked_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [row_posts[j].id, fb_id]);
+                liked_count = [{
+                    count: 0
+                }]
+                if (fb_id)
+                    [liked_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [row_posts[j].id, fb_id]);
 
 
 
@@ -712,7 +716,7 @@ module.exports = function(app) {
         //v = ["hindi", "enlish", language]
 
 
-        fb_id = req.user.id
+        fb_id = req.body.fb_id
 
         if (!req.body.hashtag) {
             return res.send({
@@ -773,7 +777,11 @@ module.exports = function(app) {
                 let [countcomment, m] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
 
-                let [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
+                liked = [{
+                    "count": 0
+                }];
+                if (fb_id)
+                    [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
