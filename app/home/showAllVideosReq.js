@@ -666,11 +666,12 @@ module.exports = function(app) {
 
 
 
+            let [videoCount, fields66] = await acon.execute("SELECT count(*) as count from videos where sound_id = ? and isAvailable = 1", [req.body.sound_id]);
 
 
 
 
-            return res.send({ isError: false, msg: arr })
+            return res.send({ isError: false, msg: arr, count: videoCount[0]["count"] })
 
         } catch (e) {
             console.log(e)
@@ -864,10 +865,12 @@ module.exports = function(app) {
 
 
 
+            let [hashtagDetails, fields66] = await acon.execute("select * from discover_section where section_name = ?", [req.body.hashtag]);
+            let [videoCount, fields66] = await acon.execute("SELECT count(*) as count from videos where description like '%" + keyword + "%' and isAvailable = 1 ");
 
 
 
-            return res.send({ isError: false, msg: arr })
+            return res.send({ isError: false, msg: arr, hashtagDetails: hashtagDetails[0], videoCount: videoCount[0]["count"] })
 
         } catch (e) {
 

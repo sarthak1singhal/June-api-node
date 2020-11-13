@@ -63,16 +63,17 @@ CREATE TABLE `device_tokon` (
 
 CREATE TABLE `discover_section` (
   `id` INT AUTO_INCREMENT primary key NOT NULL,
-
   `section_name` varchar(50) NOT NULL,
+  `section_image` varchar(50) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-`value` int(12) default 0
+  `value` int(12) default 0
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `discover_section`
---
 
+
+
+
+  
  
 
 -- --------------------------------------------------------
@@ -135,11 +136,7 @@ CREATE TABLE `sound` (
 -- Dumping data for table `sound`
 --
 
-INSERT INTO `sound` (`id`, `sound_name`, `description`, `thum`, `section`, `created`) VALUES
-(130, 'Ampinity News dont share this any one', 'Ampinity News dont share this any one, dont make a noice  dont make a noice ', 'upload/audio/1059953430.jpg', '23', '2020-06-25 11:48:38'),
-
-(153, 'uae', 'uae 122', 'upload/audio/uae.jpg', '28', '2020-06-25 11:48:41');
-
+ 
 -- --------------------------------------------------------
 
 --

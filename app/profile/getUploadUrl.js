@@ -99,6 +99,22 @@ module.exports = function(app) {
 
             var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
 
+            if (req.body.hashtags) {
+
+                var l = req.body.hashtags;
+                for (var i = 0; i < l; i++) {
+
+                    var [ex, aaelds] = await acon.execute("select * from discover_section where section_name = ?", [l[i]]);
+
+                    if (ex.length == 0) {
+                        var [sa, aaeldss] = await acon.execute("insert into discover_section (section_name) values (?)", [l[i]]);
+
+                    }
+
+
+                }
+
+            }
 
         } catch (e) {
             console.log(e);

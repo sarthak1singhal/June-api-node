@@ -33,7 +33,7 @@
              })
          }
 
-         var last_name;
+         var last_name = "";
          if (full_name.split(" ").length > 1) {
 
              first_name = full_name.split(" ")[0];
