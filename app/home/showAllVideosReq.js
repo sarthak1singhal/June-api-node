@@ -544,7 +544,7 @@ module.exports = function(app) {
 
 
 
-    app.post('/videos-by-sound', fx.isLoggedIn, async function(req, res) {
+    app.post('/videos-by-sound', async function(req, res) {
 
 
         //v = ["hindi", "enlish", language]
@@ -710,7 +710,7 @@ module.exports = function(app) {
 
 
 
-    app.post('/videos-by-hashtag', fx.isLoggedIn, async function(req, res) {
+    app.post('/videos-by-hashtag', async function(req, res) {
 
 
         //v = ["hindi", "enlish", language]
