@@ -73,7 +73,7 @@ module.exports = function(app, passport) {
 
                     user = r[0]
 
-                    console.log("Passwordds match")
+                    console.log("Passwords match")
 
                     var d = {
                         "id": user.fb_id,
@@ -690,10 +690,10 @@ module.exports = function(app, passport) {
         }
 
         req.body.email = req.body.email.trim()
-        if (req.body.email.length > 50) {
+        if (req.body.email.length > 254) {
             return (res.send({
                 isError: true,
-                message: "Email too long, make length less than 50 characters"
+                message: "Email too long"
             }))
         }
         if (!req.body.number) {
@@ -702,7 +702,6 @@ module.exports = function(app, passport) {
         } else if ((req.body.number.length > 12 || req.body.number.length < 8) || isNaN(req.body.number.trim())) {
             console.log(req.body.number.length > 12 || req.body.number.length < 8);
 
-            console.log("RANDI RANDI")
             console.log(isNaN(req.body.number.trim()));
 
             return res.send({
@@ -895,10 +894,8 @@ module.exports = function(app, passport) {
                 if (r2.length == 0) {
 
 
-                    console.log("RAND")
                     if (!data.includes(new_username)) {
 
-                        console.log("BHANDI")
                         data.push(new_username);
 
                     }
@@ -1069,6 +1066,12 @@ module.exports = function(app, passport) {
 
         username = req.body.username.trim().toLowerCase()
 
+        if (username.includes("@")) {
+            return res.send({
+                isError: true,
+                message: "username cannot contain @ symbol"
+            })
+        }
 
         try {
 
@@ -1153,6 +1156,265 @@ module.exports = function(app, passport) {
 
 
 
+    app.post('/forgot-password/send-otp', async function(req, res, next) {
+
+
+        if (!req.body.email)
+
+        {
+            return (res.send({
+                isError: true,
+                message: "Enter Email"
+            }))
+        }
+
+
+
+
+
+
+        req.body.email = req.body.email.trim()
+        if (req.body.email.length > 254) {
+            return (res.send({
+                isError: true,
+                message: "Email too long, make length less than 254 characters"
+            }))
+        }
+
+
+
+
+
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (!re.test(String(req.body.email).toLowerCase())) {
+            return res.send({
+                isError: true,
+                message: "Invalid email"
+            })
+        }
+
+
+        try {
+
+            let acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
+
+
+
+            let [r, f] = await acon.execute("select * from users where email = ? or username = ?", [req.body.email, req.body.email])
+
+            if (r.length == 0) {
+                return res.send({
+                    isError: true,
+                    message: "Email not registered with June, sign up instead."
+                })
+            }
+
+
+            li = createNewOTP(r[0].email);
+
+            sendOTPMail(li[1], r[0].email)
+
+            return res.send({
+                isError: false,
+                message: "OTP Sent to your registered email address",
+                key: li[0],
+                validInMin: 30
+            })
+
+
+
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+
+
+    app.post('/forgot-password/login', function(req, res, next) {
+
+        if (!req.body.email) {
+            return res.send({
+                isError: true,
+                message: "Invalid credentials"
+            })
+        }
+
+
+
+        email = req.body.email.trim().toLowerCase()
+
+
+        re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+
+
+
+
+        con.query("select * from users where username = ? or email = ?", [email, email], function(ee, r) {
+
+            isVerify = verifyOTP(r[0].email, req.body.key, req.body.otp, res);
+
+            if (!isVerify) {
+                return res.send({
+                    isError: true,
+                    message: "OTP is invalid"
+                })
+            }
+
+
+
+
+
+            if (r.length == 0) {
+                return res.send({
+                    isError: true,
+                    code: 0,
+                    message: "This is not a registered email account"
+                })
+            }
+
+
+
+            user = r[0]
+
+
+            var d = {
+                "id": user.fb_id,
+            }
+            const token = jwt.sign(JSON.stringify(d), config.jwt_secret);
+
+
+            refresh_token = "";
+
+
+
+
+            client.GET(user.id, (err, reply) => {
+
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+
+
+                try {
+                    reply = JSON.parse(reply);
+
+                } catch (_r) {
+
+                }
+
+                if (reply && reply.refresh_token) {
+
+                    refresh_token = reply.refresh_token;
+
+
+                } else {
+
+
+                    refresh_token = fx.refresh_token(64);
+                    let refresh_token_maxage = Math.round(new Date().getTime() / 1000) + jwt_refresh_expiration;
+
+                    client.SET(user.id, JSON.stringify({
+                        refresh_token: refresh_token,
+                        expires: refresh_token_maxage
+                    }), (err, reply) => {
+
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+
+                    })
+
+
+
+                }
+
+
+
+                res.cookie("access_token", token, {
+                    // secure: true,
+                    httpOnly: true
+                });
+                res.cookie("refresh_token", refresh_token, {
+                    // secure: true,
+                    httpOnly: true
+                });
+
+
+                let username = "";
+
+                let isUsername = false;
+                if (r[0].username) {
+
+                    username = r[0].username
+
+                    isUsername = true
+                }
+
+                return res.send({
+
+                    isError: false,
+                    first_name: r[0].first_name,
+                    last_name: r[0].last_name,
+                    gender: r[0].gender,
+                    block: r[0].block,
+                    email: r[0].email,
+                    profile_pic: r[0].profile_pic,
+                    app_language: r[0].app_language,
+                    token: token,
+                    refresh: refresh_token,
+                    isUsername: isUsername,
+                    username: username,
+                    uid: r[0].fb_id
+
+
+                });
+
+
+
+            })
+
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
 
 
 

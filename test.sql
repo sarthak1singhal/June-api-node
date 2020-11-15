@@ -64,7 +64,7 @@ CREATE TABLE `device_tokon` (
 CREATE TABLE `discover_section` (
   `id` INT AUTO_INCREMENT primary key NOT NULL,
   `section_name` varchar(50) NOT NULL,
-  `section_image` varchar(50) NOT NULL,
+  `section_image` varchar(50) default NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `value` int(12) default 0
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -172,7 +172,7 @@ CREATE TABLE `users` (
   `first_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default "",
   `last_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL default "",
   `password` varchar(200) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
   `phoneNumber` varchar(12) DEFAULT NULL,
   `isPhoneVerified` int(2) NOT NULL DEFAULT 0,
   `country_code` varchar(5) DEFAULT NULL,
