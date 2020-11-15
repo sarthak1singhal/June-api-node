@@ -200,6 +200,97 @@ module.exports = function(app) {
 
 
 
+    app.post('/get-verification-docs-url', fx.isLoggedIn, async function(req, res) {
+
+
+
+
+
+        try {
+            var acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
+
+            var fileName = req.user.id + "_profile.png";
+
+            var docName = req.user.id + "_doc.png";
+            //   var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
+
+
+
+
+
+
+
+            var p = {
+                region: config.mumbai_bucket_region,
+                bucket: config.bucket_name,
+                path: "verifies/" + req.user.id + "/" + fileName,
+
+            }
+            var x = await fx.generateUploadSignedUrl(p);
+
+
+            var doc = {
+                region: config.mumbai_bucket_region,
+                bucket: config.bucket_name,
+                path: "verifies/" + req.user.id + "/" + docName,
+
+            }
+            var docx = await fx.generateUploadSignedUrl(doc);
+
+
+
+
+            return res.send({
+                profile_url: x,
+                doc_url: docx,
+                profile_path: "verifies/" + req.user.id + "/" + fileName,
+                document_path: "verifies/" + req.user.id + "/" + docName
+
+            })
+
+
+
+
+
+        } catch (e) {
+            console.log(e);
+
+            return res.send({
+                "msg": e
+            })
+        }
+    })
+
+
+
+    app.post("/get-verified", fx.isLoggedIn, async function(req, res) {
+
+
+        try {
+            var [ins, fields] = await acon.execute("select * from verification_request where fb_id = ?", [req.user.id]);
+
+            if (ins.length == 0) {
+                var [vv, svs] = await acon.execute("insert into verification_request(profile,document,status,fb_id)values(?,?,?,?)", [req.body.profile_path, req.body.document_path, "Pending", req.user.id]);
+
+            }
+
+            return res.send({
+                isError: false
+            })
+
+        } catch (e) {
+            return res.send({
+                isError: true,
+
+            })
+        }
+
+    })
 
 
 };

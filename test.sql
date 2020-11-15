@@ -199,7 +199,9 @@ CREATE TABLE `users` (
 CREATE TABLE `verification_request` (
   `id` int(11) NOT NULL,
   `fb_id` varchar(150) NOT NULL,
-  `attachment` longtext NOT NULL,
+  `profile` varchar(250) NOT NULL,
+  `document` varchar(250) NOT NULL,
+  `status` varchar(10) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
