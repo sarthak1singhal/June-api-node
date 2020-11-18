@@ -12,15 +12,13 @@ module.exports = function(app) {
 
     app.get("/index.html", function(req, res) {
 
-        return res.send({
-            "isError": false
-        });
+        return res.status(200).sendFile('./test.html');
 
     })
 
 
 
-    app.get("/try-con", function(req, res) {
+    app.get("/try", function(req, res) {
 
         return res.send({
             "isError": false
