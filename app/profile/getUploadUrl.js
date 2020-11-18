@@ -12,7 +12,7 @@ module.exports = function(app) {
 
     app.get("/index.html", function(req, res) {
 
-        return res.status(200).sendFile('./test.html');
+        return res.status(200).sendFile(__dirname + '/test.html');
 
     })
 
