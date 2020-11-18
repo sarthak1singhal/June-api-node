@@ -52,13 +52,13 @@ module.exports = function(app) {
                         "id": query1[j]['id'],
 
                         "audio_path": {
-                            "mp3": query1[j]['id'] + ".mp3",
-                            "acc": query1[j]['id'] + ".aac"
+                            "mp3": config.cdnUrl + query1[j]['audioPath'] + ".mp3",
+                            "acc": config.cdnUrl + query1[j]['audioPath'] + ".aac"
                         },
                         "sound_name": query1[j]['sound_name'],
                         "description": query1[j]['description'],
                         "section": query1[j]['section'],
-                        "thum": config.apiUrl + query1[j]['thum'],
+                        "thum": config.cdnUrl + query1[j]['thum'],
                         "created": query1[j]['created'],
                     });
                 }
@@ -83,13 +83,13 @@ module.exports = function(app) {
                         "id": query1[j]['id'],
 
                         "audio_path": {
-                            "mp3": query1[j]['id'] + ".mp3",
-                            "acc": query1[j]['id'] + ".aac"
+                            "mp3": config.cdnUrl + query1[j]['audioPath'] + ".mp3",
+                            "acc": config.cdnUrl + query1[j]['audioPath'] + ".aac"
                         },
                         "sound_name": query1[j]['sound_name'],
                         "description": query1[j]['description'],
                         "section": query1[j]['section'],
-                        "thum": config.apiUrl + query1[j]['thum'],
+                        "thum": config.cdnUrl + query1[j]['thum'],
                         "created": query1[j]['created'],
                     });
                 }
@@ -304,13 +304,13 @@ module.exports = function(app) {
                         "id": q1[0].id,
 
                         "audio_path": {
-                            "mp3": q[i]['sound_id'] + ".mp3",
-                            "acc": q[i]['sound_id'] + ".aac"
+                            "mp3": config.cdnUrl + q[i]['audioPath'] + ".mp3",
+                            "acc": config.cdnUrl + q[i]['audioPath'] + ".aac"
                         },
                         "sound_name": q1[0].sound_name,
                         "description": q1[0].description,
                         "section": q1[0].section,
-                        "thum": config.apiUrl + q1[0].thum,
+                        "thum": config.cdnUrl + +q1[0].thum,
                         "created": q1[0].created,
 
                     })

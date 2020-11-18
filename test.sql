@@ -41,8 +41,7 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`id`, `email`, `pass`) VALUES
 (1, 'admin@admin.com', 'e10adc3949ba59abbe56e057f20f883e');
 
--- --------------------------------------------------------
-
+ 
 --
 -- Table structure for table `device_tokon`
 --
@@ -55,7 +54,7 @@ CREATE TABLE `device_tokon` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+-- ---------- ----------------------------------------------
 
 --
 -- Table structure for table `discover_section`
@@ -126,17 +125,16 @@ CREATE TABLE `sound` (
   `id` int(11) NOT NULL,
   `sound_name` varchar(250) NOT NULL,
   `description` varchar(150) NOT NULL,
+  `audioPath` varchar(500) NOT NULL,
   `thum` varchar(500) NOT NULL,
   `section` varchar(250) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `priority` int NOT NULL default 0
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
 -- Dumping data for table `sound`
 --
 
- 
 -- --------------------------------------------------------
 
 --
@@ -201,7 +199,7 @@ CREATE TABLE `verification_request` (
   `fb_id` varchar(150) NOT NULL,
   `profile` varchar(250) NOT NULL,
   `document` varchar(250) NOT NULL,
-  `status` varchar(10) NOT NULL,
+  `status` varchar(15) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

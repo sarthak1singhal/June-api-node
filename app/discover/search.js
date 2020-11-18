@@ -68,8 +68,8 @@
                                  "id": rd12[0].id,
                                  "audio_path": {
 
-                                     "mp3": config.apiUrl + rd12[0].id + ".mp3",
-                                     "acc": config.apiUrl + rd12[0].id + ".aac"
+                                     "mp3": config.apiUrl + rd12[0].videoPath + ".mp3",
+                                     "acc": config.apiUrl + rd12[0].videoPath + ".aac"
                                  },
                                  "sound_name": rd12[0].sound_name,
                                  "description": rd12[0].description,
@@ -151,8 +151,8 @@
                              "id": row1[i]['id'],
 
                              "audio_path": {
-                                 "mp3": row1[i]['id'] + ".mp3",
-                                 "acc": row1[i]['id'] + ".aac"
+                                 "mp3": row1[i]['videoPath'] + ".mp3",
+                                 "acc": row1[i]['videoPath'] + ".aac"
                              },
                              "sound_name": row1[i]['sound_name'],
                              "description": row1[i]['description'],

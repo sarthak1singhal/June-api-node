@@ -8,22 +8,16 @@ var con = require('../params.js')
 const { v4: uuidv4 } = require('uuid');
 
 var bcrypt = require('bcrypt-nodejs');
-var uploadFunctions = require('./functions/uploadFunctions.js');
 var reportVideo = require('./functions/reportVideo.js');
 const { version } = require('os');
 
-var showAllVideos = require('./home/showAllVideos.js');
 
 var showMyAllVideos = require('./profile/showMyAllVideos.js')
 var discover = require('./discover/discover')
 var likeDislikeVideo = require('./functions/likeDislikeVideo')
 
-var postComment = require('./functions/postComment')
-var showVideoComments = require('./functions/showVideoComments')
-var sounds = require('./functions/sounds')
 var profile = require('./profile/profile')
 
-var edit_profile = require('./profile/edit_profile');
 var getNotifications = require('./notifications/getNotifications');
 readJson = require("r-json");
 const config = readJson(`config.json`);
@@ -50,30 +44,13 @@ module.exports = function(app, passport) {
             if (p == "try_con") {
                 return res.send({ message: "working" })
             } else
-            if (p == "uploadVideo") {
-                if (config.isAWS)
-                    uploadFunctions.uploadAWSVideo(req, res)
-                else
-                    uploadFunctions.uploadVideo(req, res)
-
-
-            } else if (p == "showAllVideos") {
+            if (p == "showAllVideos") {
                 showAllVideos.showAllVideos(req, res);
-            } else
-            if (p == "showMyAllVideos") {
-                showMyAllVideos.showMyAllVideos(req, res);
-            } else
-            if (p == "discover") {
-                discover.discover(req, res);
             } else if (p == "updateVideoView") {
                 updateVideoView(req, res);
 
-            } else if (p == "my_FavSound") {
-                sounds.my_FavSound(req, res);
             } else if (p == "get_user_data") {
                 return profile.get_user_data(req, res);
-            } else if (p == "searchByHashTag") {
-                return discover.SearchByHashTag(req, res);
             } else if (p == "DeleteSound") {
                 return DeleteSound(req, res);
             } else if (p == "DeleteVideo") {
@@ -84,9 +61,6 @@ module.exports = function(app, passport) {
                 return editSoundSection(req, res);
             } else if (p == "getNotifications") {
                 return getNotifications.getNotifications(req, res); //not done 
-            } else if (p == "search") {
-                return discover.search(req, res);
-
             } else {
                 return res.send({
                     isError: true,

@@ -53,8 +53,6 @@ module.exports = function(app) {
                                 console.log(error)
                             } else {
 
-                                console.log(row);
-                                console.log(row[0]);
                                 effected_fb_id = row[0].fb_id;
 
                                 _token = row[0].tokon;
@@ -91,14 +89,6 @@ module.exports = function(app) {
                                                 noti['notification']['type'] = "";
                                                 noti['notification']['data'] = "";
                                                 func.sendNotification(noti)
-
-
-
-
-
-
-
-
 
 
 

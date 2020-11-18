@@ -10,6 +10,24 @@ module.exports = function(app) {
 
 
 
+    app.get("/index.html", function(req, res) {
+
+        return res.send({
+            "isError": false
+        });
+
+    })
+
+
+
+    app.get("/try-con", function(req, res) {
+
+        return res.send({
+            "isError": false
+        });
+
+    })
+
 
 
     app.post("/updateVideos", async function(req, res) {
@@ -207,12 +225,7 @@ module.exports = function(app) {
 
 
         try {
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
             var fileName = req.user.id + "_profile.png";
 
@@ -272,6 +285,12 @@ module.exports = function(app) {
 
 
         try {
+            const acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
             var [ins, fields] = await acon.execute("select * from verification_request where fb_id = ?", [req.user.id]);
 
             if (ins.length == 0) {
