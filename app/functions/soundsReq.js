@@ -7,14 +7,11 @@ module.exports = function(app) {
 
 
 
-
-
-    app.post('/allSounds', fx.isLoggedIn, async function(req, res) {
+    app.post('/allSounds', async function(req, res) {
 
 
         keyword = req.body.keyword;
         if (!keyword) keyword = "";
-
 
 
         if (req.body.offset == null) {

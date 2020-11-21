@@ -53,49 +53,52 @@ module.exports = function(app) {
                             if (row.length != 0) {
                                 effected_fb_id = row[0].fb_id;
 
-                                con.query("insert into notification(my_fb_id,effected_fb_id,type,value)values(?,?,?,?)", [fb_id, effected_fb_id, 'video_like', video_id], function(er1, r1) {
-                                    if (er1) console.log(er1)
+                                if (my_fb_id != effected_fb_id) {
 
-                                })
+                                    con.query("insert into notification(my_fb_id,effected_fb_id,type,value)values(?,?,?,?)", [fb_id, effected_fb_id, 'video_like', video_id], function(er1, r1) {
+                                        if (er1) console.log(er1)
 
-                                con.query("select * from users where fb_id = ?", [effected_fb_id], function(e3, r3) {
+                                    })
 
-                                    if (e3) console.log(e3)
-                                    else {
+                                    con.query("select * from users where fb_id = ?", [effected_fb_id], function(e3, r3) {
+
+                                        if (e3) console.log(e3)
+                                        else {
 
 
-                                        con.query("select * from users where fb_id = ?", [fb_id], function(e4, r4) {
-                                            if (e4) console.log(e4)
-                                            else {
-                                                noti = {}
-                                                noti = {
-                                                    notification: {}
+                                            con.query("select * from users where fb_id = ?", [fb_id], function(e4, r4) {
+                                                if (e4) console.log(e4)
+                                                else {
+                                                    noti = {}
+                                                    noti = {
+                                                        notification: {}
+                                                    }
+
+                                                    name = r3[0].first_name;
+
+                                                    title = name + " liked your video"
+
+                                                    message = "You have received 1 more like on your video"
+                                                    noti['to'] = r4[0].tokon;
+                                                    noti['notification']['title'] = title;
+                                                    noti['notification']['body'] = message;
+                                                    // $notification['notification']['text'] = $sender_details['User']['username'].' has sent you a friend request';
+                                                    noti['notification']['badge'] = "1";
+                                                    noti['notification']['sound'] = "default";
+                                                    noti['notification']['icon'] = "";
+                                                    noti['notification']['image'] = "";
+                                                    noti['notification']['type'] = "";
+                                                    noti['notification']['data'] = "";
+                                                    func.sendNotification(noti)
+                                                    res.send({ code: false, msg: "Liked" })
+
                                                 }
+                                            })
 
-                                                name = r3[0].first_name;
+                                        }
 
-                                                title = name + " liked your video"
-
-                                                message = "You have received 1 more like on your video"
-                                                noti['to'] = r4[0].tokon;
-                                                noti['notification']['title'] = title;
-                                                noti['notification']['body'] = message;
-                                                // $notification['notification']['text'] = $sender_details['User']['username'].' has sent you a friend request';
-                                                noti['notification']['badge'] = "1";
-                                                noti['notification']['sound'] = "default";
-                                                noti['notification']['icon'] = "";
-                                                noti['notification']['image'] = "";
-                                                noti['notification']['type'] = "";
-                                                noti['notification']['data'] = "";
-                                                func.sendNotification(noti)
-                                                res.send({ code: false, msg: "Liked" })
-
-                                            }
-                                        })
-
-                                    }
-
-                                })
+                                    })
+                                }
 
                             }
 
