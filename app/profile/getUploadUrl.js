@@ -17,6 +17,12 @@ module.exports = function(app) {
     })
 
 
+    app.get("/health", function(req, res) {
+
+        return res.status(200).send({})
+    })
+
+
 
     app.get("/try", function(req, res) {
 
