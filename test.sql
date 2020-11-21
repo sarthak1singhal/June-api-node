@@ -132,6 +132,14 @@ CREATE TABLE `sound` (
   `priority` int NOT NULL default 0
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+
+CREATE TABLE `stickers` (
+  `id` INT AUTO_INCREMENT primary key NOT NULL,
+  `path` varchar(250) NOT NULL,
+  `priority` int NOT NULL default 0
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
 -- Dumping data for table `sound`
 --
 
