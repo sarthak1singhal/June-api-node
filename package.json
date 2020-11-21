@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "config": {
+    "unsafe-perm": true
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
+    "start": "node ./node_modules/.bin/pm2 start index.js --time --name june && node ./node_modules/.bin/pm2 log june",
     "devStart": "nodemon index.js"
   },
   "dependencies": {
@@ -45,11 +48,14 @@
     "nodemailer": "^6.4.8",
     "oauth2-server": "^3.0.1",
     "opn": "^6.0.0",
+    "otp-generator": "^2.0.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pm2": "^4.5.0",
     "querystring": "0.2.0",
     "r-json": "^1.2.9",
     "read-chunk": "^3.2.0",
+    "redis": "^3.0.2",
     "request": "^2.88.2",
     "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
