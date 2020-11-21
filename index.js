@@ -115,6 +115,6 @@ require('./app/profile/getUploadUrl')(app, passport);
     console.log("Srrefsns jf jd fs");
 });
 */
-app.listen(5000, function() {
+app.listen(8080, function() {
     console.log("Srrefsns jf jd fs");
 });
