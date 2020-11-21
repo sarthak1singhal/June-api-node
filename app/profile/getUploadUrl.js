@@ -8,7 +8,10 @@ const Hashids = require('hashids/cjs')
 const hashids = new Hashids()
 module.exports = function(app) {
 
+    app.get("/", function(req, res) {
 
+        return res.status(200).send({})
+    })
 
     app.get("/index.html", function(req, res) {
 
