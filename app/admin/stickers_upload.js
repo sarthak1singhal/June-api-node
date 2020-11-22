@@ -71,7 +71,7 @@ module.exports = function(app) {
                 database: config.database
             });
 
-            var [vv, svs] = await acon.execute("insert into sound (sound_name,description,audioPath ,thum, section, priority)values(?,?,?,?,?,?)", [req.body.sound_name, "", req.body.audioPath, req.body.thum, "", req.body.priority]);
+            var [vv, svs] = await acon.execute("insert into stickers (path, priority)values(?,?)", [req.body.path, req.body.priority]);
 
             return res.send({
                 isError: false
@@ -101,7 +101,7 @@ module.exports = function(app) {
 
 
 
-    app.post("/change-sound-priority", fx.isLoggedIn, async function(req, res) {
+    app.post("/change-sticker-priority", fx.isLoggedIn, async function(req, res) {
 
 
 
@@ -116,7 +116,7 @@ module.exports = function(app) {
                 database: config.database
             });
 
-            var [vv, svs] = await acon.execute("update sound set priority = ? where id = ?", [req.body.priority, req.body.id]);
+            var [vv, svs] = await acon.execute("update stickers set priority = ? where id = ?", [req.body.priority, req.body.id]);
 
             return res.send({
                 isError: fakse
@@ -132,6 +132,61 @@ module.exports = function(app) {
 
 
 
+
+
+
+
+
+
+
+
+    })
+
+
+
+
+    app.post("/get-stickers", fx.isLoggedIn, async function(req, res) {
+
+
+
+
+
+
+        try {
+            const acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
+
+            var [vv, svs] = await acon.execute("select * from stickers order by priority desc", );
+
+            m = [];
+
+            for (var i = 0; i < vv.length; i++) {
+
+                let v = {
+                    "url": vv[i].path
+                }
+                m.push(v)
+            }
+            return res.send({
+                isError: false,
+                msg: m
+
+            })
+
+        } catch (e) {
+
+        }
+
+
+
+
+        return res.send({
+            isError: true
+        })
 
 
 
