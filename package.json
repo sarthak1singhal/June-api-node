@@ -12,7 +12,7 @@
     "devStart": "nodemon index.js"
   },
   "engines": {
-    "node": "v12.9.1"
+    "node": "12.9.1"
     
   },
   "dependencies": {
