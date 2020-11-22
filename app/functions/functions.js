@@ -105,10 +105,11 @@ module.exports = {
 
         let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['token'] || req.cookies.access_token;
         let refreshtoken = req.headers['refresh_token'] || req.cookies.refresh_token;
-
+        console.log(token,"======================" , config)
         if (token && refreshtoken) {
 
             try {
+               
                 jwt.verify(token, config.jwt_secret, (e, authData) => {
                     console.log(authData, "OUTSIDE");
 
@@ -219,7 +220,7 @@ module.exports = {
 
             } catch (err) {
 
-                console.log(err)
+                console.log(err,"=======================")
                 return res.sendStatus(403)
             }
         } else {
