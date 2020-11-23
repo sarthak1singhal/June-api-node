@@ -6,7 +6,7 @@ var path = require('path');
 const { query } = require('../../params');
 readJson = require("r-json");
 const config = readJson(`config.json`);
-const amysql = require('mysql2/promise');
+const acon = require('../../async_sql.js');
 
 module.exports = {
 
@@ -22,12 +22,6 @@ module.exports = {
 
         if (fb_id) {
             try {
-                const acon = await amysql.createConnection({
-                    host: config.host,
-                    user: config.user,
-                    password: config.password,
-                    database: config.database
-                });
 
 
 
@@ -87,12 +81,6 @@ module.exports = {
 
 
             try {
-                let acon = await amysql.createConnection({
-                    host: config.host,
-                    user: config.user,
-                    password: config.password,
-                    database: config.database
-                });
 
                 console.log(fb_id, "this is fbdi")
                 let [row, f] = await acon.execute("select * from `follow_users` where `followed_fb_id` = ? order by id DESC", [fb_id])
@@ -192,12 +180,7 @@ module.exports = {
         if (fb_id) {
 
             if (fb_id.trim() == "") return
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
 
             try {

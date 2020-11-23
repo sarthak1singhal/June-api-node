@@ -104,12 +104,20 @@ module.exports = {
     isLoggedIn: (req, res, next) => {
 
         let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['token'] || req.cookies.access_token;
-        let refreshtoken = req.headers['refresh_token'] || req.cookies.refresh_token;
-        console.log(token,"======================" , config)
+        let refreshtoken = req.headers['refresh-token'];
+        console.log(req.headers);
+        console.log("HEADER");
+        console.log(req.body);
+        console.log("BODY");
+        console.log(req.query);
+        console.log(token, "======================")
+        console.log(refreshtoken, "======================")
+
         if (token && refreshtoken) {
 
+
             try {
-               
+
                 jwt.verify(token, config.jwt_secret, (e, authData) => {
                     console.log(authData, "OUTSIDE");
 
@@ -220,10 +228,18 @@ module.exports = {
 
             } catch (err) {
 
-                console.log(err,"=======================")
+                console.log("=bccccccccccccccccccccc======================")
+                console.log(err, )
                 return res.sendStatus(403)
             }
         } else {
+
+
+
+
+
+
+            console.log("NOthING ");
             return res.sendStatus(403)
 
         }

@@ -1,6 +1,6 @@
 const https = require('request')
 
-const amysql = require('mysql2/promise');
+const acon = require('../../async_sql.js');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require("../functions/functions");
@@ -24,14 +24,6 @@ module.exports = function(app) {
                 array_out = [];
 
                 try {
-
-                    let acon = await amysql.createConnection({
-                        host: config.host,
-                        user: config.user,
-                        password: config.password,
-                        database: config.database
-                    });
-
 
 
                     let [_query, f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC limit ?, 25", [video_id, req.body.offset])

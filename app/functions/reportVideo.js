@@ -1,6 +1,4 @@
 // app/routes.js
-var uuid = require('uuid');
-const https = require('request')
 
 var path = require('path');
 var con = require('../../params.js')

@@ -16,7 +16,7 @@ var uniqid = require('uniqid');
 
 const crypto = require("crypto");
 const client = require('./initRedis')
-const amysql = require('mysql2/promise');
+const acon = require('../../async_sql.js');
 
 var fx = require("../functions/functions")
 const jwt_refresh_expiration = 60 * 60 * 24 * 30;
@@ -453,13 +453,6 @@ module.exports = function(app, passport) {
 
         try {
 
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
-
 
 
             let [r, f] = await acon.execute("select * from users where username = ?", [username])
@@ -543,12 +536,6 @@ module.exports = function(app, passport) {
 
             try {
 
-                let acon = await amysql.createConnection({
-                    host: config.host,
-                    user: config.user,
-                    password: config.password,
-                    database: config.database
-                });
 
 
 
@@ -726,12 +713,6 @@ module.exports = function(app, passport) {
 
         try {
 
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
 
 
@@ -869,12 +850,7 @@ module.exports = function(app, passport) {
             username = req.body.f_name;
         }
 
-        let acon = await amysql.createConnection({
-            host: config.host,
-            user: config.user,
-            password: config.password,
-            database: config.database
-        });
+
 
         let data = [];
         var sa = 0;
@@ -1075,12 +1051,6 @@ module.exports = function(app, passport) {
 
         try {
 
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
 
 
@@ -1197,12 +1167,7 @@ module.exports = function(app, passport) {
 
         try {
 
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
 
 
@@ -1502,6 +1467,4 @@ async function sendOTPMail(otp, d) {
         console.log(info);
         transporter.close();
     });
-
-
 }

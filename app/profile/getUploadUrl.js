@@ -1,5 +1,5 @@
 var path = require('path');
-const amysql = require('mysql2/promise');
+const acon = require('../../async_sql.js');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require("../functions/functions");
@@ -52,12 +52,7 @@ module.exports = function(app) {
         }
 
         try {
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
 
             var [upd, d] = await acon.execute("update videos set video = ?, thum = ?, isAvailable = ? where video = ?", [videoPath, thumbPath, 1, currentPath]);
@@ -87,12 +82,6 @@ module.exports = function(app) {
 
 
         try {
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
             var [abc, fields] = await acon.execute("SELECT * FROM users WHERE fb_id = ?", [req.user.id]);
             var hashids = new Hashids(config.short_id_key);
@@ -292,12 +281,7 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
             var [ins, fields] = await acon.execute("select * from verification_request where fb_id = ?", [req.user.id]);
 
             if (ins.length == 0) {

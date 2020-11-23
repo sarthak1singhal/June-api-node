@@ -1,6 +1,6 @@
  var path = require('path');
  const config = readJson(`config.json`);
- const amysql = require('mysql2/promise');
+ const acon = require('../../async_sql.js');
 
 
  var con = require('../../params.js')
@@ -136,12 +136,7 @@
      app.post('/uploadProfileImage_app/', fx.isLoggedIn, upload.single("file"), async function(req, res) {
 
 
-         var acon = await amysql.createConnection({
-             host: config.host,
-             user: config.user,
-             password: config.password,
-             database: config.database
-         });
+
 
 
 
@@ -226,12 +221,6 @@
      app.post('/on-profile-img-upload/', fx.isLoggedIn, async function(req, res) {
 
 
-         var acon = await amysql.createConnection({
-             host: config.host,
-             user: config.user,
-             password: config.password,
-             database: config.database
-         });
 
 
 
@@ -263,13 +252,6 @@
 
      app.post('/get-verified-status', fx.isLoggedIn, upload.single("file"), async function(req, res) {
 
-
-         var acon = await amysql.createConnection({
-             host: config.host,
-             user: config.user,
-             password: config.password,
-             database: config.database
-         });
 
 
 
