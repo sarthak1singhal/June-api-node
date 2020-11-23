@@ -1,5 +1,6 @@
 const https = require('request')
 
+const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require('../functions/functions');
@@ -21,6 +22,12 @@ module.exports = function(app) {
         offset = req.body.offset
         try {
 
+            var acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
 
 
             array_out = [];

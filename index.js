@@ -51,9 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-const siteTitle = "Applicatoin";
-const baseURL = "http://localhost:3000/";
-var options = {
+ var options = {
     host: config.host,
     port: 3306,
     user: config.user,

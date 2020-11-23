@@ -1,5 +1,5 @@
 var path = require('path');
-const acon = require('../../async_sql.js');
+const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require(`../functions/functions.js`);
@@ -17,7 +17,12 @@ module.exports = function(app) {
 
 
         try {
-
+            const acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
 
             hmap = {};
             arr = [];
@@ -176,6 +181,12 @@ module.exports = function(app) {
         var fb_id = req.user.id;
 
         try {
+            const acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
 
             hmap = {};
             arr = [];
@@ -359,6 +370,12 @@ module.exports = function(app) {
         fb_id = req.user.id
 
         try {
+            const acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
 
             hmap = {};
             arr = [];
@@ -535,6 +552,12 @@ module.exports = function(app) {
 
 
         try {
+            const acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
 
             hmap = {};
             arr = [];
@@ -730,7 +753,12 @@ module.exports = function(app) {
 
 
         try {
-
+            const acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
 
             hmap = {};
             arr = [];
@@ -936,6 +964,12 @@ module.exports = function(app) {
 
 
         try {
+            var acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
 
 
             arr = [];
@@ -1097,6 +1131,13 @@ async function showMyAllVideos(req, res, limit) {
     console.log(req.user);
     console.log(fb_id)
     if (fb_id && my_fb_id) {
+
+        var acon = await amysql.createConnection({
+            host: config.host,
+            user: config.user,
+            password: config.password,
+            database: config.database
+        });
 
 
         try {

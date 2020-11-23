@@ -1,5 +1,5 @@
  var path = require('path');
- const acon = require('../../async_sql.js');
+ const amysql = require('mysql2/promise');
  readJson = require("r-json");
  const config = readJson(`config.json`);
  const fx = require('../functions/functions')
@@ -16,6 +16,12 @@
 
          _type = req.body.type;
          keyword = req.body.keyword;
+         var acon = await amysql.createConnection({
+             host: config.host,
+             user: config.user,
+             password: config.password,
+             database: config.database
+         });
 
 
 

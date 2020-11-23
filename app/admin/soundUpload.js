@@ -9,32 +9,12 @@ const hashids = new Hashids()
 module.exports = function(app) {
 
 
-
-
-
-
-
-
-
-
     app.post('/sound-upload-url', fx.isLoggedIn, async function(req, res) {
 
-
-
-
-
-
-
-
         var fileName = new Date().getTime().toString();
-
-
         var sound = fileName + ".mp3";
 
         var thumb = fileName + ".png";
-
-
-
 
 
 

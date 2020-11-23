@@ -3,7 +3,7 @@ var uuid = require('uuid');
 const https = require('request')
 
 var path = require('path');
-const acon = require('../../async_sql.js');
+const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 
@@ -28,7 +28,12 @@ module.exports = {
             v = []
 
             try {
-
+                const acon = await amysql.createConnection({
+                    host: config.host,
+                    user: config.user,
+                    password: config.password,
+                    database: config.database
+                });
 
                 hmap = {};
                 arr = [];

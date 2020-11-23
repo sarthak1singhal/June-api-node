@@ -1,7 +1,7 @@
 {
-    "host": "localhost",
-    "user": "root",
-    "password": "Sarthak1singhal12",
+    "host": "june-production-database-instance-1.crgvkmh9rb6x.ap-south-1.rds.amazonaws.com",
+    "user": "admin",
+    "password": "admin12345",
     "database": "june",
 
     "secret": "thisissecretlol",

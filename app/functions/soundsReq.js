@@ -1,9 +1,8 @@
 var path = require('path');
+const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require('./functions')
-const acon = require('../../async_sql.js');
-
 module.exports = function(app) {
 
 
@@ -28,6 +27,12 @@ module.exports = function(app) {
 
         try {
 
+            var acon = await amysql.createConnection({
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
+            });
 
 
 
@@ -174,6 +179,12 @@ module.exports = function(app) {
 
 
             if (fb_id && sound_id) {
+                var acon = await amysql.createConnection({
+                    host: config.host,
+                    user: config.user,
+                    password: config.password,
+                    database: config.database
+                });
 
 
 
@@ -270,7 +281,12 @@ module.exports = function(app) {
 
 
             if (fb_id) {
-
+                var acon = await amysql.createConnection({
+                    host: config.host,
+                    user: config.user,
+                    password: config.password,
+                    database: config.database
+                });
 
 
 
