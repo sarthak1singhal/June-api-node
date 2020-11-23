@@ -11,7 +11,9 @@
         "start": "node ./node_modules/.bin/pm2 start index.js --time --name june && node ./node_modules/.bin/pm2 log june --lines 10000",
         "devStart": "nodemon index.js"
     },
-
+    "engines": {
+        "node": "12.9.1"
+    },
     "dependencies": {
         "@ffmpeg-installer/ffmpeg": "^1.0.20",
         "async": "^3.2.0",
