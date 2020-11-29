@@ -1,8 +1,9 @@
 var path = require('path');
-const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require('./functions')
+const acon = require('../../initSql')
+
 module.exports = function(app) {
 
 
@@ -27,12 +28,6 @@ module.exports = function(app) {
 
         try {
 
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
 
 
@@ -40,7 +35,7 @@ module.exports = function(app) {
             if (keyword.trim() == "") {
 
 
-                [query1, f1] = await acon.execute("select * from sound limit ?, 20", [offset]);
+                [query1, f1] = await acon.query("select * from sound limit ?, 20", [offset]);
                 array_out1 = []
 
                 for (j in query1) {
@@ -71,7 +66,7 @@ module.exports = function(app) {
             } else {
 
 
-                [query1, f1] = await acon.execute("select * from sound where (sound_name like '%" + keyword + "%' or description like '%" + keyword + "%')  limit ?, 20 ", [offset]);
+                [query1, f1] = await acon.query("select * from sound where (sound_name like '%" + keyword + "%' or description like '%" + keyword + "%')  limit ?, 20 ", [offset]);
                 array_out1 = []
                 for (j in query1) {
 
@@ -179,13 +174,6 @@ module.exports = function(app) {
 
 
             if (fb_id && sound_id) {
-                var acon = await amysql.createConnection({
-                    host: config.host,
-                    user: config.user,
-                    password: config.password,
-                    database: config.database
-                });
-
 
 
                 if (fav == "1") {
@@ -281,12 +269,6 @@ module.exports = function(app) {
 
 
             if (fb_id) {
-                var acon = await amysql.createConnection({
-                    host: config.host,
-                    user: config.user,
-                    password: config.password,
-                    database: config.database
-                });
 
 
 

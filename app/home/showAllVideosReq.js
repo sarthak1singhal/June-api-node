@@ -1,5 +1,5 @@
 var path = require('path');
-const amysql = require('mysql2/promise');
+const acon = require('../../initSql')
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require(`../functions/functions.js`);
@@ -17,12 +17,7 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
             hmap = {};
             arr = [];
@@ -35,20 +30,20 @@ module.exports = function(app) {
             if (req.body.haveIds == null) req.body.haveIds = "";
 
             if (req.body.haveIds.trim()) {
-                [row_posts, fields] = await acon.execute("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 20");
+                [row_posts, fields] = await acon.query("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 20");
 
             } else {
-                [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 20");
+                [row_posts, fields] = await acon.query("Select * from videos where isAvailable = 1 order by rand() limit 20");
 
             }
 
             for (j in row_posts) {
-                let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+                let [query1, f] = await acon.query("select * from users where fb_id=? ", [row_posts[j].fb_id]);
 
-                let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
+                let [query112, f1] = await acon.query("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                let [countcomment, y] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                let [countcomment, y] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
 
 
@@ -181,12 +176,6 @@ module.exports = function(app) {
         var fb_id = req.user.id;
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
             hmap = {};
             arr = [];
@@ -199,23 +188,23 @@ module.exports = function(app) {
 
             if (req.body.haveIds == null) req.body.haveIds = "";
             if (req.body.haveIds.trim()) {
-                [row_posts, fields] = await acon.execute("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 20");
+                [row_posts, fields] = await acon.query("Select * from videos where id not in ( " + req.body.haveIds + ") and isAvailable = 1 order by rand() limit 20");
 
             } else {
-                [row_posts, fields] = await acon.execute("Select * from videos where isAvailable = 1 order by rand() limit 20");
+                [row_posts, fields] = await acon.query("Select * from videos where isAvailable = 1 order by rand() limit 20");
 
             }
 
             for (j in row_posts) {
-                let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+                let [query1, f] = await acon.query("select * from users where fb_id=? ", [row_posts[j].fb_id]);
 
-                let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
-
-
-                let [countcomment, y] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                let [query112, f1] = await acon.query("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                let [liked, fk] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
+                let [countcomment, y] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+
+
+                let [liked, fk] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
 
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
@@ -370,19 +359,14 @@ module.exports = function(app) {
         fb_id = req.user.id
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
             hmap = {};
             arr = [];
 
 
 
-            let [users, fields] = await acon.execute("Select * from follow_users where fb_id = ? limit ?,50", [fb_id, offset2]);
+            let [users, fields] = await acon.query("Select * from follow_users where fb_id = ? limit ?,50", [fb_id, offset2]);
 
             console.log(users);
 
@@ -404,20 +388,20 @@ module.exports = function(app) {
 
             row_posts = [];
             if (str_id.trim())
-                [row_posts, ffff] = await acon.execute("Select * from `videos` where `fb_id` IN (" + str_id + ") and isAvailable = 1 order by created desc limit " + offset + " , 20 ", []);
+                [row_posts, ffff] = await acon.query("Select * from `videos` where `fb_id` IN (" + str_id + ") and isAvailable = 1 order by created desc limit " + offset + " , 20 ", []);
 
 
 
             for (j in row_posts) {
-                let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+                let [query1, f] = await acon.query("select * from users where fb_id=? ", [row_posts[j].fb_id]);
 
-                let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
-
-
-                let [countcomment, y] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                let [query112, f1] = await acon.query("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                let [liked, fk] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
+                let [countcomment, y] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+
+
+                let [liked, fk] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
@@ -552,12 +536,7 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
             hmap = {};
             arr = [];
@@ -574,22 +553,22 @@ module.exports = function(app) {
 
 
             console.log(req.body);
-            let [row_posts, fields] = await acon.execute("Select * from videos where sound_id = ? and isAvailable = 1 limit  ?,21", [req.body.sound_id, req.body.offset]);
+            let [row_posts, fields] = await acon.query("Select * from videos where sound_id = ? and isAvailable = 1 limit  ?,21", [req.body.sound_id, req.body.offset]);
 
             console.log(row_posts);
             for (j in row_posts) {
-                let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+                let [query1, f] = await acon.query("select * from users where fb_id=? ", [row_posts[j].fb_id]);
 
-                let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
+                let [query112, f1] = await acon.query("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                let [countcomment, fn] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                let [countcomment, fn] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
                 liked_count = [{
                     count: 0
                 }]
                 if (fb_id)
-                    [liked_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [row_posts[j].id, fb_id]);
+                    [liked_count, qq] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [row_posts[j].id, fb_id]);
 
 
 
@@ -666,7 +645,7 @@ module.exports = function(app) {
 
 
 
-            let [videoCount, fields66] = await acon.execute("SELECT count(*) as count from videos where sound_id = ? and isAvailable = 1", [req.body.sound_id]);
+            let [videoCount, fields66] = await acon.query("SELECT count(*) as count from videos where sound_id = ? and isAvailable = 1", [req.body.sound_id]);
 
 
 
@@ -753,12 +732,7 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
             hmap = {};
             arr = [];
@@ -767,22 +741,22 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where description like '%" + keyword + "%' and isAvailable = 1 limit " + req.body.offset + ", 21 ");
+            let [row_posts, fields] = await acon.query("Select * from videos where description like '%" + keyword + "%' and isAvailable = 1 limit " + req.body.offset + ", 21 ");
 
             for (j in row_posts) {
-                let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+                let [query1, f] = await acon.query("select * from users where fb_id=? ", [row_posts[j].fb_id]);
 
-                let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
+                let [query112, f1] = await acon.query("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                let [countcomment, m] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                let [countcomment, m] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
 
 
                 liked = [{
                     "count": 0
                 }];
                 if (fb_id)
-                    [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
+                    [liked, nm] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
@@ -865,8 +839,8 @@ module.exports = function(app) {
 
 
 
-            let [hashtagDetails, fields66] = await acon.execute("select * from discover_section where section_name = ?", [req.body.hashtag]);
-            let [videoCount, cda] = await acon.execute("SELECT count(*) as count from videos where description like '%" + keyword + "%' and isAvailable = 1 ");
+            let [hashtagDetails, fields66] = await acon.query("select * from discover_section where section_name = ?", [req.body.hashtag]);
+            let [videoCount, cda] = await acon.query("SELECT count(*) as count from videos where description like '%" + keyword + "%' and isAvailable = 1 ");
 
 
 
@@ -964,13 +938,6 @@ module.exports = function(app) {
 
 
         try {
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
-
 
             arr = [];
 
@@ -978,18 +945,18 @@ module.exports = function(app) {
 
 
 
-            let [row_posts, fields] = await acon.execute("Select * from videos where fb_id = ? and isAvailable = 1 order by created desc limit ?, ? ", [req.body.fb_id, offset, limit]);
+            let [row_posts, fields] = await acon.query("Select * from videos where fb_id = ? and isAvailable = 1 order by created desc limit ?, ? ", [req.body.fb_id, offset, limit]);
 
             for (j in row_posts) {
-                let [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+                let [query1, f] = await acon.query("select * from users where fb_id=? ", [row_posts[j].fb_id]);
 
-                let [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
-
-
-                let [countcomment, f3] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                let [query112, f1] = await acon.query("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                let [liked, nm] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, my_fb_id]);
+                let [countcomment, f3] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+
+
+                let [liked, nm] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, my_fb_id]);
 
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
@@ -1132,13 +1099,6 @@ async function showMyAllVideos(req, res, limit) {
     console.log(fb_id)
     if (fb_id && my_fb_id) {
 
-        var acon = await amysql.createConnection({
-            host: config.host,
-            user: config.user,
-            password: config.password,
-            database: config.database
-        });
-
 
         try {
 
@@ -1146,20 +1106,20 @@ async function showMyAllVideos(req, res, limit) {
             console.log("LINE 1110");
 
 
-            let [query1, f] = await acon.execute("select * from users where fb_id=? ", [fb_id]);
+            let [query1, f] = await acon.query("select * from users where fb_id=? ", [fb_id]);
             if (query1.length != 0) {
                 console.log("LINE 1115");
 
-                let [query99, f1] = await acon.execute("select * from videos where fb_id= ? and isAvailable = 1 order by created DESC limit 0, ?", [fb_id, limit]);
+                let [query99, f1] = await acon.query("select * from videos where fb_id= ? and isAvailable = 1 order by created DESC limit 0, ?", [fb_id, limit]);
                 array_out_video = []
                 for (i in query99) {
 
-                    let [countLikes, f2] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
+                    let [countLikes, f2] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
 
-                    let [query112, nk] = await acon.execute("select * from sound where id=?", [query99[i].sound_id]);
-                    let [countcomment, f3] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
+                    let [query112, nk] = await acon.query("select * from sound where id=?", [query99[i].sound_id]);
+                    let [countcomment, f3] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
 
-                    let [liked, f4] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
+                    let [liked, f4] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
 
                     s = {};
                     if (query112.length == 0) {
@@ -1226,7 +1186,7 @@ async function showMyAllVideos(req, res, limit) {
                 //count total heart
                 console.log(fb_id)
 
-                let [query123, k2] = await acon.execute("select * from videos where fb_id = ? and isAvailable = ?", [fb_id, 1]);
+                let [query123, k2] = await acon.query("select * from videos where fb_id = ? and isAvailable = ?", [fb_id, 1]);
 
                 let array_out_count_heart = '';
                 for (u in query123) {
@@ -1241,19 +1201,19 @@ async function showMyAllVideos(req, res, limit) {
 
                 hear_count = [{ "count": 0 }];
                 if (array_out_count_heart.trim())
-                    [hear_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
+                    [hear_count, qq] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
 
                 //count total heart
 
                 //count total_fans
 
-                let [total_fans, qqj] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
+                let [total_fans, qqj] = await acon.query("SELECT count(*) as count from follow_users where followed_fb_id= ?", [fb_id]);
 
                 //count total_fans
 
                 //count total_following
 
-                let [total_following, nnn] = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ?", [fb_id]);
+                let [total_following, nnn] = await acon.query("SELECT count(*) as count from follow_users where fb_id= ?", [fb_id]);
 
                 //count total_following
 
@@ -1265,7 +1225,7 @@ async function showMyAllVideos(req, res, limit) {
                 }
 
 
-                let [follow_count, l] = await acon.execute("SELECT count(*) as count from follow_users where fb_id= ? and followed_fb_id=?", [my_fb_id, fb_id]);
+                let [follow_count, l] = await acon.query("SELECT count(*) as count from follow_users where fb_id= ? and followed_fb_id=?", [my_fb_id, fb_id]);
 
 
                 follow = "0"

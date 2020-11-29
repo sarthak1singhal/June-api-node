@@ -37,24 +37,24 @@ module.exports = {
 
                 hmap = {};
                 arr = [];
-                const [rows, fields] = await acon.execute("select * from discover_section order by value limit 20");
+                const [rows, fields] = await acon.query("select * from discover_section order by value limit 20");
                 for (i in rows) {
 
 
                     v.unshift(rows[i].id)
 
-                    const [row_posts, fields] = await acon.execute(q, v);
+                    const [row_posts, fields] = await acon.query(q, v);
 
                     for (j in row_posts) {
-                        [query1, f] = await acon.execute("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+                        [query1, f] = await acon.query("select * from users where fb_id=? ", [row_posts[j].fb_id]);
 
-                        [query112, f1] = await acon.execute("select * from sound where id= ?", [row_posts[j].sound_id]);
-
-
-                        [countcomment, f] = await acon.execute("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                        [query112, f1] = await acon.query("select * from sound where id= ?", [row_posts[j].sound_id]);
 
 
-                        [liked, f] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
+                        [countcomment, f] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+
+
+                        [liked, f] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, row_posts[j].fb_id]);
 
                         score = 60 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 

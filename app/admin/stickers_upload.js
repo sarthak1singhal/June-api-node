@@ -1,11 +1,12 @@
 var path = require('path');
-const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require("../functions/functions");
 const uploadUrl = require("../functions/functions");
 const Hashids = require('hashids/cjs')
 const hashids = new Hashids()
+const acon = require('../../initSql')
+
 module.exports = function(app) {
 
 
@@ -64,14 +65,9 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
-            var [vv, svs] = await acon.execute("insert into stickers (path, priority)values(?,?)", [req.body.path, req.body.priority]);
+
+            var [vv, svs] = await acon.query("insert into stickers (path, priority)values(?,?)", [req.body.path, req.body.priority]);
 
             return res.send({
                 isError: false
@@ -109,14 +105,9 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
-            var [vv, svs] = await acon.execute("update stickers set priority = ? where id = ?", [req.body.priority, req.body.id]);
+
+            var [vv, svs] = await acon.query("update stickers set priority = ? where id = ?", [req.body.priority, req.body.id]);
 
             return res.send({
                 isError: fakse
@@ -145,7 +136,7 @@ module.exports = function(app) {
 
 
 
-    app.post("/get-stickers", fx.isLoggedIn, async function(req, res) {
+    app.post("/get-stickers", async function(req, res) {
 
 
 
@@ -160,7 +151,7 @@ module.exports = function(app) {
                 database: config.database
             });
 
-            var [vv, svs] = await acon.execute("select * from stickers order by priority desc", );
+            var [vv, svs] = await acon.query("select * from stickers order by priority desc", );
 
             m = [];
 

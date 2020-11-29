@@ -16,7 +16,7 @@ var uniqid = require('uniqid');
 
 const crypto = require("crypto");
 const client = require('./initRedis')
-const amysql = require('mysql2/promise');
+const acon = require('../../initSql')
 
 var fx = require("../functions/functions")
 const jwt_refresh_expiration = 60 * 60 * 24 * 30;
@@ -453,12 +453,6 @@ module.exports = function(app, passport) {
 
         try {
 
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
 
 
@@ -543,12 +537,6 @@ module.exports = function(app, passport) {
 
             try {
 
-                let acon = await amysql.createConnection({
-                    host: config.host,
-                    user: config.user,
-                    password: config.password,
-                    database: config.database
-                });
 
 
 
@@ -726,14 +714,6 @@ module.exports = function(app, passport) {
 
         try {
 
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
-
-
 
             let [r, f] = await acon.execute("select * from users where email = ?", [req.body.email])
 
@@ -869,12 +849,8 @@ module.exports = function(app, passport) {
             username = req.body.f_name;
         }
 
-        let acon = await amysql.createConnection({
-            host: config.host,
-            user: config.user,
-            password: config.password,
-            database: config.database
-        });
+        username = username.replace(" ", "");
+
 
         let data = [];
         var sa = 0;
@@ -1066,6 +1042,8 @@ module.exports = function(app, passport) {
 
         username = req.body.username.trim().toLowerCase()
 
+        username = username.replace(" ", "");
+
         if (username.includes("@")) {
             return res.send({
                 isError: true,
@@ -1074,14 +1052,6 @@ module.exports = function(app, passport) {
         }
 
         try {
-
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
-
 
 
             let [r, f] = await acon.execute("select * from users where username = ?", [username])
@@ -1196,14 +1166,6 @@ module.exports = function(app, passport) {
 
 
         try {
-
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
-
 
 
             let [r, f] = await acon.execute("select * from users where email = ? or username = ?", [req.body.email, req.body.email])
@@ -1487,10 +1449,10 @@ async function sendOTPMail(otp, d) {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: '"Elysion" <info@elysionsoftwares.com>', // sender address
+        from: '"June" <info@elysionsoftwares.com>', // sender address
         to: d, // list of receivers
-        subject: "Elysion OTP - " + otp, // Subject line
-        text: otp + " is your one time password",
+        subject: "June OTP - " + otp, // Subject line
+        text: otp + " is your one time password for June",
         // html: "Hello,<br> Please Click on the link to verify your email.<br><a href=" + url + ">Click here to verify</a>"
     }, (error, info) => {
 

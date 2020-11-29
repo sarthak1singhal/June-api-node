@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
- var options = {
+var options = {
     host: config.host,
     port: 3306,
     user: config.user,
@@ -107,7 +107,13 @@ require('./app/functions/likeDislikeVideo')(app);
 
 require('./app/upload_fetch')(app, passport);
 require('./app/profile/getUploadUrl')(app, passport);
+require('./app/admin/manageTags')(app, passport);
 
+require('./app/admin/soundUpload')(app, passport);
+require('./app/admin/reportedVideos')(app, passport);
+require('./app/admin/stickers_upload')(app, passport);
+require('./app/admin/verifyUser')(app, passport);
+require('./app/bots/getDetails')(app, passport);
 
 /*app.listen(80, function() {
     console.log("Srrefsns jf jd fs");

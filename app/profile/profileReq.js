@@ -1,7 +1,8 @@
 var path = require('path');
-zreadJson = require("r-json");
+readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require("../functions/functions");
+const acon = require('../../initSql')
 
 module.exports = function(app) {
 
@@ -37,12 +38,7 @@ module.exports = function(app) {
 
         if (fb_id) {
 
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
 
             try {
@@ -52,28 +48,28 @@ module.exports = function(app) {
 
 
 
-                [query1, f] = await acon.execute("select * from users where fb_id=? ", [fb_id]);
+                [query1, f] = await acon.query("select * from users where fb_id=? ", [fb_id]);
 
 
                 if (query1.length != 0) {
 
 
-                    [_query, l] = await acon.execute("select * from video_like_dislike where fb_id= ? order by id DESC limit ?, ?", [fb_id, offset, limit]);
+                    [_query, l] = await acon.query("select * from video_like_dislike where fb_id= ? order by id DESC limit ?, ?", [fb_id, offset, limit]);
 
                     array_out_video = []
                     for (i in _query) {
 
-                        [rdd, l] = await acon.execute("select * from videos where id= ?", [_query[i].video_id]);
+                        [rdd, l] = await acon.query("select * from videos where id= ?", [_query[i].video_id]);
 
-                        [rd12, ll] = await acon.execute("select * from sound where id= ?", [rdd[0].sound_id]);
+                        [rd12, ll] = await acon.query("select * from sound where id= ?", [rdd[0].sound_id]);
 
-                        [countLikes_count, l] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? ", [_query[i].video_id]);
+                        [countLikes_count, l] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? ", [_query[i].video_id]);
 
-                        [countcomment_count, l] = await acon.execute("SELECT count(*) as count from video_comment where video_id= ?", [_query[i].video_id]);
+                        [countcomment_count, l] = await acon.query("SELECT count(*) as count from video_comment where video_id= ?", [_query[i].video_id]);
 
-                        [liked_count, qq] = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [_query[i].video_id, fb_id]);
+                        [liked_count, qq] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id= ?", [_query[i].video_id, fb_id]);
 
-                        [rd11, ll] = await acon.execute("select * from users where fb_id=? ", [rdd[0].fb_id]);
+                        [rd11, ll] = await acon.query("select * from users where fb_id=? ", [rdd[0].fb_id]);
 
                         smap = {}
 
@@ -211,22 +207,17 @@ module.exports = function(app) {
         }
 
         try {
-            let acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
-            let [row, f] = await acon.execute("select * from `follow_users` where `followed_fb_id` = ? order by id DESC limit ?, 40", [fb_id, offset])
+
+            let [row, f] = await acon.query("select * from `follow_users` where `followed_fb_id` = ? order by id DESC limit ?, 40", [fb_id, offset])
 
             array_out = [];
 
             for (i in row) {
-                let [rd1, f] = await acon.execute("select * from users where fb_id = ?", [row[i].fb_id])
+                let [rd1, f] = await acon.query("select * from users where fb_id = ?", [row[i].fb_id])
 
 
-                let [follow_count, s1] = await acon.execute("SELECT count(*) as count from follow_users where followed_fb_id=? and fb_id=? ", [row[i].fb_id, fb_id])
+                let [follow_count, s1] = await acon.query("SELECT count(*) as count from follow_users where followed_fb_id=? and fb_id=? ", [row[i].fb_id, fb_id])
 
 
                 follow = ""
@@ -307,28 +298,23 @@ module.exports = function(app) {
 
 
 
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
 
 
-            [query1, f] = await acon.execute("select * from follow_users where fb_id=? order by id DESC limit ?, 40", [fb_id, offset]);
+
+            [query1, f] = await acon.query("select * from follow_users where fb_id=? order by id DESC limit ?, 40", [fb_id, offset]);
 
             array_out = [];
 
             for (i in query1) {
 
 
-                [rd1, l] = await acon.execute("select * from users where fb_id=? ", [query1[i].followed_fb_id]);
+                [rd1, l] = await acon.query("select * from users where fb_id=? ", [query1[i].followed_fb_id]);
 
                 //   [rd,l1]=await acon.execute("select * from users where fb_id= ? ",[query1[i].fb_id]);
 
 
-                [follow_count, k] = await acon.execute("SELECT count(*) as count from follow_users where fb_id = ? and followed_fb_id= ? ", [fb_id, query1[i].followed_fb_id]);
+                [follow_count, k] = await acon.query("SELECT count(*) as count from follow_users where fb_id = ? and followed_fb_id= ? ", [fb_id, query1[i].followed_fb_id]);
 
                 follow_button_status = ""
                 follow = ""

@@ -1,12 +1,13 @@
 var path = require('path');
-const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require("../functions/functions");
 const uploadUrl = require("../functions/functions");
 const Hashids = require('hashids/cjs')
 const hashids = new Hashids()
-module.exports = function(app) {
+const acon = require('../../initSql')
+
+module.exports = async function(app) {
 
 
     app.post('/sound-upload-url', fx.isLoggedIn, async function(req, res) {
@@ -54,29 +55,26 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
-            var [vv, svs] = await acon.execute("insert into sound (sound_name,description,audioPath ,thum, section, priority)values(?,?,?,?,?,?)", [req.body.sound_name, "", req.body.audioPath, req.body.thum, "", req.body.priority]);
+
+            var [vv, svs] = await acon.query("insert into sound (sound_name,description,audioPath ,thum, section, priority)values(?,?,?,?,?,?)", [req.body.sound_name, "", req.body.audioPath, req.body.thum, "", req.body.priority]);
 
             return res.send({
-                isError: false
+                isError: false,
+
             })
 
         } catch (e) {
 
+            return res.send({
+                isError: true,
+                msg: e
+
+            })
         }
 
 
 
-
-        return res.send({
-            isError: true
-        })
 
 
 
@@ -99,14 +97,9 @@ module.exports = function(app) {
 
 
         try {
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
 
-            var [vv, svs] = await acon.execute("update sound set priority = ? where id = ?", [req.body.priority, req.body.id]);
+
+            var [vv, svs] = await acon.query("update sound set priority = ? where id = ?", [req.body.priority, req.body.id]);
 
             return res.send({
                 isError: fakse

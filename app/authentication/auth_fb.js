@@ -13,7 +13,7 @@ const axios = require('axios');
 
 var uniqid = require('uniqid');
 
-const amysql = require('mysql2/promise');
+const acon = require('../../initSql')
 
 module.exports = function(app, passport) {
 
@@ -22,7 +22,6 @@ module.exports = function(app, passport) {
 
 
     app.post('/login-fb', async function(req, res, next) {
-        console.log(req.body)
 
         if (!req.body.email) {
             return res.send({
@@ -76,14 +75,10 @@ module.exports = function(app, passport) {
                             username = email.split("@")[0];
                             if (!username) {
                                 username = req.body.f_name;
-                            }
 
-                            let acon = await amysql.createConnection({
-                                host: config.host,
-                                user: config.user,
-                                password: config.password,
-                                database: config.database
-                            });
+                                username = username.replace(" ", "");
+
+                            }
 
 
                             con.query("select * from users where email = ?", [email], async function(e, r) {
@@ -97,7 +92,7 @@ module.exports = function(app, passport) {
 
                                         new_username = fx.username_append(username);
                                         if (new_username) {
-                                            let [r2, f] = await acon.execute("select * from users where username = ?", [new_username]);
+                                            let [r2, f] = await acon.query("select * from users where username = ?", [new_username]);
 
                                             if (r2.length == 0) {
 
@@ -335,6 +330,17 @@ module.exports = function(app, passport) {
 
 
 
+
+    app.post('/delete-acc', fx.isLoggedIn, async function(req, res, next) {
+
+
+        return res.send({
+            isError: false,
+            msg: "deleted"
+        })
+
+
+    })
 
 
 

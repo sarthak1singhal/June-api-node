@@ -1,6 +1,6 @@
  var path = require('path');
  const config = readJson(`config.json`);
- const amysql = require('mysql2/promise');
+ const acon = require('../../initSql')
 
 
  var con = require('../../params.js')
@@ -136,12 +136,7 @@
      app.post('/uploadProfileImage_app/', fx.isLoggedIn, upload.single("file"), async function(req, res) {
 
 
-         var acon = await amysql.createConnection({
-             host: config.host,
-             user: config.user,
-             password: config.password,
-             database: config.database
-         });
+
 
 
 
@@ -161,7 +156,7 @@
          try {
 
 
-             [q, l] = await acon.execute("select * from users where fb_id = ?", [req.user.id]);
+             [q, l] = await acon.query("select * from users where fb_id = ?", [req.user.id]);
 
 
 
@@ -203,7 +198,7 @@
                  return res.sen({ isError: true, message: "Failed" })
              }
 
-             [q1, l1] = await acon.execute("update users set profile_pic = ? where fb_id = ?", [name, req.user.id]);
+             [q1, l1] = await acon.query("update users set profile_pic = ? where fb_id = ?", [name, req.user.id]);
 
 
              res.send({
@@ -226,23 +221,13 @@
      app.post('/on-profile-img-upload/', fx.isLoggedIn, async function(req, res) {
 
 
-         var acon = await amysql.createConnection({
-             host: config.host,
-             user: config.user,
-             password: config.password,
-             database: config.database
-         });
-
-
-
-
 
 
 
          try {
 
 
-             [q1, l1] = await acon.execute("update users set profile_pic = ? where fb_id = ?", [req.body.path, req.user.id]);
+             [q1, l1] = await acon.query("update users set profile_pic = ? where fb_id = ?", [req.body.path, req.user.id]);
 
 
              res.send({
@@ -264,12 +249,7 @@
      app.post('/get-verified-status', fx.isLoggedIn, upload.single("file"), async function(req, res) {
 
 
-         var acon = await amysql.createConnection({
-             host: config.host,
-             user: config.user,
-             password: config.password,
-             database: config.database
-         });
+
 
 
 
@@ -280,7 +260,7 @@
          try {
 
 
-             [q, l] = await acon.execute("select * from verification_request where fb_id = ?", [req.user.id]);
+             [q, l] = await acon.query("select * from verification_request where fb_id = ?", [req.user.id]);
 
 
 

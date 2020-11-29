@@ -1,5 +1,5 @@
 var path = require('path');
-const amysql = require('mysql2/promise');
+const acon = require('../../initSql')
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require("../functions/functions");
@@ -17,13 +17,7 @@ module.exports = function(app) {
 
         try {
 
-            const acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
-            var [ins, fields] = await acon.execute("select * from videos where report > 4 order by report desc", [req.body.priority, req.body.tag, ]);
+            var [ins, fields] = await acon.query("select * from videos where report > 4 order by report desc", [req.body.priority, req.body.tag, ]);
 
 
             return res.send({

@@ -3,6 +3,7 @@
  readJson = require("r-json");
  const config = readJson(`config.json`);
  const fx = require('../functions/functions')
+ const acon = require('../../initSql')
 
  module.exports = function(app) {
 
@@ -16,13 +17,6 @@
 
          _type = req.body.type;
          keyword = req.body.keyword;
-         var acon = await amysql.createConnection({
-             host: config.host,
-             user: config.user,
-             password: config.password,
-             database: config.database
-         });
-
 
 
 
@@ -30,22 +24,22 @@
              try {
 
                  if (_type == "video") {
-                     [row, f] = await acon.execute("select * from videos where description like '%" + keyword + "%' order by rand() limit 15");
+                     [row, f] = await acon.query("select * from videos where description like '%" + keyword + "%' order by rand() limit 15");
                      array_out = [];
                      for (i in row) {
 
-                         [rd, f] = await acon.execute("select * from users where fb_id=? ", [row[i].fb_id]);
+                         [rd, f] = await acon.query("select * from users where fb_id=? ", [row[i].fb_id]);
 
-                         [rd12, f] = await acon.execute("select * from sound where id= ?", [row[i].sound_id]);
+                         [rd12, f] = await acon.query("select * from sound where id= ?", [row[i].sound_id]);
 
-                         countLikes_count = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id= ? ", [row[i].id]);
+                         countLikes_count = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? ", [row[i].id]);
 
-                         countcomment_count = await acon.execute("SELECT count(*) as count from video_comment where video_id= ?", [row[i].id]);
+                         countcomment_count = await acon.query("SELECT count(*) as count from video_comment where video_id= ?", [row[i].id]);
 
                          liked_count = "0"
                          fb_id = req.query.fb_id
                          if (fb_id)
-                             liked_count = await acon.execute("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ? ", [row[i].id, fb_id]);
+                             liked_count = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ? ", [row[i].id, fb_id]);
 
 
                          s = {};
@@ -111,10 +105,10 @@
                          "type": _type
                      })
                  } else if (_type == "users") {
-                     [row, f] = await acon.execute("select * from users where first_name like '%" + keyword + "%' or last_name like '%" + keyword + "%' or username like '%" + keyword + "%'  limit 15 ");
+                     [row, f] = await acon.query("select * from users where first_name like '%" + keyword + "%' or last_name like '%" + keyword + "%' or username like '%" + keyword + "%'  limit 15 ");
                      array_out = [];
                      for (i in row) {
-                         [query1, f] = await acon.execute("select * from videos where fb_id= ?", [row[i].fb_id]);
+                         [query1, f] = await acon.query("select * from videos where fb_id= ?", [row[i].fb_id]);
                          videoCount = query1.length;
 
                          array_out.push({
@@ -137,10 +131,10 @@
 
                      return res.send({ code: 200, msg: array_out, "type": _type })
                  } else if (_type == "sound") {
-                     [row1, f] = await acon.execute("select * from sound where sound_name like '%" + keyword + "%' or description like '%" + keyword + "%'  limit 15");
+                     [row1, f] = await acon.query("select * from sound where sound_name like '%" + keyword + "%' or description like '%" + keyword + "%'  limit 15");
                      array_out1 = []
                      for (i in row1) {
-                         [qrry, f] = await acon.execute("select * from fav_sound WHERE fb_id=? and sound_id =?", [fb_id, row1[i].id]);
+                         [qrry, f] = await acon.query("select * from fav_sound WHERE fb_id=? and sound_id =?", [fb_id, row1[i].id]);
 
                          CountFav = qrry.length;
                          if (CountFav == "") {

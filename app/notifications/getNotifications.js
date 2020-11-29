@@ -1,6 +1,6 @@
 const https = require('request')
 
-const amysql = require('mysql2/promise');
+const acon = require('../../initSql')
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require('../functions/functions');
@@ -22,21 +22,16 @@ module.exports = function(app) {
         offset = req.body.offset
         try {
 
-            var acon = await amysql.createConnection({
-                host: config.host,
-                user: config.user,
-                password: config.password,
-                database: config.database
-            });
+
 
 
             array_out = [];
 
-            [_query, f] = await acon.execute("select * from notification where effected_fb_id=? order by id desc limit ?, 30", [fb_id, offset])
+            [_query, f] = await acon.query("select * from notification where effected_fb_id=? order by id desc limit ?, 30", [fb_id, offset])
 
             for (i in _query) {
-                [rd, f1] = await acon.execute("select * from users where fb_id= ?", [_query[i].my_fb_id]);
-                [rd1, f1] = await acon.execute("select * from videos where id=? ", [_query[i].value]);
+                [rd, f1] = await acon.query("select * from users where fb_id= ?", [_query[i].my_fb_id]);
+                [rd1, f1] = await acon.query("select * from videos where id=? ", [_query[i].value]);
 
                 var valueData = {
 

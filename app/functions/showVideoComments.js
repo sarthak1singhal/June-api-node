@@ -4,6 +4,7 @@ const amysql = require('mysql2/promise');
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require("../functions/functions");
+const acon = require('../../initSql')
 
 module.exports = function(app) {
 
@@ -25,19 +26,13 @@ module.exports = function(app) {
 
                 try {
 
-                    let acon = await amysql.createConnection({
-                        host: config.host,
-                        user: config.user,
-                        password: config.password,
-                        database: config.database
-                    });
 
 
 
-                    let [_query, f] = await acon.execute("select * from video_comment where video_id= ? order by id DESC limit ?, 25", [video_id, req.body.offset])
+                    let [_query, f] = await acon.query("select * from video_comment where video_id= ? order by id DESC limit ?, 25", [video_id, req.body.offset])
 
                     for (i in _query) {
-                        let [rd, f1] = await acon.execute("select * from users where fb_id = ?", [_query[i].fb_id]);
+                        let [rd, f1] = await acon.query("select * from users where fb_id = ?", [_query[i].fb_id]);
 
                         array_out.push({
                             "video_id": _query[i]['video_id'],
