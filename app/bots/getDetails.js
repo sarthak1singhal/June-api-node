@@ -275,6 +275,31 @@ module.exports = function(app, passport) {
 
 
 
+    app.post("/admin-updateVideoView", fx.isLoggedIn, (req, res) => {
+
+
+        var num = req.body.num;
+        var vids = req.body.vids;
+
+
+
+        con.query("update videos set `view` = `view` + " + num + " where isAvailable = 1 order by rand() limit ?", [vids], function(e, r) {
+
+
+            if (e) {
+                return res.send({
+                    isError: true,
+                    msg: e
+                })
+
+            }
+            return res.send({
+                isError: false,
+                msg: "Done"
+            })
+
+
+        })
 
 
 
@@ -283,6 +308,35 @@ module.exports = function(app, passport) {
 
 
 
+    })
+
+
+
+    app.post("/updateNewVideoView", fx.isLoggedIn, (req, res) => {
+
+
+        var num = req.body.num;
+        var vids = req.body.vids;
+
+
+
+        con.query("update videos set `view` = `view` + " + num + " where isAvailable = 1 and view < 600 order by rand() limit ?", [vids], function(e, r) {
+
+
+            if (e) {
+                return res.send({
+                    isError: true,
+                    msg: e
+                })
+
+            }
+            return res.send({
+                isError: false,
+                msg: "Done"
+            })
+
+
+        })
 
 
 
@@ -291,6 +345,85 @@ module.exports = function(app, passport) {
 
 
 
+    })
+
+
+
+
+
+    app.post("/admin-addlike", fx.isLoggedIn, (req, res) => {
+
+
+        var num = req.body.num;
+        var vids = req.body.vids;
+
+
+
+        con.query("update videos set `like` = `like` + " + num + " where isAvailable = 1 order by rand() limit ?", [vids], function(e, r) {
+
+
+            if (e) {
+                return res.send({
+                    isError: true,
+                    msg: e
+                })
+
+            }
+            return res.send({
+                isError: false,
+                msg: "Done"
+            })
+
+
+        })
+
+
+
+
+
+
+
+
+    })
+
+
+
+
+
+    app.post("/inc-likes-new-videos", fx.isLoggedIn, (req, res) => {
+
+
+        var num = req.body.num;
+        var vids = req.body.vids;
+
+
+
+        con.query("update videos set `like` = `like` + " + num + " where isAvailable = 1 and like < 40 order by rand() limit ?", [vids], function(e, r) {
+
+
+            if (e) {
+                return res.send({
+                    isError: true,
+                    msg: e
+                })
+
+            }
+            return res.send({
+                isError: false,
+                msg: "Done"
+            })
+
+
+        })
+
+
+
+
+
+
+
+
+    })
 
 
 

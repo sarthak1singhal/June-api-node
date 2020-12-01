@@ -1,6 +1,6 @@
 const https = require('request')
 
-const acon = require('../../initSql')
+acon = require('../../initSql')
 readJson = require("r-json");
 const config = readJson(`config.json`);
 const fx = require('../functions/functions');

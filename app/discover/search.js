@@ -30,31 +30,34 @@
 
                          [rd, f] = await acon.query("select * from users where fb_id=? ", [row[i].fb_id]);
 
-                         [rd12, f] = await acon.query("select * from sound where id= ?", [row[i].sound_id]);
+                         [rd12, f2] = await acon.query("select * from sound where id= ?", [row[i].sound_id]);
 
-                         countLikes_count = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? ", [row[i].id]);
+                         [countLikes_count, asa] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? ", [row[i].id]);
 
-                         countcomment_count = await acon.query("SELECT count(*) as count from video_comment where video_id= ?", [row[i].id]);
+                         [countcomment_count, ss] = await acon.query("SELECT count(*) as count from video_comment where video_id= ?", [row[i].id]);
 
-                         liked_count = "0"
-                         fb_id = req.query.fb_id
+
+                         liked_count = [{
+                             count: 0
+                         }]
+                         fb_id = req.body.fb_id;
                          if (fb_id)
-                             liked_count = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ? ", [row[i].id, fb_id]);
+                             [liked_count, ff] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ? ", [row[i].id, fb_id]);
 
 
                          s = {};
                          if (rd12.length == 0) {
                              s = {
-                                 "id": "",
+                                 "id": null,
                                  "audio_path": {
-                                     "mp3": "", //complete sound path here
-                                     "acc": ""
+                                     "mp3": null, //complete sound path here
+                                     "acc": null
                                  },
-                                 "sound_name": "",
-                                 "description": "",
-                                 "thum": "",
-                                 "section": "",
-                                 "created": "",
+                                 "sound_name": null,
+                                 "description": null,
+                                 "thum": null,
+                                 "section": null,
+                                 "created": null,
 
                              }
                          } else {
@@ -62,12 +65,12 @@
                                  "id": rd12[0].id,
                                  "audio_path": {
 
-                                     "mp3": config.apiUrl + rd12[0].videoPath + ".mp3",
-                                     "acc": config.apiUrl + rd12[0].videoPath + ".aac"
+                                     "mp3": config.cdnUrl + rd12[0].videoPath + ".mp3",
+                                     "acc": config.cdnUrl + rd12[0].videoPath + ".aac"
                                  },
                                  "sound_name": rd12[0].sound_name,
                                  "description": rd12[0].description,
-                                 "thum": config.apiUrl + rd12[0].thum,
+                                 "thum": config.cdnUrl + rd12[0].thum,
                                  "section": rd12[0].section,
                                  "created": rd12[0].created,
                              }
@@ -85,13 +88,13 @@
                                  "verified": rd[0].verified,
                              },
                              "count": {
-                                 "like_count": countLikes_count[0]['count'],
+                                 "like_count": row[i]['like'],
                                  "video_comment_count": countcomment_count[0]['count'],
                                  "view": row[i]['view'],
                              },
                              "liked": liked_count[0]['count'],
-                             "video": config.apiUrl + row[i]['video'],
-                             "thum": config.apiUrl + row[i]['thum'],
+                             "video": config.cdnUrl + row[i]['video'],
+                             "thum": config.cdnUrl + row[i]['thum'],
                              "description": row[i]['description'],
                              "sound": s,
                              "created": row[i]['created'],
@@ -102,7 +105,8 @@
                      return res.send({
                          code: "200",
                          msg: array_out,
-                         "type": _type
+                         "type": _type,
+                         isError: false
                      })
                  } else if (_type == "users") {
                      [row, f] = await acon.query("select * from users where first_name like '%" + keyword + "%' or last_name like '%" + keyword + "%' or username like '%" + keyword + "%'  limit 15 ");
@@ -129,7 +133,12 @@
 
                      }
 
-                     return res.send({ code: 200, msg: array_out, "type": _type })
+                     return res.send({
+                         code: 200,
+                         msg: array_out,
+                         "type": _type,
+                         isError: false
+                     })
                  } else if (_type == "sound") {
                      [row1, f] = await acon.query("select * from sound where sound_name like '%" + keyword + "%' or description like '%" + keyword + "%'  limit 15");
                      array_out1 = []
@@ -151,14 +160,19 @@
                              "sound_name": row1[i]['sound_name'],
                              "description": row1[i]['description'],
                              "section": row1[i]['section'],
-                             "thum": config.apiUrl + row1[i]['thum'],
+                             "thum": config.cdnUrl + row1[i]['thum'],
                              "created": row1[i]['created'],
                              "fav": CountFav
 
                          });
                      }
 
-                     return res.send({ code: "200", msg: array_out1, "type": _type })
+                     return res.send({
+                         code: "200",
+                         msg: array_out1,
+                         "type": _type,
+                         isError: false
+                     })
                  }
 
 

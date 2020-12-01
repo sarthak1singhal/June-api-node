@@ -958,6 +958,7 @@ module.exports = function(app) {
 
                 let [liked, nm] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, my_fb_id]);
 
+                console.log(liked, "LIKEDDD")
                 score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
 
                 if (row_posts[j]['view'] > 1000) {
@@ -1114,12 +1115,12 @@ async function showMyAllVideos(req, res, limit) {
                 array_out_video = []
                 for (i in query99) {
 
-                    let [countLikes, f2] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
+                    //                    let [countLikes, f2] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? ", [query99[i].id]);
 
                     let [query112, nk] = await acon.query("select * from sound where id=?", [query99[i].sound_id]);
                     let [countcomment, f3] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
 
-                    let [liked, f4] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, fb_id]);
+                    let [liked, f4] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, my_fb_id]);
 
                     s = {};
                     if (query112.length == 0) {
@@ -1161,7 +1162,7 @@ async function showMyAllVideos(req, res, limit) {
                         "description": query99[i]['description'],
                         "liked": liked[0]['count'],
                         "count": {
-                            "like_count": countLikes[0]['count'],
+                            "like_count": query99[i]['like'],
                             "video_comment_count": countcomment[0]['count'],
                             "view": query99[i]['view'],
                         },

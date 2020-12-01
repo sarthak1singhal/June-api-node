@@ -128,5 +128,46 @@ module.exports = async function(app) {
 
 
 
+    app.post("/delete-sound", fx.isLoggedIn, async function(req, res) {
+
+
+
+
+
+
+        try {
+
+
+            var [vv, svs] = await acon.query("delete from sound where id = ?", [req.body.id]);
+
+            return res.send({
+                isError: false,
+
+            })
+
+        } catch (e) {
+
+            return res.send({
+                isError: true,
+                msg: e
+
+            })
+        }
+
+
+
+
+
+
+
+
+
+
+
+    })
+
+
+
+
 
 };
