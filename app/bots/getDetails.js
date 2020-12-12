@@ -398,7 +398,7 @@ module.exports = function(app, passport) {
 
 
 
-        con.query("update videos set `like` = `like` + " + num + " where isAvailable = 1 and like < 40 order by rand() limit ?", [vids], function(e, r) {
+        con.query("update videos set `like` = `like` + " + num + " where isAvailable = 1 and `like` < 40 order by rand() limit ?", [vids], function(e, r) {
 
 
             if (e) {
@@ -426,9 +426,57 @@ module.exports = function(app, passport) {
     })
 
 
+    /*
+      app.post("/change-db", fx.isLoggedIn, (req, res) => {
+
+
+        var num = req.body.num;
+        var vids = req.body.vids;
+
+
+
+        con.query("ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin", [], function(e, r) {
+
+
+
+            con.query("ALTER TABLE videos CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin", [], function(e, r) {
 
 
 
 
+            })
+            con.query("ALTER TABLE video_comment CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin", [], function(e, r) {
+
+
+
+
+
+            })
+
+            if (e) {
+                return res.send({
+                    isError: true,
+                    msg: e
+                })
+
+            }
+            return res.send({
+                isError: false,
+                msg: "Done"
+            })
+
+
+        })
+
+
+
+
+
+
+
+
+    })
+
+    */
 
 };

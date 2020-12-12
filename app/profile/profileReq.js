@@ -63,7 +63,7 @@ module.exports = function(app) {
 
                         [rd12, ll] = await acon.query("select * from sound where id= ?", [rdd[0].sound_id]);
 
-                        [countLikes_count, l] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? ", [_query[i].video_id]);
+                        //  [countLikes_count, l] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? ", [_query[i].video_id]);
 
                         [countcomment_count, l] = await acon.query("SELECT count(*) as count from video_comment where video_id= ?", [_query[i].video_id]);
 
@@ -105,6 +105,8 @@ module.exports = function(app) {
 
                         array_out_video.push({
                             "id": rdd[0].id,
+                            "fb_id": rdd[0]['fb_id'],
+
                             "video": config.cdnUrl + rdd[0].video,
                             "thum": config.cdnUrl + rdd[0].thum,
                             "description": rdd[0].description,
@@ -117,7 +119,7 @@ module.exports = function(app) {
                                 "profile_pic": fx.getImageUrl(rd11[0].profile_pic),
                             },
                             "count": {
-                                "like_count": countLikes_count[0]['count'],
+                                "like_count": rdd[0].like,
                                 "video_comment_count": countcomment_count[0]['count'],
                                 "view": rdd[0].view,
                             },
@@ -217,7 +219,7 @@ module.exports = function(app) {
                 let [rd1, f] = await acon.query("select * from users where fb_id = ?", [row[i].fb_id])
 
 
-                let [follow_count, s1] = await acon.query("SELECT count(*) as count from follow_users where followed_fb_id=? and fb_id=? ", [row[i].fb_id, fb_id])
+                let [follow_count, s1] = await acon.query("SELECT count(*) as count from follow_users where followed_fb_id=? and fb_id=? ", [row[i].fb_id, req.user.id])
 
 
                 follow = ""
@@ -314,7 +316,7 @@ module.exports = function(app) {
                 //   [rd,l1]=await acon.execute("select * from users where fb_id= ? ",[query1[i].fb_id]);
 
 
-                [follow_count, k] = await acon.query("SELECT count(*) as count from follow_users where fb_id = ? and followed_fb_id= ? ", [fb_id, query1[i].followed_fb_id]);
+                [follow_count, k] = await acon.query("SELECT count(*) as count from follow_users where fb_id = ? and followed_fb_id= ? ", [req.user.id, query1[i].followed_fb_id]);
 
                 follow_button_status = ""
                 follow = ""
@@ -364,6 +366,31 @@ module.exports = function(app) {
 
 
 
+    app.post('/change-privacy', fx.isLoggedIn, async function(req, res) {
+
+
+        try {
+
+
+            [query1, f] = await acon.query("update users set isPrivate = ? where fb_id=?", [req.body.status, req.user.id]);
+
+
+            return res.send({
+                isError: true,
+                msg: req.body.status
+            })
+
+
+        } catch (e) {
+
+            return res.send({
+                isError: true,
+                msg: e
+            })
+        }
+
+
+    })
 
 
 };

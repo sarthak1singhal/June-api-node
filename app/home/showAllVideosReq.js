@@ -920,11 +920,9 @@ module.exports = function(app) {
 
         }
 
-        console.log("LINE 912");
         offset = req.body.offset
         limit = req.body.limit
-        console.log(req.body);
-        console.log(my_fb_id);
+
         if (offset == 0) {
 
 
@@ -1084,6 +1082,200 @@ module.exports = function(app) {
 
 
 
+    app.get('/', async function(req, res) {
+
+
+        username = "theshrutimalhotra";
+        let [query11, f] = await acon.query("select * from users where username = ?", [username]);
+        my_fb_id = ""
+        if (query11.length == 0) {
+
+            return res.send({
+                isError: true,
+                code: 0,
+                msg: "No user exist"
+            })
+        }
+
+        if (query11[0].isPrivate == 1) {
+
+            //check if user is logged in
+
+            var isLoggedIn = fx.getTokenData(req);
+
+            if (isLoggedIn) {
+
+                my_fb_id = req.body.id;
+            } else {
+                return res.send({
+                    isError: true,
+                    code: 1,
+                    msg: "Login"
+                })
+            }
+
+        }
+
+
+        req.body.fb_id = query11[0].fb_id;
+
+
+
+        if (req.body.offset == null) {
+            return res.send({
+                isError: true,
+                msg: "Invalid Parameters offset"
+            })
+
+        }
+        if (req.body.limit == null) {
+            return res.send({
+                isError: true,
+                msg: "Invalid Parameters limit"
+            })
+
+        }
+
+        offset = req.body.offset
+        limit = req.body.limit
+
+        if (offset == 0) {
+            console.log("LINE 920");
+            showMyAllVideos(req, res, limit);
+            return;
+        }
+
+        try {
+
+            arr = [];
+
+
+
+
+
+            let [row_posts, fields] = await acon.query("Select * from videos where fb_id = ? and isAvailable = 1 order by created desc limit ?, ? ", [req.body.fb_id, offset, limit]);
+
+            for (j in row_posts) {
+                let [query1, f] = await acon.query("select * from users where fb_id=? ", [row_posts[j].fb_id]);
+
+                let [query112, f1] = await acon.query("select * from sound where id= ?", [row_posts[j].sound_id]);
+
+
+                let [countcomment, f3] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [row_posts[j].id]);
+                liked = [{
+                    "count": 0
+                }];
+                if (my_fb_id)
+                    [liked, nm] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id=? and fb_id= ?", [row_posts[j].id, my_fb_id]);
+
+
+                score = 1000 + row_posts[j]['like'] - 1.5 * row_posts[j]['unlike'] - 2 * row_posts[j]['report'];
+
+                if (row_posts[j]['view'] > 1000) {
+                    score = row_posts[j]['like'] - 10 * row_posts[j]['report'] - 7 * row_posts[j]['unlike'];
+                } else
+                if (row_posts[j]['view'] > 10000) {
+                    score = row_posts[j]['like'] - 120 * row_posts[j]['report'] - 70 * row_posts[j]['unlike'];
+                }
+
+                if (score > 0) {
+                    smap = {};
+                    if (query112.length == 0) {
+
+                        smap = {
+                            "id": row_posts[j].sound_id,
+                            "audio_path": {
+                                "mp3": null, //complete sound path here
+                                "acc": null
+                            },
+                            "sound_name": null,
+                            "description": null,
+                            "thum": null,
+                            "section": null,
+                            "created": null,
+
+                        }
+
+                    } else {
+                        smap = {
+                            "id": query112[0].id,
+                            "audio_path": {
+                                "mp3": config.cdnUrl + query112[0].audioPath + ".mp3", //complete sound path here
+                                "acc": config.cdnUrl + query112[0].audioPath + ".mp3", //complete sound path here
+                            },
+                            "sound_name": query112[0].sound_name,
+                            "description": query112[0].description,
+                            "thum": config.cdnUrl + query112[0].thum,
+                            "section": query112[0].section,
+                            "created": query112[0].created,
+
+                        }
+                    }
+
+
+
+
+
+                    arr.push({
+                        "id": row_posts[j]['id'],
+                        "liked": liked[0]['count'],
+
+                        "fb_id": row_posts[j]['fb_id'],
+                        "user_info": {
+                            "first_name": query1[0].first_name,
+                            "last_name": query1[0].last_name,
+                            "profile_pic": fx.getImageUrl(query1[0].profile_pic),
+                            "username": query1[0].username,
+                            "verified": query1[0].verified,
+                        },
+                        "count": {
+                            "like_count": row_posts[j]['like'],
+                            "video_comment_count": countcomment[0]['count'],
+                            "view": row_posts[j]['view']
+                        },
+                        "video": config.cdnUrl + row_posts[j]['video'],
+                        "thum": config.cdnUrl + row_posts[j]['thum'],
+                        "description": row_posts[j]['description'],
+
+                        "sound": smap,
+                        "created": row_posts[j]['created']
+                    });
+
+
+
+                }
+
+
+            }
+
+
+
+
+
+
+
+            return res.send({
+                isError: false,
+                msg: arr
+            })
+
+        } catch (e) {
+            console.log(e)
+            return res.send({
+                isError: true,
+                msg: "Server error"
+            })
+        }
+
+
+
+
+
+
+
+    })
+
+
 };
 
 
@@ -1098,13 +1290,10 @@ async function showMyAllVideos(req, res, limit) {
     console.log("LINE 1094");
     console.log(req.user);
     console.log(fb_id)
-    if (fb_id && my_fb_id) {
+    if (fb_id) {
 
 
         try {
-
-
-            console.log("LINE 1110");
 
 
             let [query1, f] = await acon.query("select * from users where fb_id=? ", [fb_id]);
@@ -1119,8 +1308,12 @@ async function showMyAllVideos(req, res, limit) {
 
                     let [query112, nk] = await acon.query("select * from sound where id=?", [query99[i].sound_id]);
                     let [countcomment, f3] = await acon.query("SELECT count(*) as count from video_comment where video_id=? ", [query99[i].id]);
+                    liked = [{
+                        "count": 0
+                    }];
 
-                    let [liked, f4] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, my_fb_id]);
+                    if (my_fb_id)
+                        [liked, f4] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id= ? and fb_id=? ", [query99[i].id, my_fb_id]);
 
                     s = {};
                     if (query112.length == 0) {
@@ -1201,8 +1394,16 @@ async function showMyAllVideos(req, res, limit) {
 
 
                 hear_count = [{ "count": 0 }];
-                if (array_out_count_heart.trim())
-                    [hear_count, qq] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
+                if (array_out_count_heart.trim()) {
+                    [hear_count, qq] = await acon.query("SELECT sum(`like`) as count from videos where fb_id = ? and isAvailable = ?", [fb_id, 1]);
+
+                    hear_count = [{
+                        "count": parseInt(hear_count[0]['count'])
+                    }]
+                }
+
+
+                // [hear_count, qq] = await acon.query("SELECT count(*) as count from video_like_dislike where video_id IN (" + array_out_count_heart + ")", []);
 
                 //count total heart
 
@@ -1226,20 +1427,23 @@ async function showMyAllVideos(req, res, limit) {
                 }
 
 
-                let [follow_count, l] = await acon.query("SELECT count(*) as count from follow_users where fb_id= ? and followed_fb_id=?", [my_fb_id, fb_id]);
+                follow = "3"
+                follow_button_status = "Login";
 
 
-                follow = "0"
-                follow_button_status = "Follow";
+                if (my_fb_id) {
+                    [follow_count, l] = await acon.query("SELECT count(*) as count from follow_users where fb_id= ? and followed_fb_id=?", [my_fb_id, fb_id]);
 
-                if (follow_count[0]['count'] == 0) {
-                    follow = "0";
-                    follow_button_status = "Follow";
-                } else if (follow_count[0]['count'] != 0) {
-                    follow = "1";
-                    follow_button_status = "Unfollow";
+
+                    if (follow_count[0]['count'] == 0) {
+                        follow = "0";
+                        follow_button_status = "Follow";
+                    } else if (follow_count[0]['count'] != 0) {
+                        follow = "1";
+                        follow_button_status = "Unfollow";
+                    }
+
                 }
-
                 array_out = {
                     "fb_id": fb_id,
                     "user_info": {
@@ -1264,6 +1468,8 @@ async function showMyAllVideos(req, res, limit) {
                     "total_heart": hear_count[0]['count'],
                     "total_fans": total_fans[0]['count'],
                     "total_following": total_following[0]['count'],
+                    "isPrivate": query1[0].isPrivate
+
                 }
 
                 myInfo = {};
@@ -1275,7 +1481,7 @@ async function showMyAllVideos(req, res, limit) {
                         "phoneNumber": query1[0].dob,
                         "isPhoneVerified": query1[0].doisPhoneVerifiedb,
                         "email": query1[0].email,
-                        "signup_type": query1[0].signup_type
+                        "signup_type": query1[0].signup_type,
 
                     }
 

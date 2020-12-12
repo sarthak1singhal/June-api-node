@@ -11,7 +11,9 @@ const pool = mysql.createPool({
     database: config.database,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    charset: 'utf8mb4'
+
 });
 
 

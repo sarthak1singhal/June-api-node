@@ -119,13 +119,13 @@ module.exports = {
             try {
 
                 jwt.verify(token, config.jwt_secret, (e, authData) => {
-                    console.log(authData, "OUTSIDE");
+                    //  console.log(authData, "OUTSIDE");
 
 
 
                     if (e) {
 
-                        console.log(e, "ERROR\n");
+                        //   console.log(e, "ERROR\n");
                         if (e.name === "TokenExpiredError") {
 
                             authData = jwt.verify(token, config.jwt_secret, { ignoreExpiration: true });
@@ -211,9 +211,8 @@ module.exports = {
                         }
                     } else {
 
-                        console.log("CONTINUE WITHOUT NEW ACCESS TOKEN")
 
-                        console.log("PASSED");
+                        //console.log("PASSED");
 
 
                         req.user = authData;
@@ -246,6 +245,98 @@ module.exports = {
 
     },
 
+
+    getTokenData: (req) => {
+
+        let token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers['token'] || req.cookies.access_token;
+        let refreshtoken = req.headers['refresh-token'];
+
+
+        if (token && refreshtoken) {
+
+
+            try {
+
+                jwt.verify(token, config.jwt_secret, (e, authData) => {
+                    //  console.log(authData, "OUTSIDE");
+
+
+
+                    if (e) {
+
+                        //   console.log(e, "ERROR\n");
+                        if (e.name === "TokenExpiredError") {
+
+                            authData = jwt.verify(token, config.jwt_secret, { ignoreExpiration: true });
+
+                            console.log(authData);
+                            client.GET(authData.id, (err, result) => {
+
+
+
+                                console.log(result, " RESULT");
+
+                                if (err) {
+                                    return false;
+                                }
+                                if (!result) {
+                                    return false;
+                                }
+                                result = JSON.parse(result);
+
+                                if (refreshtoken != result.refresh_token) {
+                                    return false;
+                                }
+
+
+
+
+
+                                req.user = authData;
+
+                                return true;
+
+                            })
+
+
+                        } else {
+
+                            return false;
+
+                        }
+                    } else {
+
+
+
+
+                        req.user = authData;
+                        return true
+
+                    }
+
+                });
+
+                // handle token here
+
+
+            } catch (err) {
+
+
+                return false
+            }
+        } else {
+
+
+
+            return false;
+
+
+
+
+
+        }
+
+    },
 
     logOutFromAllDevices: (userId) => {
         client.del(userId, (er, rr) => {
