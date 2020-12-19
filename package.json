@@ -57,6 +57,7 @@
         "pm2": "^4.5.0",
         "querystring": "0.2.0",
         "r-json": "^1.2.9",
+        "razorpay": "^2.0.6",
         "read-chunk": "^3.2.0",
         "redis": "^3.0.2",
         "request": "^2.88.2",
