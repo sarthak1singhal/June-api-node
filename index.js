@@ -115,6 +115,9 @@ require('./app/admin/stickers_upload')(app, passport);
 require('./app/admin/verifyUser')(app, passport);
 require('./app/bots/getDetails')(app, passport);
 require('./app/transactions/createorder')(app, passport);
+require('./app/transactions/reedemdiamonds')(app, passport);
+require('./app/transactions/verifypayment')(app, passport);
+require('./app/transactions/trackpayment')(app, passport);
 
 /*app.listen(80, function() {
     console.log("Srrefsns jf jd fs");
