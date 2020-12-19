@@ -117,6 +117,7 @@ module.exports = function(app) {
                         "description": row_posts[j]['description'],
                         "sound": smap,
 
+                        "filter": row_posts[j].filter,
                         "created": row_posts[j]['created']
                     });
 
@@ -276,6 +277,7 @@ module.exports = function(app) {
                         "thum": config.cdnUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
                         "sound": smap,
+                        "filter": row_posts[j].filter,
 
                         "created": row_posts[j]['created']
                     });
@@ -472,6 +474,7 @@ module.exports = function(app) {
                         "thum": config.cdnUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
                         "sound": smap,
+                        "filter": row_posts[j].filter,
 
                         "created": row_posts[j]['created']
                     });
@@ -630,6 +633,7 @@ module.exports = function(app) {
                         },
                         "video": config.cdnUrl + row_posts[j]['video'],
                         "thum": config.cdnUrl + row_posts[j]['thum'],
+                        "filter": row_posts[j].filter,
 
                         "description": row_posts[j]['description'],
                         "sound": smap,
@@ -826,6 +830,8 @@ module.exports = function(app) {
                         "thum": config.cdnUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
                         "sound": smap,
+                        "filter": row_posts[j].filter,
+
                         "created": row_posts[j]['created']
                     });
 
@@ -1024,6 +1030,7 @@ module.exports = function(app) {
                         "video": config.cdnUrl + row_posts[j]['video'],
                         "thum": config.cdnUrl + row_posts[j]['thum'],
                         "description": row_posts[j]['description'],
+                        "filter": row_posts[j].filter,
 
                         "sound": smap,
                         "created": row_posts[j]['created']
@@ -1088,6 +1095,7 @@ module.exports = function(app) {
         username = "theshrutimalhotra";
         let [query11, f] = await acon.query("select * from users where username = ?", [username]);
         my_fb_id = ""
+
         if (query11.length == 0) {
 
             return res.send({
@@ -1124,7 +1132,9 @@ module.exports = function(app) {
         if (req.body.offset == null) {
             return res.send({
                 isError: true,
-                msg: "Invalid Parameters offset"
+                msg: "Invalid Parameters offset",
+
+                uw: req,
             })
 
         }
@@ -1367,11 +1377,11 @@ async function showMyAllVideos(req, res, limit) {
 
                             "username": query1[0].username,
                             "verified": query1[0].verified,
-
-
                         },
                         "sound": s,
-                        "created": query99[i]['created']
+                        "created": query99[i]['created'],
+                        "filter": query99[i].filter,
+
                     });
 
                 }

@@ -427,7 +427,7 @@ module.exports = function(app, passport) {
 
 
     /*
-      app.post("/change-db", fx.isLoggedIn, (req, res) => {
+        app.post("/change-db", fx.isLoggedIn, (req, res) => {
 
 
         var num = req.body.num;
@@ -435,23 +435,8 @@ module.exports = function(app, passport) {
 
 
 
-        con.query("ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin", [], function(e, r) {
+        con.query("ALTER TABLE videos ADD filter varchar(6) not null default '0'", [], function(e, r) {
 
-
-
-            con.query("ALTER TABLE videos CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin", [], function(e, r) {
-
-
-
-
-            })
-            con.query("ALTER TABLE video_comment CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin", [], function(e, r) {
-
-
-
-
-
-            })
 
             if (e) {
                 return res.send({
@@ -477,6 +462,8 @@ module.exports = function(app, passport) {
 
     })
 
+    
     */
+
 
 };

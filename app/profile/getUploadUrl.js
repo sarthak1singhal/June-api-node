@@ -108,8 +108,16 @@ module.exports = function(app) {
             }
 
 
+            if (req.body.filter == null) {
+                var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
 
-            var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id)values(?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id]);
+            } else {
+                filter = req.body.filter;
+
+                var [ins, fields] = await acon.execute("insert into videos(description,video,sound_id,fb_id,filter)values(?,?,?,?,?)", [description, "public/" + fileName, sound_id, req.user.id, filter]);
+
+            }
+
 
             if (req.body.hashtags) {
 
