@@ -82,7 +82,7 @@ module.exports = function(app) {
 
             }
 
-            console.log( { account_number: accountnumber, fund_account_id: user.razor_fund_account_id, amount: parseInt(ammount) * 100, currency: 'INR', "mode": "IMPS", purpose: "Points redeemed", "queue_if_low_balance": true } , "=================================scdscs")
+            console.log( { account_number: accountnumber, fund_account_id: user.razor_fund_account_id, amount: parseInt(ammount) * 100, currency: 'INR', "mode": "IMPS", purpose: "payout", "queue_if_low_balance": true } , "=================================scdscs")
 
             let newPayout = await RazorPayPayout.create({ account_number: accountnumber, fund_account_id: user.razor_fund_account_id, amount: parseInt(ammount) * 100, currency: 'INR', "mode": "IMPS", purpose: "Points redeemed", "queue_if_low_balance": true }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
         
