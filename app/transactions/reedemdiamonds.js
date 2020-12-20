@@ -52,7 +52,7 @@ module.exports = function(app) {
                 //         'customer'
                 //       ],
                 //     }
-                user.razor_contact_id = newCustomer.data.id;
+                user.razor_contact_id = JSON.parse(newCustomer).data.id;
                 newContactId = newCustomer.data.id
             }
             console.log("PUTSIDE")
@@ -64,7 +64,7 @@ module.exports = function(app) {
             if (!user.razor_fund_account_id) {
                 const fundAccount = await RazorPayFundAccount.create({ contact_id: user.razor_contact_id, account_type: "bank_account", "bank_account": { name, ifsc, account_number: accountnumber } }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));;
                 console.log(fundAccount,"===================fundAcccount===>")
-                user.razor_fund_account_id = fundAccount.data.id
+                user.razor_fund_account_id = JSON.parse(fundAccount).data.id
                 
                 newAccountId = fundAccount.data.id
             }
@@ -84,7 +84,8 @@ module.exports = function(app) {
 
 
             let newPayout = await RazorPayPayout.create({ account_number: accountnumber, fund_account_id: user.razor_fund_account_id, ammount: ammount * 100, currency: 'INR', "mode": "NEFT", purpose: "Points redeemed", "queue_if_low_balance": true }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
-
+            newPayout = JSON.parse(newPayout);
+            console.log("new  =====>",newPayout)
             await acon.query("insert into payouts (razor_payout_id,razor_fund_account_id,amount,fees,tax,status,mode,razor_failure_reason ) values (?,?,?,?,?,?,?,?)", [newPayout.data.id, newPayout.data.fund_account_id, newPayout.data.ammount, newPayout.data.fees, newPayout.data.tax, newPayout.data.status, newPayout.data.mode, newPayout.data.failure_reason]).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
 
 
