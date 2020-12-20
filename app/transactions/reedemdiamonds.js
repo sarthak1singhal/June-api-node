@@ -35,6 +35,7 @@ module.exports = function(app) {
             if (user.razor_contact_id == null) {
                 console.log("INSIDE=======>")
                 let newCustomer = await RazorPayContact.create({ name, email, contact, type: 'customer' }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));;
+                console.log(newCustomer,"sdscdcsdcscscscs==")
                 user.razor_contact_id = newCustomer.id;
                 newContactId = newCustomer.id
             }
