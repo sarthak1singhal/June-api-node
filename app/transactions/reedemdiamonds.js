@@ -19,18 +19,26 @@ module.exports = function(app) {
     app.post('/redeem', fx.isLoggedIn, async function(req, res) {
         try {
             let { name, email, contact, ammount, ifsc, accountnumber } = req.body;
+            console.log(req.body);
             let maskedAccountNumber = accountnumber.replace(/\b[\dX][-. \dX]+(\d{4})\b/g, 'XXXX XXXX XXXX $1');
             let userid = req.user.id;
             let newContactId;
             let newAccountId;
 
-            let [user, f1] = acon.query("select * from users WHERE fb_id = ?", [userid]).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
+            let [user, f1] = await acon.query("select * from users WHERE fb_id = ?", [userid]).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
+            console.log(user);
+            user = user[0];
             if (!user.razor_contact_id) {
+                console.log("INSIDE")
                 let newCustomer = await RazorPayContact.create({ name, email, contact, type: 'customer' }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));;
                 user.razor_contact_id = newCustomer.id;
                 newContactId = newCustomer.id
             }
+            console.log("PUTSIDE")
 
+            console.log(newContactId);
+
+            console.log(user.razor_contact_id);
 
             if (!user.razor_fund_account_id) {
                 const fundAccount = await RazorPayFundAccount.create({ contact_id: user.razor_contact_id, account_type: "bank_account", "bank_account": { name, ifsc, account_number: accountnumber } }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));;
@@ -39,6 +47,8 @@ module.exports = function(app) {
             }
 
 
+
+            console.log(newAccountId);
 
 
             if ((newAccountId && newAccountId.length > 0) || (newContactId && newContactId.length > 0)) {
@@ -58,8 +68,8 @@ module.exports = function(app) {
             return res.send({ statusCode: 200, message: 'ok', data: { status: newPayout.status, ammount: newPayout.ammount, fees: newPayout.fees, tax: newPayout.tax, failureReason: newPayout.razor_failure_reason } });
 
         } catch (err) {
-
-            return res.send({ statusCode: 500, message: 'Internal Server Error', data: {} });
+            console.log(err);
+            return res.send({ statusCode: 500, message: 'Internal Server Errors', data: err });
         }
 
     })
