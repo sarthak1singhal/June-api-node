@@ -33,7 +33,7 @@ module.exports = function(app) {
             let [user, f1] = await acon.query("select * from users WHERE fb_id = ?", [userid]).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
             console.log(user,"===================>");
             user = user[0];
-            if (!user.razor_contact_id ) {
+            if (user.razor_contact_id  == null) {
                 console.log("INSIDE=======>")
                 let newCustomer = await RazorPayContact.create({ name, email, contact, type: 'customer' }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));;
                 console.log(newCustomer,"sdscdcsdcscscscs==")
@@ -85,7 +85,7 @@ module.exports = function(app) {
 
 
             let newPayout = await RazorPayPayout.create({ account_number: accountnumber, fund_account_id: user.razor_fund_account_id, ammount: ammount * 100, currency: 'INR', "mode": "NEFT", purpose: "Points redeemed", "queue_if_low_balance": true }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
-            newPayout = JSON.parse(newPayout);
+        
             console.log("new  =====>",newPayout)
             await acon.query("insert into payouts (razor_payout_id,razor_fund_account_id,amount,fees,tax,status,mode,razor_failure_reason ) values (?,?,?,?,?,?,?,?)", [newPayout.data.id, newPayout.data.fund_account_id, newPayout.data.ammount, newPayout.data.fees, newPayout.data.tax, newPayout.data.status, newPayout.data.mode, newPayout.data.failure_reason]).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
 
