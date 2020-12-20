@@ -1,4 +1,9 @@
 var path = require('path');
+RAZORPAYX_API_KEY= "rzp_test_Jj18yUc535vLdk"
+RAZORPAYX_API_PRIVATE_SECRET="H6HTbmbnD0PEelgn2BeFXjq7"
+process.env.RAZORPAYX_API_KEY = RAZORPAYX_API_KEY;
+process.env.RAZORPAYX_API_PRIVATE_SECRET = RAZORPAYX_API_PRIVATE_SECRET
+
 const config = readJson(`config.json`);
 const acon = require('../../initSql')
 const RazorPay = require('razorpay'); 
@@ -8,10 +13,6 @@ const fx = require('../functions/functions')
 const multer = require("multer")
 var fs = require('file-system');
 const { RazorPayContact  , RazorPayFundAccount , RazorPayPayout} = require("razorpayx-nodejs-sdk");
-RAZORPAYX_API_KEY= "rzp_test_Jj18yUc535vLdk"
-RAZORPAYX_API_PRIVATE_SECRET="H6HTbmbnD0PEelgn2BeFXjq7"
-process.env.RAZORPAYX_API_KEY = RAZORPAYX_API_KEY;
-process.env.RAZORPAYX_API_PRIVATE_SECRET = RAZORPAYX_API_PRIVATE_SECRET
 
 const upload = multer({
     dest: path.join(__dirname, '../../upload')
