@@ -33,7 +33,7 @@ module.exports = function(app) {
             let [user, f1] = await acon.query("select * from users WHERE fb_id = ?", [userid]).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
             console.log(user,"===================>");
             user = user[0];
-            if (user.razor_contact_id == null) {
+            if (!user.razor_contact_id ) {
                 console.log("INSIDE=======>")
                 let newCustomer = await RazorPayContact.create({ name, email, contact, type: 'customer' }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));;
                 console.log(newCustomer,"sdscdcsdcscscscs==")
@@ -52,14 +52,15 @@ module.exports = function(app) {
                 //         'customer'
                 //       ],
                 //     }
-                user.razor_contact_id = JSON.parse(newCustomer).data.id;
+                newCustomer = JSON.parse(newCustomer)
+                user['razor_contact_id'] = newCustomer.data.id;
                 newContactId = newCustomer.data.id
             }
             console.log("PUTSIDE")
 
             console.log(newContactId);
 
-            console.log(user.razor_contact_id);
+            console.log(user);
 
             if (!user.razor_fund_account_id) {
                 const fundAccount = await RazorPayFundAccount.create({ contact_id: user.razor_contact_id, account_type: "bank_account", "bank_account": { name, ifsc, account_number: accountnumber } }).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));;
