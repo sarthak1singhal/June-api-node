@@ -28,7 +28,7 @@ module.exports = function(app) {
             let userid = req.user.id;
             let newContactId;
             let newAccountId;
-
+            console.log(userid,"====================>>>")
             let [user, f1] = await acon.query("select * from users WHERE fb_id = ?", [userid]).catch((e) => res.send({ statusCode: 500, message: e, data: {} }));
             console.log(user,"===================>");
             user = user[0];
