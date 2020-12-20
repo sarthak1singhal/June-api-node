@@ -426,16 +426,24 @@ module.exports = function(app, passport) {
     })
 
 
-    /*
-        app.post("/change-db", fx.isLoggedIn, (req, res) => {
 
-
-        var num = req.body.num;
-        var vids = req.body.vids;
+    app.post("/change-db", fx.isLoggedIn, (req, res) => {
 
 
 
-        con.query("ALTER TABLE videos ADD filter varchar(6) not null default '0'", [], function(e, r) {
+        //paymentid,orderid,paymentsignature, userid , ammount
+
+
+
+
+
+
+
+
+
+        /*
+        
+            con.query("create table `payments` (`paymentid` varchar(100) not null, `orderid` varchar(100) not null, `paymentsignature` varchar(250) not null, `userid` varchar(150) not null, `amount` int(7) not null, `created` timestamp not null default CURRENT_TIMESTAMP)", [], function(e, r) {
 
 
             if (e) {
@@ -452,6 +460,9 @@ module.exports = function(app, passport) {
 
 
         })
+        
+        
+        */
 
 
 
@@ -462,8 +473,8 @@ module.exports = function(app, passport) {
 
     })
 
-    
-    */
+
+
 
 
 };

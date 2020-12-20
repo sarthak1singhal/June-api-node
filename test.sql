@@ -236,7 +236,8 @@ CREATE TABLE `videos` (
   `isCommentable` int(2) NOT NULL default 1,
   `isDuet` int(2) NOT NULL default 1,
   `isAvailable` int(2) NOT NULL default 0,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `filter` varchar(6) not null default '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
  
